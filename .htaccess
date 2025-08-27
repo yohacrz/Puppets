@@ -1,0 +1,17 @@
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# Proteger el archivo .env
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Bloquear acceso directo a carpetas sensibles
+RedirectMatch 403 ^/(storage|vendor|app|bootstrap|config|database|resources|routes)($|/)
+
+# --- Redirección principal a la carpeta /public ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
