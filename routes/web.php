@@ -80,3 +80,14 @@ Route::get('/setup-application-cache', function () {
         return '<h1>Error al ejecutar comandos:</h1><pre>' . $e->getMessage() . '</pre>';
     }
 });
+
+use Illuminate\Support\Facades\DB;
+
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        return 'Conexión a MySQL exitosa!';
+    } catch (\Exception $e) {
+        return 'Error en conexión: ' . $e->getMessage();
+    }
+});
