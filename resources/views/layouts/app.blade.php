@@ -27,6 +27,8 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/css/style.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -44,6 +46,7 @@
                 <a href="{{ url('/') }}" class="nav-item nav-link active">INICIO</a>
                 <a href="{{ url('/about') }}" class="nav-item nav-link">ACERCA</a>
                 <a href="{{ url('/services') }}" class="nav-item nav-link">SERVICIOS</a>
+                <a href="{{ route('packages') }}" class="nav-item nav-link">PAQUETES</a>
                 <a href="{{ url('/login') }}" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
                     LOGIN <i class="bi bi-arrow-right"></i>
                 </a>

@@ -5,9 +5,30 @@ use Illuminate\Http\Request;
 // --- Agregado: Importar controlador de Auth
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\AppointmentController; // Asegúrate de que esta línea esté presente
 // --- Agregado: Importar Artisan para la ruta temporal ---
 use Illuminate\Support\Facades\Artisan;
+
+
+Route::get('/paquetes', function () {
+    return view('packages');
+})->name('packages');
+
+Route::get('/agendar-cita', function () {
+    return view('agendar-cita');
+});
+
+
+
+// Ruta para procesar la selección del paquete y redirigir
+Route::get('/agendar-cita/seleccionar-paquete', [AppointmentController::class, 'seleccionarPaquete'])->name('agendar.cita.seleccionar');
+
+// Ruta del formulario de agendar cita (mantén esta ruta como está)
+Route::get('/agendar-cita', [AppointmentController::class, 'create'])->name('agendar.cita.create');
+
+// Ruta para guardar la cita (mantén esta ruta como está)
+Route::post('/agendar-cita', [AppointmentController::class, 'store'])->name('agendar.cita.store');
+
 
 
 Route::get('/test', function () {
