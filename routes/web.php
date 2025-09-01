@@ -2,21 +2,17 @@
 
 
 use Illuminate\Http\Request;
-// --- Agregado: Importar controlador de Auth
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\LoginController;
-<<<<<<< Updated upstream
-use App\Http\Controllers\AppointmentController; // Asegúrate de que esta línea esté presente
-=======
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\PetController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
+// Controllers
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AppointmentController; // Asegúrate de que esta línea esté presente
+use App\Http\Controllers\PetController;
 use App\Models\Pet;
 
-
-
->>>>>>> Stashed changes
 // --- Agregado: Importar Artisan para la ruta temporal ---
 use Illuminate\Support\Facades\Artisan;
 
