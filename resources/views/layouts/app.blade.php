@@ -46,11 +46,33 @@
                 <a href="{{ url('/') }}" class="nav-item nav-link active">INICIO</a>
                 <a href="{{ url('/about') }}" class="nav-item nav-link">ACERCA</a>
                 <a href="{{ url('/services') }}" class="nav-item nav-link">SERVICIOS</a>
+<<<<<<< Updated upstream
                 <a href="{{ route('packages') }}" class="nav-item nav-link">PAQUETES</a>
                 <a href="{{ route('admin.index') }}" class="nav-item nav-link">ADMIN</a>
                 <a href="{{ url('/login') }}" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
                     LOGIN <i class="bi bi-arrow-right"></i>
                 </a>
+=======
+                
+
+@auth
+    
+    <a href="{{ url('/profile') }}" class="nav-item nav-link">Mi PERFIL</a>
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+    Cerrar sesión</a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+    @csrf
+</form>
+@endauth
+
+                @guest
+    <a href="{{ url('/login') }}" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+        LOGIN <i class="bi bi-arrow-right"></i>
+    </a>
+@endguest
+
+>>>>>>> Stashed changes
             </div>
         </div>
     </nav>

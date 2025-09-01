@@ -1,11 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+
 use Illuminate\Http\Request;
 // --- Agregado: Importar controlador de Auth
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\LoginController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\AppointmentController; // Asegúrate de que esta línea esté presente
+=======
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PetController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Pet;
+
+
+
+>>>>>>> Stashed changes
 // --- Agregado: Importar Artisan para la ruta temporal ---
 use Illuminate\Support\Facades\Artisan;
 
@@ -38,7 +49,7 @@ Route::get('/test', function () {
 // Página de inicio
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Página "about"
 Route::get('/about', function () {
@@ -76,6 +87,23 @@ Route::get('/forgot-password', function () {
     return 'Página de recuperación de contraseña (simulada)';
 })->name('password.request');
 
+
+Route::middleware('auth')->get('/profile', function () {
+    $user = Auth::user();
+    $mascotas = Pet::where('user_id', $user->id)->get();
+    return view('profile.profile', compact('user', 'mascotas'));
+})->name('profile');
+
+
+// Página de registro
+Route::middleware('auth')->get('/addPet', function () {
+    return view('profile.addPet');
+})->name('addPet');
+
+
+
+
+
 // Opcional: páginas independientes para testimonios y pricing (si quieres)
 Route::view('/testimonials', 'partials.testimonials')->name('testimonials');
 Route::view('/pricing',      'partials.pricing')->name('pricing');
@@ -86,8 +114,10 @@ Route::view('/pricing',      'partials.pricing')->name('pricing');
 // ————————————————————————————————————————————————————————
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.process');
-Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.process');
+//Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware('auth')->post('/addPet', [PetController::class, 'store'])->name('addPet.store');
 
 Route::middleware('auth')->get('/dashboard', function () {
     return view('dashboard');
@@ -105,16 +135,5 @@ Route::get('/setup-application-cache', function () {
         return '<h1>¡Comandos Ejecutados!</h1><p>La caché ha sido limpiada y regenerada. <strong>Por favor, elimina este bloque de código de tu archivo web.php ahora mismo.</strong></p>';
     } catch (Exception $e) {
         return '<h1>Error al ejecutar comandos:</h1><pre>' . $e->getMessage() . '</pre>';
-    }
-});
-
-use Illuminate\Support\Facades\DB;
-
-Route::get('/db-test', function () {
-    try {
-        DB::connection()->getPdo();
-        return 'Conexión a MySQL exitosa!';
-    } catch (\Exception $e) {
-        return 'Error en conexión: ' . $e->getMessage();
     }
 });
