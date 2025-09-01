@@ -49,20 +49,19 @@
 
                 <a href="{{ route('packages') }}" class="nav-item nav-link">PAQUETES</a>
                 <a href="{{ route('admin.index') }}" class="nav-item nav-link">ADMIN</a>
-                <a href="{{ url('/login') }}" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
-                    LOGIN <i class="bi bi-arrow-right"></i>
-                </a>
       
 
 @auth
-    
-    <a href="{{ url('/profile') }}" class="nav-item nav-link">Mi PERFIL</a>
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
-    Cerrar sesión</a>
+    <a href="{{ route('profile') }}" class="nav-item nav-link">Mi PERFIL</a>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-    @csrf
-</form>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+
+    <a href="#" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        Cerrar sesión <i class="bi bi-box-arrow-right"></i>
+    </a>
 @endauth
 
                 @guest
@@ -70,6 +69,7 @@
         LOGIN <i class="bi bi-arrow-right"></i>
     </a>
 @endguest
+
 
             </div>
         </div>
