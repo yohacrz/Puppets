@@ -8,39 +8,37 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
-
     public function login(Request $request)
     {
+        // Validar los datos del formulario
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'password' => ['required', 'string'],
         ]);
 
-        // Intentar autenticar usando el guard por defecto
-        if (Auth::attempt([
-            'Email' => $credentials['email'],
-            'password' => $credentials['password'],
-        ])) {
+        // Intentar autenticar al usuario
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            // Regenerar la sesión por seguridad
             $request->session()->regenerate();
 
-            return redirect()->intended('/home');
+            // Redirigir al dashboard o página principal
+            //return redirect()->intended('home');
+            return redirect('/');
         }
 
+        // Si falla, regresar con error
         return back()->withErrors([
-            'email' => 'Las credenciales no coinciden.',
+            'email' => 'Las credenciales no son válidas.',
         ])->onlyInput('email');
     }
 
     public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+{
+    Auth::logout(); // Cierra la sesión del usuario
 
-        return redirect('/login');
-    }
+    $request->session()->invalidate(); // Invalida la sesión actual
+    $request->session()->regenerateToken(); // Regenera el token CSRF
+
+    return redirect('login'); // Redirige a la página principal o donde tú prefieras
+}
 }

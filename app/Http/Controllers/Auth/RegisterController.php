@@ -1,25 +1,42 @@
 <?php
 
-use App\Models\Usuario;
+namespace App\Http\Controllers\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
-public function register(Request $request)
+
+
+class RegisterController extends Controller
 {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:Usuarios,Email',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
+    public function register(Request $request)
+    {
+        // Validación
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
-    $usuario = Usuario::create([
-        'Nombre_Usuario' => $request->name,
-        'Email' => $request->email,
-        'Contrasena' => Hash::make($request->password),
-    ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    // Si quieres iniciar sesión automáticamente:
-    // Auth::login($usuario); ← solo si configuras el guard personalizado
+        // Crear usuario
+        $user = User::create([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+        ]);
 
-    return redirect()->route('home')->with('success', 'Usuario registrado correctamente');
+        // Autenticación opcional
+        //auth()->login($user);
+
+        // Redirigir
+        return redirect('/');
+        //return redirect()->route('home'); // Ajusta según tu ruta principal
+    }
+
 }
-

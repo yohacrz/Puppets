@@ -38,7 +38,7 @@
                                 <p class="text-muted w-75 mx-auto mb-4 mt-4">Enter your email address and password to access admin panel.</p>
                             </div>
 
-                            <form class="form-horizontal mt-4" method="POST" action="{{ route('login') }}">
+                            <form class="form-horizontal mt-4" method="POST" action="{{ route('login.process') }}">
                                 @csrf
                                 <div class="form-group">
                                     <div class="col-12">
@@ -71,6 +71,15 @@
                                         <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Log In</button>
                                     </div>
                                 </div>
+                                @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
                                 <div class="form-group text-center mt-4">
                                     <div class="col-12 d-flex justify-content-between">
@@ -96,6 +105,7 @@
                                         </li>
                                     </ul>
                                 </div>
+                                
                             </form>
 
                         </div>
