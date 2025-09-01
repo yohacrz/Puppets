@@ -5,24 +5,33 @@
 
 @section('content')
 
-    <!-- Hero -->
-    <div class="container-fluid bg-primary py-5 mb-5 hero-header">
-        <div class="container py-5">
-            <div class="row justify-content-start">
-                <div class="col-lg-8 text-center text-lg-start">
-                    <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" alt="Logo Puppets" style="height: 200px;">
-                    <h1 class="text-uppercase text-white mb-lg-4">Make Your Pets Happy</h1>
-                    <p class="fs-4 text-white mb-lg-4">
-                        Dolore tempor clita lorem rebum kasd eirmod dolore diam eos kasd.
-                        Kasd clita ea justo est sed kasd erat clita sea
-                    </p>
-                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                        <a href="#" class="btn btn-outline-light border-2 py-md-3 px-md-5 me-5">Read More</a>
-                    </div>
+ <!-- Hero -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-start">
+            <div class="col-lg-8 text-center text-lg-start">
+                <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" alt="Logo Puppets" style="height: 200px;">
+                <h1 class="text-uppercase text-white mb-lg-4">Make Your Pets Happy</h1>
+                <p class="fs-4 text-white mb-lg-4">
+                    Dolore tempor clita lorem rebum kasd eirmod dolore diam eos kasd.
+                    Kasd clita ea justo est sed kasd erat clita sea
+                </p>
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                    <!-- Botón de WhatsApp -->
+                    <a href="https://wa.me/50378657287?text=Hola%20estoy%20interesado%20en%20sus%20servicios" 
+                       target="_blank" 
+                       class="btn btn-success border-2 py-md-3 px-md-5 me-3">
+                        <i class="bi bi-whatsapp me-2"></i> WhatsApp
+                    </a>
+                    
+                    <!-- Botón existente -->
+                    <a href="#" class="btn btn-outline-light border-2 py-md-3 px-md-5">Read More</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Video Modal -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
