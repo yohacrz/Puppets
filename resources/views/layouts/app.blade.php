@@ -49,6 +49,7 @@
 
                 <a href="{{ route('packages') }}" class="nav-item nav-link">PAQUETES</a>
                 <a href="{{ route('admin.index') }}" class="nav-item nav-link">ADMIN</a>
+                <a href="{{ url('/user') }}" class="nav-item nav-link">pep</a>
       
 
 @auth

@@ -57,9 +57,15 @@ Route::get('/services', function () {
     return view('services');
 });
 
+Route::get('/user', function () {
+    return view('user.index');
+});
+
 // Define una ruta GET que responda a la URL /admin
 Route::get('/admin', function () {
     return view('admin.index');})->name('admin.index');
+
+
 
     
 
