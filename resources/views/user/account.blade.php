@@ -156,8 +156,10 @@
                     Search
                 </h4>
                 <div class="search-bar border rounded-2 border-dark-subtle">
-                    <form id="search-form" class="text-center d-flex align-items-center" action="" method="">
-                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Search Here" />
+                    <form id="search-form" class="text-center d-flex align-items-center" action=""
+                        method="">
+                        <input type="text" class="form-control border-0 bg-transparent"
+                            placeholder="Search Here" />
                         <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
                     </form>
                 </div>
@@ -172,17 +174,20 @@
                 <div class="col-sm-4 col-lg-3 text-center text-sm-start">
                     <div class="main-logo">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo" class="img-fluid">
+                            <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo"
+                                class="img-fluid">
                         </a>
                     </div>
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
                     <div class="search-bar border rounded-2 px-3 border-dark-subtle">
-                        <form id="search-form" class="text-center d-flex align-items-center" action="" method="">
+                        <form id="search-form" class="text-center d-flex align-items-center" action=""
+                            method="">
                             <input type="text" class="form-control border-0 bg-transparent"
                                 placeholder="Search for more than 10,000 products" />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
                             </svg>
@@ -228,8 +233,8 @@
                         </li>
 
                         <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                                aria-controls="offcanvasCart">
+                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                 <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                 <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
                                     03
@@ -238,8 +243,8 @@
                         </li>
 
                         <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
-                                aria-controls="offcanvasSearch">
+                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
                                 <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
                                 </span>
                             </a>
@@ -257,7 +262,8 @@
                     aria-labelledby="offcanvasNavbarLabel">
 
                     <div class="offcanvas-header justify-content-center">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
@@ -274,12 +280,13 @@
                                 <a href="{{ url('/') }}" class="nav-link">Home</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Pages</a>
+                                <a class="nav-link dropdown-toggle" role="button" id="pages"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu" aria-labelledby="pages">
                                     <li><a href="{{ url('about') }}" class="dropdown-item">About Us</a></li>
                                     <li><a href="{{ url('shop') }}" class="dropdown-item">Shop</a></li>
-                                    <li><a href="{{ url('single-product') }}" class="dropdown-item">Single Product</a></li>
+                                    <li><a href="{{ url('single-product') }}" class="dropdown-item">Single Product</a>
+                                    </li>
                                     <li><a href="{{ url('cart') }}" class="dropdown-item">Cart</a></li>
                                     <li><a href="{{ url('wishlist') }}" class="dropdown-item">Wishlist</a></li>
                                     <li><a href="{{ url('checkout') }}" class="dropdown-item">Checkout</a></li>
@@ -301,7 +308,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('contact') }}" class="nav-link">Contact</a>
-                            </li>                            
+                            </li>
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
@@ -318,8 +325,8 @@
                                 </li>
 
                                 <li class="">
-                                    <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                                        aria-controls="offcanvasCart">
+                                    <a href="#" class="mx-3" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                         <span
                                             class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
@@ -364,11 +371,13 @@
                             role="tablist">
                             <button
                                 class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase active"
-                                id="nav-sign-in-tab" data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button"
-                                role="tab" aria-controls="nav-sign-in" aria-selected="true">Log In</button>
+                                id="nav-sign-in-tab" data-bs-toggle="tab" data-bs-target="#nav-sign-in"
+                                type="button" role="tab" aria-controls="nav-sign-in" aria-selected="true">Log
+                                In</button>
                             <button class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase"
-                                id="nav-register-tab" data-bs-toggle="tab" data-bs-target="#nav-register" type="button"
-                                role="tab" aria-controls="nav-register" aria-selected="false">Sign Up</button>
+                                id="nav-register-tab" data-bs-toggle="tab" data-bs-target="#nav-register"
+                                type="button" role="tab" aria-controls="nav-register"
+                                aria-selected="false">Sign Up</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -380,7 +389,8 @@
                                 <hr class="my-1">
                                 <div class="row mt-4 mb-5">
                                     <div class="d-grid col-md-6 my-2">
-                                        <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
+                                        <a href="#"
+                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
                                             <div class="d-flex flex-wrap justify-content-center">
                                                 <iconify-icon icon="ion:logo-google"
                                                     class="signup-social-icon me-2"></iconify-icon>
@@ -389,7 +399,8 @@
                                         </a>
                                     </div>
                                     <div class="d-grid col-md-6 my-2">
-                                        <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
+                                        <a href="#"
+                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
                                             <div class="d-flex flex-wrap justify-content-center">
                                                 <iconify-icon icon="ion:logo-facebook"
                                                     class="signup-social-icon me-2"></iconify-icon>
@@ -403,42 +414,58 @@
                                 <p class="mb-0">Or Log-In With Email</p>
                                 <hr class="my-1">
 
-                                <form id="form1" class="form-group flex-wrap ">
-                                    <div class="form-input col-lg-12 my-4">
+                                <form id="form1" class="form-group flex-wrap" method="POST" action="{{ route('login.process') }}">
+    
+    @csrf
 
-                                        <input type="text" id="exampleInputEmail1" name="email"
-                                            placeholder="Enter email address" class="form-control mb-3 p-4">
-                                        <input type="password" id="inputPassword1" placeholder="Enter password"
-                                            class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock">
+    <div class="form-input col-lg-12 my-4">
 
-                                        <label class="py-3 d-flex flex-wrap justify-content-between">
-                                            <div>
-                                                <input type="checkbox" required="" class="d-inline">
-                                                <span class="label-body ">Remember Me</span>
-                                            </div>
+        <input type="email" id="email" name="email"
+               placeholder="Enter email address" class="form-control mb-3 p-4" required>
 
-                                            <div id="passwordHelpBlock" class="form-text ">
-                                                <a href="#" class="text-primary  fw-bold"> Forgot Password?</a>
-                                            </div>
-                                        </label>
-                                        <div class="d-grid my-3">
-                                            <a href="#" class="btn btn-dark btn-lg rounded-1">Log In</a>
-                                        </div>
+        <input type="password" id="password" name="password" placeholder="Enter password"
+               class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock" required>
 
-                                    </div>
-                                </form>
+        <label class="py-3 d-flex flex-wrap justify-content-between">
+            <div>
+                <input type="checkbox" name="remember" id="remember" class="d-inline">
+                <span class="label-body">Remember Me</span>
+            </div>
 
+            <div id="passwordHelpBlock" class="form-text">
+                <a href="{{ route('password.request') }}" class="text-primary fw-bold"> Forgot Password?</a>
+            </div>
+        </label>
+        
+        <div class="d-grid my-3">
+            <button type="submit" class="btn btn-dark btn-lg rounded-1">Log In</button>
+        </div>
+        
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        </div>
+</form>
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
+                        <div class="tab-pane fade" id="nav-register" role="tabpanel"
+                            aria-labelledby="nav-register-tab">
                             <div class="col-lg-8 offset-lg-2 mt-5">
 
                                 <p class="mb-0">Sign-up With Social</p>
                                 <hr class="my-1">
                                 <div class="row mt-4 mb-5">
                                     <div class="d-grid col-md-6 my-2">
-                                        <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
+                                        <a href="#"
+                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
                                             <div class="d-flex flex-wrap justify-content-center">
                                                 <iconify-icon icon="ion:logo-google"
                                                     class="signup-social-icon me-2"></iconify-icon>
@@ -447,7 +474,8 @@
                                         </a>
                                     </div>
                                     <div class="d-grid col-md-6 my-2">
-                                        <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
+                                        <a href="#"
+                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
                                             <div class="d-flex flex-wrap justify-content-center">
                                                 <iconify-icon icon="ion:logo-facebook"
                                                     class="signup-social-icon me-2"></iconify-icon>
@@ -461,34 +489,46 @@
                                 <p class="mb-0">Or Sign-Up With Email</p>
                                 <hr class="my-1">
 
-                                <form id="form1" class="form-group flex-wrap ">
-                                    <div class="form-input col-lg-12 my-4">
+<form id="form1" class="form-group flex-wrap" method="POST" action="{{ route('register.process') }}">
+    
+    @csrf
 
-                                        <input type="text" id="exampleInputName" name="email"
-                                            placeholder="Your full name" class="form-control mb-3 p-4">
-                                        <input type="text" id="exampleInputEmail1" name="email"
-                                            placeholder="Your email address" class="form-control mb-3 p-4">
-                                        <input type="password" id="inputPassword1" placeholder="Set your password"
-                                            class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock">
-                                        <input type="password" id="inputPassword2" placeholder="Retype your password"
-                                            class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock">
+    <div class="form-input col-lg-12 my-4">
 
-                                        <label class="py-3 d-flex flex-wrap justify-content-between">
-                                            <div>
-                                                <input type="checkbox" required="" class="d-inline">
-                                                <span class="label-body ">Remember Me</span>
-                                            </div>
+        <input type="text" id="username" name="username"
+               placeholder="Username" class="form-control mb-3 p-4" required>
+        
+        <input type="email" id="email" name="email"
+               placeholder="Your email address" class="form-control mb-3 p-4" required>
+        
+        <input type="password" id="password" name="password" placeholder="Set your password"
+               class="form-control mb-3 p-4" required>
+        
+        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Retype your password"
+               class="form-control mb-3 p-4" required>
 
-                                            <div id="passwordHelpBlock" class="form-text ">
-                                                <a href="#" class="text-primary  fw-bold"> Forgot Password?</a>
-                                            </div>
-                                        </label>
-                                        <div class="d-grid my-3">
-                                            <a href="#" class="btn btn-dark btn-lg rounded-1">Sign Up</a>
-                                        </div>
+        <div class="d-grid my-3">
+            <button type="submit" class="btn btn-dark btn-lg rounded-1">Sign Up</button>
+        </div>
 
-                                    </div>
-                                </form>
+        <div class="form-group text-center mt-3 mb-2">
+            <div class="col-12">
+                <a href="{{ route('login') }}" class="text-muted">Already have an account?</a>
+            </div>
+        </div>
+
+        @if ($errors->any())
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+    </div>
+</form>
 
                             </div>
                         </div>
@@ -604,13 +644,13 @@
         </div>
     </footer>
 
-    
+
     {{-- Scripts locales adaptados con el helper asset() --}}
     <script src="{{ asset('user-template/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>

@@ -1,133 +1,122 @@
 <?php
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 // Controllers
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\AppointmentController; // Asegúrate de que esta línea esté presente
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\PetController;
 use App\Models\Pet;
+use App\Models\Cita;
 
-// --- Agregado: Importar Artisan para la ruta temporal ---
-use Illuminate\Support\Facades\Artisan;
+/*
+|--------------------------------------------------------------------------
+| Rutas Web
+|--------------------------------------------------------------------------
+*/
 
+//--- RUTAS PÚBLICAS ---//
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/services', function () {
+    return view('services');
+});
+
+Route::get('/services/{service}', function ($service) {
+    return view('services.detail', ['service' => $service]);
+})->name('services.detail');
 
 Route::get('/paquetes', function () {
     return view('packages');
 })->name('packages');
 
-Route::get('/agendar-cita', function () {
-    return view('agendar-cita');
-});
-
-
-
-// Ruta para procesar la selección del paquete y redirigir
-Route::get('/agendar-cita/seleccionar-paquete', [AppointmentController::class, 'seleccionarPaquete'])->name('agendar.cita.seleccionar');
-
-// Ruta del formulario de agendar cita (mantén esta ruta como está)
-Route::get('/agendar-cita', [AppointmentController::class, 'create'])->name('agendar.cita.create');
-
-// Ruta para guardar la cita (mantén esta ruta como está)
-Route::post('/agendar-cita', [AppointmentController::class, 'store'])->name('agendar.cita.store');
-
-
-
-Route::get('/test', function () {
-    return 'OK';
-});
-
-// Página de inicio
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-// Página "about"
-Route::get('/about', function () {
-    return view('about');
-});
-
-// Página "services"
-Route::get('/services', function () {
-    return view('services');
-});
-
 Route::get('/user', function () {
     return view('user.index');
 });
 
-// Define una ruta GET que responda a la URL /admin
+Route::get('/account', function () {
+    return view('user.account');
+});
+
 Route::get('/admin', function () {
-    return view('admin.index');})->name('admin.index');
+    return view('admin.index');
+})->name('admin.index');
+
+Route::view('/testimonials', 'partials.testimonials')->name('testimonials');
+Route::view('/pricing',      'partials.pricing')->name('pricing');
 
 
+//--- RUTAS DE AUTENTICACIÓN ---//
 
-    
-
-// Detalle de cada servicio
-Route::get('/services/{service}', function ($service) {
-    return view('services.detail', ['service' => $service]);
-})->name('services.detail');
-
-// Página de login
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-// Página de registro
+Route::post('/login', [LoginController::class, 'login'])->name('login.process');
+
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-// Página de recuperación de contraseña
+Route::post('/register', [RegisterController::class, 'register'])->name('register.process');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/forgot-password', function () {
     return 'Página de recuperación de contraseña (simulada)';
 })->name('password.request');
 
 
-Route::middleware('auth')->get('/profile', function () {
-    $user = Auth::user();
-    $mascotas = Pet::where('user_id', $user->id)->get();
-    return view('profile.profile', compact('user', 'mascotas'));
-})->name('profile');
+//--- RUTAS PROTEGIDAS (REQUIEREN LOGIN) ---//
 
+Route::middleware('auth')->group(function () {
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-// Página de registro
-Route::middleware('auth')->get('/addPet', function () {
-    return view('profile.addPet');
-})->name('addPet');
+    Route::get('/profile', function () {
+        $user = Auth::user();
+        $mascotas = Pet::where('user_id', $user->id)->get();
+        
+        // Obtenemos solo las citas futuras del usuario, ordenadas por la más próxima
+        $citas = Cita::where('user_id', $user->id)
+                     ->where('fecha', '>=', now())
+                     ->orderBy('fecha', 'asc')
+                     ->orderBy('hora', 'asc')
+                     ->get();
 
+        return view('user.profile', compact('user', 'mascotas', 'citas'));
+    })->name('profile');
 
+    // Mascotas
+    Route::get('/addPet', function () {
+        return view('profile.addPet');
+    })->name('addPet');
+    Route::post('/addPet', [PetController::class, 'store'])->name('addPet.store');
 
+    // Citas
+    Route::get('/agendar-cita/{pet}', [CitaController::class, 'create'])->name('citas.create');
+    Route::post('/citas', [CitaController::class, 'store'])->name('citas.store');
 
+});
 
-// Opcional: páginas independientes para testimonios y pricing (si quieres)
-Route::view('/testimonials', 'partials.testimonials')->name('testimonials');
-Route::view('/pricing',      'partials.pricing')->name('pricing');
+//--- RUTA DE PRUEBA Y UTILIDADES (Eliminar en producción) ---//
+Route::get('/test', function () {
+    return 'OK';
+});
 
-
-// ————————————————————————————————————————————————————————
-// AÑADE ESTO AL FINAL PARA AUTENTICACIÓN REAL
-// ————————————————————————————————————————————————————————
-
-Route::post('/login', [LoginController::class, 'login'])->name('login.process');
-Route::post('/register', [RegisterController::class, 'register'])->name('register.process');
-//Route::post('/register', [AuthController::class, 'register'])->name('register.process');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::middleware('auth')->post('/addPet', [PetController::class, 'store'])->name('addPet.store');
-
-Route::middleware('auth')->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-
-// --- CÓDIGO TEMPORAL AÑADIDO ---
-// !! ESTE BLOQUE SE DEBE ELIMINAR DESPUÉS DE USAR !!
 Route::get('/setup-application-cache', function () {
     try {
         Artisan::call('config:clear');

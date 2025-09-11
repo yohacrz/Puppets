@@ -23,7 +23,7 @@ class LoginController extends Controller
 
             // Redirigir al dashboard o página principal
             //return redirect()->intended('home');
-            return redirect('/');
+            return redirect('/user');
         }
 
         // Si falla, regresar con error

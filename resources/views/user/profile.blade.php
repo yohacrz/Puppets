@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>PUPPETS</title>
+    <title>PUPPETS - Mi Perfil</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-    {{-- Archivos CSS locales adaptados con el helper asset() --}}
+    {{-- Archivos CSS locales --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('user-template/css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('user-template/style.css') }}">
 
@@ -25,6 +25,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
+
+    <style>
+        .info-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            /* Bordes más redondeados */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-card .card-body p {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #555;
+        }
+
+        .pet-card-title {
+            font-family: 'Chilanka', cursive;
+            color: var(--bs-primary);
+            /* Usa el color primario de Bootstrap */
+            font-size: 1.8rem;
+        }
+    </style>
 
 </head>
 
@@ -91,7 +123,6 @@
                 <path fill="currentColor"
                     d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z" />
             </symbol>
-
         </defs>
     </svg>
 
@@ -205,9 +236,6 @@
                         <span class="fs-6 secondary-font text-muted">Email</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -279,7 +307,27 @@
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link">Home</a>
                             </li>
-
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" id="pages"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu" aria-labelledby="pages">
+                                    <li><a href="{{ url('about') }}" class="dropdown-item">About Us</a></li>
+                                    <li><a href="{{ url('shop') }}" class="dropdown-item">Shop</a></li>
+                                    <li><a href="{{ url('single-product') }}" class="dropdown-item">Single Product</a>
+                                    </li>
+                                    <li><a href="{{ url('cart') }}" class="dropdown-item">Cart</a></li>
+                                    <li><a href="{{ url('wishlist') }}" class="dropdown-item">Wishlist</a></li>
+                                    <li><a href="{{ url('checkout') }}" class="dropdown-item">Checkout</a></li>
+                                    <li><a href="{{ url('blog') }}" class="dropdown-item">Blog</a></li>
+                                    <li><a href="{{ url('single-post') }}" class="dropdown-item">Single Post</a></li>
+                                    <li><a href="{{ url('contact') }}" class="dropdown-item">Contact</a></li>
+                                    <li><a href="{{ url('faqs') }}" class="dropdown-item">FAQs</a></li>
+                                    <li><a href="{{ url('account') }}" class="dropdown-item">Account</a></li>
+                                    <li><a href="{{ url('thank-you') }}" class="dropdown-item">Thankyou</a></li>
+                                    <li><a href="{{ url('error') }}" class="dropdown-item">Error 404</a></li>
+                                    <li><a href="{{ url('styles') }}" class="dropdown-item">Styles</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ url('shop') }}" class="nav-link">Shop</a>
                             </li>
@@ -289,8 +337,6 @@
                             <li class="nav-item">
                                 <a href="{{ url('contact') }}" class="nav-link">Contact</a>
                             </li>
-
-
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
@@ -333,335 +379,161 @@
 
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
-            <div class="hero-content py-5 my-3">
-                <h2 class="display-1 mt-3 mb-0">Cart</h2>
-                <nav class="breadcrumb">
-                    <a class="breadcrumb-item nav-link" href="#">Home</a>
-                    <a class="breadcrumb-item nav-link" href="#">Pages</a>
-                    <span class="breadcrumb-item active" aria-current="page">Cart</span>
+            <div class="hero-content py-5 my-3 text-center">
+                <h2 class="display-3 mt-3 mb-0">¡Hola, {{ $user->username }}!</h2>
+                <nav aria-label="breadcrumb" class="d-flex justify-content-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+                    </ol>
                 </nav>
             </div>
         </div>
     </section>
 
-    <section id="cart" class="my-5 py-5">
-        <div class="container">
-            <div class="row g-md-5">
-                <div class="col-md-8 pe-md-5">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="card-title text-uppercase">Product</th>
-                                <th scope="col" class="card-title text-uppercase">Quantity</th>
-                                <th scope="col" class="card-title text-uppercase">Subtotal</th>
-                                <th scope="col" class="card-title text-uppercase"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item1.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Grey Hoodie</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$150.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item9.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Dog Food</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$90.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item5.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Cat Home</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$260.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4">
-                    <div class="cart-totals">
-                        <h2 class="pb-4">Cart Total</h2>
-                        <div class="total-price pb-4">
-                            <table cellspacing="0" class="table text-uppercase">
-                                <tbody>
-                                    <tr class="subtotal pt-2 pb-2 border-top border-bottom">
-                                        <th>Subtotal</th>
-                                        <td data-title="Subtotal">
-                                            <span class="price-amount amount text-dark ps-5">
-                                                <bdi>
-                                                    <span class="price-currency-symbol">$</span>1,500.00
-                                                </bdi>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr class="order-total pt-2 pb-2 border-bottom">
-                                        <th>Total</th>
-                                        <td data-title="Total">
-                                            <span class="price-amount amount text-dark ps-5">
-                                                <bdi>
-                                                    <span class="price-currency-symbol">$</span>1,500.00</bdi>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+    <section class="profile-tabs padding-large">
+        <div class="container my-5 py-5">
+            <div class="row">
+                <div class="tabs-listing">
+                    <nav>
+                        <div class="nav nav-tabs d-flex justify-content-center border-dark-subtle mb-3" id="nav-tab"
+                            role="tablist">
+                            <button
+                                class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase active"
+                                id="nav-datos-tab" data-bs-toggle="tab" data-bs-target="#nav-datos" type="button"
+                                role="tab" aria-controls="nav-datos" aria-selected="true">
+                                Mis Datos
+                            </button>
+                            <button class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase"
+                                id="nav-mascotas-tab" data-bs-toggle="tab" data-bs-target="#nav-mascotas"
+                                type="button" role="tab" aria-controls="nav-mascotas" aria-selected="false">
+                                Mis Mascotas
+                            </button>
                         </div>
-                        <div class="button-wrap row g-2">
-                            <div class="col-md-6"><button class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Update
-                                    Cart</button>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+
+                        <div class="tab-pane fade active show" id="nav-datos" role="tabpanel"
+                            aria-labelledby="nav-datos-tab">
+                            <div class="col-lg-8 offset-lg-2 mt-5 text-center">
+
+                                <div class="card info-card p-4">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Información de tu Cuenta</h4>
+                                        <p><iconify-icon icon="mdi:user-circle" class="fs-4"></iconify-icon>
+                                            <strong>Username:</strong> {{ $user->username }}</p>
+                                        <p><iconify-icon icon="mdi:email" class="fs-4"></iconify-icon>
+                                            <strong>Email:</strong> {{ $user->email }}</p>
+                                        <p><iconify-icon icon="mdi:calendar-check" class="fs-4"></iconify-icon>
+                                            <strong>Miembro desde:</strong> {{ $user->created_at->format('d/m/Y') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    <h3 class="text-center">Próximas Citas</h3>
+
+                                    @if ($citas->isEmpty())
+                                        <div class="alert alert-light mt-3 text-center">
+                                            No tienes citas programadas.
+                                        </div>
+                                    @else
+                                        @foreach ($citas as $cita)
+                                            <div class="card info-card text-center mb-4">
+                                                <div class="card-header bg-primary text-white">
+                                                    <h5 class="mb-0">PRÓXIMA CITA</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    {{-- Gracias a las relaciones, podemos hacer esto: --}}
+                                                    <h4 class="card-title pet-card-title">{{ $cita->pet->nombre }}
+                                                    </h4>
+                                                    <p class="mb-1">
+                                                        <iconify-icon icon="mdi:calendar"></iconify-icon>
+                                                        <strong>Fecha:</strong>
+                                                        {{ \Carbon\Carbon::parse($cita->fecha)->format('d/m/Y') }}
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        <iconify-icon
+                                                            icon="mdi:clock-time-four-outline"></iconify-icon>
+                                                        <strong>Hora:</strong>
+                                                        {{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+
                             </div>
-                            <div class="col-md-6"><button
-                                    class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Continue To
-                                    Shop</button></div>
-                            <div class="col-md-12"><a href="{{ url('checkout') }}"
-                                    class="btn btn-primary p-3 text-uppercase rounded-1 w-100">Proceed to checkout</a>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-mascotas" role="tabpanel"
+                            aria-labelledby="nav-mascotas-tab">
+                            <div class="col-lg-10 offset-lg-1 mt-5">
+                                <h3 class="text-center">Tus Compañeros Peludos 🐾</h3>
+                                @if ($mascotas->isEmpty())
+                                    <div class="alert alert-info mt-4 text-center" role="alert">
+                                        Aún no has registrado ninguna mascota. ¡Anímate a agregar la primera!
+                                    </div>
+                                @else
+                                    <div class="row mt-4">
+                                        @foreach ($mascotas as $mascota)
+                                            <div class="col-md-6">
+                                                <div class="card info-card text-center mb-4" style="cursor: pointer;"
+                                                    data-bs-toggle="modal" data-bs-target="#petGreetingModal"
+                                                    data-pet-name="{{ $mascota->nombre }}"
+                                                    data-pet-species="{{ $mascota->especie }}"
+                                                    data-pet-id="{{ $mascota->id }}">
+                                                    <div class="card-body">
+                                                        @if (strtolower($mascota->especie) == 'gato')
+                                                            <iconify-icon icon="ph:cat-fill"
+                                                                class="display-3 text-secondary mb-2"></iconify-icon>
+                                                        @else
+                                                            <iconify-icon icon="ph:dog-fill"
+                                                                class="display-3 text-secondary mb-2"></iconify-icon>
+                                                        @endif
+
+                                                        <h4 class="card-title pet-card-title">{{ $mascota->nombre }}
+                                                        </h4>
+                                                        <p class="mb-1"><iconify-icon icon="mdi:paw"></iconify-icon>
+                                                            <strong>Especie:</strong> {{ $mascota->especie }}</p>
+                                                        <p class="mb-1"><iconify-icon
+                                                                icon="mdi:tag-outline"></iconify-icon>
+                                                            <strong>Raza:</strong> {{ $mascota->raza }}</p>
+                                                        <p class="mb-1"><iconify-icon
+                                                                icon="mdi:palette"></iconify-icon>
+                                                            <strong>Color:</strong> {{ $mascota->color }}</p>
+                                                        <p class="mb-0"><iconify-icon
+                                                                icon="mdi:cake-variant"></iconify-icon>
+                                                            <strong>Nacimiento:</strong>
+                                                            {{ \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <div class="d-grid mt-4">
+                                    <button type="button" class="btn btn-dark btn-lg rounded-1"
+                                        data-bs-toggle="modal" data-bs-target="#addPetModal">
+                                        <iconify-icon icon="mdi:plus-circle" class="me-1"></iconify-icon> Registrar
+                                        Nueva Mascota
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="register"
-        style="background: url('{{ asset('user-template/images/background-img.png') }}') no-repeat;">
-        <div class="container ">
-            <div class="row my-5 py-5">
-                <div class="offset-md-3 col-md-6 my-5 ">
-                    <h2 class="display-3 fw-normal text-center">Get 20% Off on <span class="text-primary">first
-                            Purchase</span>
-                    </h2>
-                    <form>
-                        <div class="mb-3">
-                            <input type="email" class="form-control form-control-lg" name="email" id="email"
-                                placeholder="Enter Your Email Address">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control form-control-lg" name="email"
-                                id="password1" placeholder="Create Password">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control form-control-lg" name="email"
-                                id="password2" placeholder="Repeat Password">
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-dark btn-lg rounded-1">Register it now</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="d-flex justify-content-center mt-5">
+                <a href="{{ route('home') }}" class="btn btn-outline-primary">Volver a Home</a>
             </div>
         </div>
     </section>
 
-    <section id="service">
-        <div class="container pt-5 mt-5">
-            <div class="row g-md-5 pt-4">
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:shopping-cart"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Free Delivery</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:user-check"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">100% secure payment</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:tag"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Daily Offer</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:award"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Quality guarantee</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
+    <hr class="m-0">
 
     <footer id="footer" class="my-5">
         <div class="container py-5 my-5">
@@ -699,7 +571,6 @@
                                         <iconify-icon class="social-icon" icon="ri:youtube-fill"></iconify-icon>
                                     </a>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
@@ -762,13 +633,101 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </footer>
 
+    <div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPetModalLabel">Registrar una Nueva Mascota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('addPet.store') }}">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <label for="especie" class="form-label">Especie</label>
+                            <select name="especie" id="especie" class="form-control form-select"
+                                onchange="actualizarRazas()" required>
+                                <option value="">Elige una especie</option>
+                                <option value="Perro">Perro</option>
+                                <option value="Gato">Gato</option>
+                            </select>
+                        </div>
 
-    {{-- Scripts locales adaptados con el helper asset() --}}
+                        <div class="form-group mb-3">
+                            <label for="raza" class="form-label">Raza</label>
+                            <select name="raza" id="raza" class="form-control form-select" required>
+                                <option value="">Selecciona primero una especie</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" id="nombre" name="nombre"
+                                placeholder="Nombre de tu mascota" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="color" class="form-label">Color</label>
+                            <input class="form-control" type="text" id="color" name="color"
+                                placeholder="Ej: Blanco, Negro con manchas" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento"
+                                required>
+                        </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primary" type="submit">Añadir Mascota</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="petGreetingModal" tabindex="-1" aria-labelledby="petGreetingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-header border-0">
+                    <h2 class="modal-title w-100" id="petGreetingModalLabel">
+                        <span id="modalPetName">¡Hola, Mascota!</span>
+                    </h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead mb-4">Te extrañamos en Puppets Grooming</p>
+                    <div id="modalPetIcon" class="mb-4">
+                    </div>
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <a href="#" id="modalScheduleLink" class="btn btn-primary">Agendar una Cita</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- Scripts locales --}}
     <script src="{{ asset('user-template/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -777,6 +736,72 @@
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <script>
+        function actualizarRazas() {
+            const especieSeleccionada = document.getElementById('especie').value;
+            const selectRaza = document.getElementById('raza');
+
+            selectRaza.innerHTML = '<option value="">Selecciona una raza</option>';
+
+            const razasPerro = ["Labrador", "Bulldog", "Pastor Alemán", "Golden Retriever", "Poodle", "Beagle", "Mestizo",
+                "Otro"
+            ];
+            const razasGato = ["Siamés", "Persa", "Maine Coon", "Ragdoll", "Bengala", "Abisinio", "Mestizo", "Otro"];
+
+            let razas = [];
+            if (especieSeleccionada === 'Perro') {
+                razas = razasPerro;
+            } else if (especieSeleccionada === 'Gato') {
+                razas = razasGato;
+            }
+
+            razas.forEach(raza => {
+                const option = document.createElement('option');
+                option.value = raza;
+                option.textContent = raza;
+                selectRaza.appendChild(option);
+            });
+        }
+    </script>
+    <script>
+        const petGreetingModal = document.getElementById('petGreetingModal');
+        if (petGreetingModal) {
+            petGreetingModal.addEventListener('show.bs.modal', event => {
+                // Tarjeta de la mascota que activó el modal
+                const card = event.relatedTarget;
+
+                // Extraer información de los atributos data-*
+                const petName = card.getAttribute('data-pet-name');
+                const petSpecies = card.getAttribute('data-pet-species');
+                const petId = card.getAttribute('data-pet-id');
+
+                // Seleccionar los elementos del modal para actualizarlos
+                const modalTitle = petGreetingModal.querySelector('#modalPetName');
+                const modalIconContainer = petGreetingModal.querySelector('#modalPetIcon');
+                const scheduleButton = petGreetingModal.querySelector('#modalScheduleLink');
+
+                // Actualizar el título del modal
+                modalTitle.textContent = `¡Hola, ${petName}!`;
+
+                // Cambiar el ícono según la especie
+                let iconHtml =
+                    '<iconify-icon class="display-1 text-primary" icon="ph:paw-print-fill"></iconify-icon>'; // Icono por defecto
+                if (petSpecies.toLowerCase() === 'perro') {
+                    iconHtml = '<iconify-icon class="display-1 text-primary" icon="ph:dog-fill"></iconify-icon>';
+                } else if (petSpecies.toLowerCase() === 'gato') {
+                    iconHtml = '<iconify-icon class="display-1 text-primary" icon="ph:cat-fill"></iconify-icon>';
+                }
+                modalIconContainer.innerHTML = iconHtml;
+
+                // ==========================================================
+                // LÍNEA CORREGIDA PARA CONSTRUIR LA URL CORRECTAMENTE
+                // ==========================================================
+                const scheduleUrl = `{{ route('citas.create', ['pet' => ':petId']) }}`.replace(':petId', petId);
+                scheduleButton.setAttribute('href', scheduleUrl);
+            });
+        }
+    </script>
 </body>
 
 </html>

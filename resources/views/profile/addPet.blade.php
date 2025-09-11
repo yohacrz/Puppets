@@ -22,35 +22,35 @@
     <div class="accountbg"></div>
 
     <script>
-    const razasPorEspecie = {
-        Perro: [
-            "Akita Inu", "Beagle", "Bulldog Francés", "Chihuahua", "Golden Retriever",
-            "Labrador Retriever", "Pastor Alemán", "Pitbull", "Pomerania", "Rottweiler"
-        ],
-        Gato: [
-            "Abisinio", "Angora Turco", "Azul Ruso", "Bengalí", "Maine Coon",
-            "Persa", "Ragdoll", "Siamés", "Siberiano", "Sphynx"
-        ]
-    };
+        const razasPorEspecie = {
+            Perro: [
+                "Akita Inu", "Beagle", "Bulldog Francés", "Chihuahua", "Golden Retriever",
+                "Labrador Retriever", "Pastor Alemán", "Pitbull", "Pomerania", "Rottweiler"
+            ],
+            Gato: [
+                "Abisinio", "Angora Turco", "Azul Ruso", "Bengalí", "Maine Coon",
+                "Persa", "Ragdoll", "Siamés", "Siberiano", "Sphynx"
+            ]
+        };
 
-    function actualizarRazas() {
-        const especie = document.getElementById('especie').value;
-        const razaSelect = document.getElementById('raza');
+        function actualizarRazas() {
+            const especie = document.getElementById('especie').value;
+            const razaSelect = document.getElementById('raza');
 
-        // Limpiar opciones actuales
-        razaSelect.innerHTML = '<option value="">-- Selecciona una raza --</option>';
+            // Limpiar opciones actuales
+            razaSelect.innerHTML = '<option value="">-- Selecciona una raza --</option>';
 
-        // Agregar nuevas opciones si hay razas disponibles
-        if (razasPorEspecie[especie]) {
-            razasPorEspecie[especie].forEach(function(raza) {
-                const option = document.createElement('option');
-                option.value = raza;
-                option.text = raza;
-                razaSelect.appendChild(option);
-            });
+            // Agregar nuevas opciones si hay razas disponibles
+            if (razasPorEspecie[especie]) {
+                razasPorEspecie[especie].forEach(function(raza) {
+                    const option = document.createElement('option');
+                    option.value = raza;
+                    option.text = raza;
+                    razaSelect.appendChild(option);
+                });
+            }
         }
-    }
-</script>
+    </script>
 
 
     <!-- Begin page -->
@@ -66,7 +66,8 @@
                         <div class="card-body">
                             <div class="text-center mt-0 mb-3">
                                 <a href="{{ url('/') }}" class="logo logo-admin">
-                                    <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" class="mt-3" alt="" height="150">
+                                    <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" class="mt-3"
+                                        alt="" height="150">
                                 </a>
                                 <p class="text-muted w-75 mx-auto mb-4 mt-4"></p>
                             </div>
@@ -77,61 +78,66 @@
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="especie">Especie</label>
-                                        <select name="especie" id="especie" class="form-control" onchange="actualizarRazas()" required>
-        <option value="">Elige una especie</option>
-        <option value="Perro">Perro</option>
-        <option value="Gato">Gato</option>
-    </select>
-</div>
+                                        <select name="especie" id="especie" class="form-control"
+                                            onchange="actualizarRazas()" required>
+                                            <option value="">Elige una especie</option>
+                                            <option value="Perro">Perro</option>
+                                            <option value="Gato">Gato</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-12">
                                         <div class="form-group">
-    <label for="raza">Raza</label>
-    <select name="raza" id="raza" class="form-control" required>
-        <option value="">Selecciona una raza</option>
-    </select>
+                                            <label for="raza">Raza</label>
+                                            <select name="raza" id="raza" class="form-control" required>
+                                                <option value="">Selecciona una raza</option>
+                                            </select>
 
-</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="nombre">Nombre</label>
-                                        <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                                        <input class="form-control" type="text" id="nombre" name="nombre"
+                                            placeholder="Nombre" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="color">Color</label>
-                                        <input class="form-control" type="text" id="color" name="color" placeholder="Color" required>
+                                        <input class="form-control" type="text" id="color" name="color"
+                                            placeholder="Color" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                        <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha de Nacimiento" required>
+                                        <input class="form-control" type="date" id="fecha_nacimiento"
+                                            name="fecha_nacimiento" placeholder="Fecha de Nacimiento" required>
                                     </div>
                                 </div>
 
 
                                 <div class="form-group text-center mt-3">
                                     <div class="col-12">
-                                        <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Añadir Mascota</button>
+                                        <button class="btn btn-primary btn-block waves-effect waves-light"
+                                            type="submit">Añadir Mascota</button>
                                     </div>
                                 </div>
                                 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
 
                             </form>

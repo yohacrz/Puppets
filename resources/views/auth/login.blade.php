@@ -33,9 +33,11 @@
                         <div class="card-body">
                             <div class="text-center mt-0 mb-3">
                                 <a href="{{ url('/') }}" class="logo logo-admin">
-                                    <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" class="mt-3" alt="" height="150">
+                                    <img src="{{ asset('img/user/VARIANTE DE LOGOS PUPPETS-05.png') }}" class="mt-3"
+                                        alt="" height="150">
                                 </a>
-                                <p class="text-muted w-75 mx-auto mb-4 mt-4">Enter your email address and password to access admin panel.</p>
+                                <p class="text-muted w-75 mx-auto mb-4 mt-4">Enter your email address and password to
+                                    access admin panel.</p>
                             </div>
 
                             <form class="form-horizontal mt-4" method="POST" action="{{ route('login.process') }}">
@@ -43,7 +45,8 @@
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="email">Email</label>
-                                        <input class="form-control" type="email" name="email" id="email" placeholder="Email" required>
+                                        <input class="form-control" type="email" name="email" id="email"
+                                            placeholder="Email" required>
 
                                     </div>
                                 </div>
@@ -51,7 +54,8 @@
                                 <div class="form-group">
                                     <div class="col-12">
                                         <label for="password">Password</label>
-                                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+                                        <input class="form-control" type="password" name="password" id="password"
+                                            placeholder="Password" required>
                                     </div>
                                 </div>
 
@@ -59,8 +63,10 @@
                                     <div class="col-12">
                                         <div class="checkbox checkbox-primary">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
-                                                <label class="custom-control-label" for="customCheck1"> Remember me</label>
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1"
+                                                    name="remember">
+                                                <label class="custom-control-label" for="customCheck1"> Remember
+                                                    me</label>
                                             </div>
                                         </div>
                                     </div>
@@ -68,22 +74,24 @@
 
                                 <div class="form-group text-center mt-3">
                                     <div class="col-12">
-                                        <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Log In</button>
+                                        <button class="btn btn-primary btn-block waves-effect waves-light"
+                                            type="submit">Log In</button>
                                     </div>
                                 </div>
                                 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
                                 <div class="form-group text-center mt-4">
                                     <div class="col-12 d-flex justify-content-between">
-                                        <a href="{{ route('password.request') }}" class="text-muted"><i class="fa fa-lock mr-1"></i> Forgot your password?</a>
+                                        <a href="{{ route('password.request') }}" class="text-muted"><i
+                                                class="fa fa-lock mr-1"></i> Forgot your password?</a>
                                         <a href="{{ route('register') }}" class="text-muted">Create an account</a>
                                     </div>
                                 </div>
@@ -92,20 +100,25 @@
                                     <p class="mt-4 text-muted">Sign in with</p>
                                     <ul class="social-list list-inline mb-2">
                                         <li class="list-inline-item">
-                                            <a href="#" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                            <a href="#" class="social-list-item border-primary text-primary"><i
+                                                    class="mdi mdi-facebook"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                            <a href="#" class="social-list-item border-danger text-danger"><i
+                                                    class="mdi mdi-google"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                                            <a href="#" class="social-list-item border-info text-info"><i
+                                                    class="mdi mdi-twitter"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github-circle"></i></a>
+                                            <a href="#"
+                                                class="social-list-item border-secondary text-secondary"><i
+                                                    class="mdi mdi-github-circle"></i></a>
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                             </form>
 
                         </div>
