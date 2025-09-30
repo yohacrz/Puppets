@@ -18,6 +18,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'estado', // Asegúrate de que 'status' está en fillable
     ];
 
     /**

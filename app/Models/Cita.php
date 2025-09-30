@@ -29,6 +29,7 @@ class Cita extends Model
         'fecha',
         'hora',
         'mensaje',
+        'estado', // 1: Pendiente, 0: Completada, 2: Cancelada, 3: En Proceso
     ];
 
     /**

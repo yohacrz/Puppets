@@ -124,4 +124,26 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'pdf' => [
+        'enabled' => env('APP_PDF_ENABLED', true),
+        'binary_path' => env('APP_PDF_BINARY_PATH', '/usr/local/bin/wkhtmltopdf'),
+        'options' => [
+            'no-outline',
+            'margin-top'    => 10,
+            'margin-right'  => 10,
+            'margin-bottom' => 10,
+            'margin-left'   => 10,
+            'encoding'      => 'UTF-8',
+            'dpi'           => 96,
+            'image-dpi'     => 96,
+            'image-quality' => 100,
+            // Otros parámetros predeterminados que desees agregar
+        ],
+        'env' => [
+            // Variables de entorno adicionales si es necesario
+        ],
+    ],
+
+    
+
 ];

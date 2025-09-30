@@ -305,13 +305,13 @@
                                 <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.shop') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
                         </ul>
 
@@ -339,7 +339,7 @@
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
                                 <li>
-                                    <a href="{{ url('wishlist') }}" class="mx-3">
+                                    <a href="{{ url('/wishlist') }}" class="mx-3">
                                         <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>

@@ -21,9 +21,15 @@ class LoginController extends Controller
             // Regenerar la sesión por seguridad
             $request->session()->regenerate();
 
-            // Redirigir al dashboard o página principal
-            //return redirect()->intended('home');
-            return redirect('/user');
+            // Obtener el usuario autenticado
+            $user = Auth::user();
+
+            // Lógica de redirección basada en el rol
+            if ($user->role === 1) {
+                return redirect()->intended('/admin'); // Redirige a la vista de administrador
+            }
+
+            return redirect()->intended('/user'); // Redirige a la vista de usuario normal
         }
 
         // Si falla, regresar con error
@@ -33,12 +39,12 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request)
-{
-    Auth::logout(); // Cierra la sesión del usuario
+    {
+        Auth::logout(); // Cierra la sesión del usuario
 
-    $request->session()->invalidate(); // Invalida la sesión actual
-    $request->session()->regenerateToken(); // Regenera el token CSRF
+        $request->session()->invalidate(); // Invalida la sesión actual
+        $request->session()->regenerateToken(); // Regenera el token CSRF
 
-    return redirect('login'); // Redirige a la página principal o donde tú prefieras
-}
+        return redirect('/'); // Redirige a la página de principal
+    }
 }

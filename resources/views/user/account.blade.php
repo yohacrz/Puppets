@@ -279,47 +279,27 @@
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" role="button" id="pages"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu" aria-labelledby="pages">
-                                    <li><a href="{{ url('about') }}" class="dropdown-item">About Us</a></li>
-                                    <li><a href="{{ url('shop') }}" class="dropdown-item">Shop</a></li>
-                                    <li><a href="{{ url('single-product') }}" class="dropdown-item">Single Product</a>
-                                    </li>
-                                    <li><a href="{{ url('cart') }}" class="dropdown-item">Cart</a></li>
-                                    <li><a href="{{ url('wishlist') }}" class="dropdown-item">Wishlist</a></li>
-                                    <li><a href="{{ url('checkout') }}" class="dropdown-item">Checkout</a></li>
-                                    <li><a href="{{ url('blog') }}" class="dropdown-item">Blog</a></li>
-                                    <li><a href="{{ url('single-post') }}" class="dropdown-item">Single Post</a></li>
-                                    <li><a href="{{ url('contact') }}" class="dropdown-item">Contact</a></li>
-                                    <li><a href="{{ url('faqs') }}" class="dropdown-item">FAQs</a></li>
-                                    <li><a href="{{ url('account') }}" class="dropdown-item">Account</a></li>
-                                    <li><a href="{{ url('thank-you') }}" class="dropdown-item">Thankyou</a></li>
-                                    <li><a href="{{ url('error') }}" class="dropdown-item">Error 404</a></li>
-                                    <li><a href="{{ url('styles') }}" class="dropdown-item">Styles</a></li>
-                                </ul>
+
+                            <li class="nav-item">
+                                <a href="{{ url('/shop') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('blog') }}" class="nav-link">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ url('contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
                                 <li>
-                                    <a href="{{ url('account') }}" class="mx-3">
+                                    <a href="{{ url('/account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('wishlist') }}" class="mx-3">
+                                    <a href="{{ url('/wishlist') }}" class="mx-3">
                                         <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
@@ -414,45 +394,50 @@
                                 <p class="mb-0">Or Log-In With Email</p>
                                 <hr class="my-1">
 
-                                <form id="form1" class="form-group flex-wrap" method="POST" action="{{ route('login.process') }}">
-    
-    @csrf
+                                <form id="form1" class="form-group flex-wrap" method="POST"
+                                    action="{{ route('login.process') }}">
 
-    <div class="form-input col-lg-12 my-4">
+                                    @csrf
 
-        <input type="email" id="email" name="email"
-               placeholder="Enter email address" class="form-control mb-3 p-4" required>
+                                    <div class="form-input col-lg-12 my-4">
 
-        <input type="password" id="password" name="password" placeholder="Enter password"
-               class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock" required>
+                                        <input type="email" id="email" name="email"
+                                            placeholder="Enter email address" class="form-control mb-3 p-4" required>
 
-        <label class="py-3 d-flex flex-wrap justify-content-between">
-            <div>
-                <input type="checkbox" name="remember" id="remember" class="d-inline">
-                <span class="label-body">Remember Me</span>
-            </div>
+                                        <input type="password" id="password" name="password"
+                                            placeholder="Enter password" class="form-control mb-3 p-4"
+                                            aria-describedby="passwordHelpBlock" required>
 
-            <div id="passwordHelpBlock" class="form-text">
-                <a href="{{ route('password.request') }}" class="text-primary fw-bold"> Forgot Password?</a>
-            </div>
-        </label>
-        
-        <div class="d-grid my-3">
-            <button type="submit" class="btn btn-dark btn-lg rounded-1">Log In</button>
-        </div>
-        
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+                                        <label class="py-3 d-flex flex-wrap justify-content-between">
+                                            <div>
+                                                <input type="checkbox" name="remember" id="remember"
+                                                    class="d-inline">
+                                                <span class="label-body">Remember Me</span>
+                                            </div>
 
-        </div>
-</form>
+                                            <div id="passwordHelpBlock" class="form-text">
+                                                <a href="{{ route('password.request') }}"
+                                                    class="text-primary fw-bold"> Forgot Password?</a>
+                                            </div>
+                                        </label>
+
+                                        <div class="d-grid my-3">
+                                            <button type="submit" class="btn btn-dark btn-lg rounded-1">Log
+                                                In</button>
+                                        </div>
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                </form>
                             </div>
 
                         </div>
@@ -489,46 +474,50 @@
                                 <p class="mb-0">Or Sign-Up With Email</p>
                                 <hr class="my-1">
 
-<form id="form1" class="form-group flex-wrap" method="POST" action="{{ route('register.process') }}">
-    
-    @csrf
+                                <form id="form1" class="form-group flex-wrap" method="POST"
+                                    action="{{ route('register.process') }}">
 
-    <div class="form-input col-lg-12 my-4">
+                                    @csrf
 
-        <input type="text" id="username" name="username"
-               placeholder="Username" class="form-control mb-3 p-4" required>
-        
-        <input type="email" id="email" name="email"
-               placeholder="Your email address" class="form-control mb-3 p-4" required>
-        
-        <input type="password" id="password" name="password" placeholder="Set your password"
-               class="form-control mb-3 p-4" required>
-        
-        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Retype your password"
-               class="form-control mb-3 p-4" required>
+                                    <div class="form-input col-lg-12 my-4">
 
-        <div class="d-grid my-3">
-            <button type="submit" class="btn btn-dark btn-lg rounded-1">Sign Up</button>
-        </div>
+                                        <input type="text" id="username" name="username" placeholder="Username"
+                                            class="form-control mb-3 p-4" required>
 
-        <div class="form-group text-center mt-3 mb-2">
-            <div class="col-12">
-                <a href="{{ route('login') }}" class="text-muted">Already have an account?</a>
-            </div>
-        </div>
+                                        <input type="email" id="email" name="email"
+                                            placeholder="Your email address" class="form-control mb-3 p-4" required>
 
-        @if ($errors->any())
-            <div class="alert alert-danger mt-3">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+                                        <input type="password" id="password" name="password"
+                                            placeholder="Set your password" class="form-control mb-3 p-4" required>
 
-    </div>
-</form>
+                                        <input type="password" id="password_confirmation"
+                                            name="password_confirmation" placeholder="Retype your password"
+                                            class="form-control mb-3 p-4" required>
+
+                                        <div class="d-grid my-3">
+                                            <button type="submit" class="btn btn-dark btn-lg rounded-1">Sign
+                                                Up</button>
+                                        </div>
+
+                                        <div class="form-group text-center mt-3 mb-2">
+                                            <div class="col-12">
+                                                <a href="{{ route('login') }}" class="text-muted">Already have an
+                                                    account?</a>
+                                            </div>
+                                        </div>
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger mt-3">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                </form>
 
                             </div>
                         </div>

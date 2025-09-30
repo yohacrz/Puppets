@@ -281,13 +281,13 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ url('shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ url('/shop') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
 
 
@@ -296,12 +296,12 @@
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
                                 <li>
-                                    <a href="{{ url('account') }}" class="mx-3">
+                                    <a href="{{ url('//account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('wishlist') }}" class="mx-3">
+                                    <a href="{{ url('/wishlist') }}" class="mx-3">
                                         <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
