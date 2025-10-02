@@ -57,16 +57,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    <div class="search-bar border rounded-2 px-3 border-dark-subtle">
-                        <form id="search-form" class="text-center d-flex align-items-center" action="" method="">
-                            <input type="text" class="form-control border-0 bg-transparent"
-                                placeholder="Search for more than 10,000 products" />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-                            </svg>
-                        </form>
-                    </div>
+                    
                 </div>
                 <div class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block">
@@ -137,12 +128,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body justify-content-between">
-                        <select class="filter-categories border-0 mb-0 me-5">
-                            <option>Shop by Category</option>
-                            <option>Clothes</option>
-                            <option>Food</option>
-                            <option>Toy</option>
-                        </select>
+                           
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link active">Home</a>
@@ -205,10 +191,10 @@
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
             <div class="hero-content py-5 my-3">
-                <h2 class="display-1 mt-3 mb-0">Agendar <span class="text-primary">Cita</span></h2>
+                <h2 class="display-1 mt-3 mb-0">Schedule <span class="text-primary">Appointment</span></h2>
                 <nav class="breadcrumb">
                     <a class="breadcrumb-item nav-link" href="{{ route('home') }}">Home</a>
-                    <span class="breadcrumb-item active" aria-current="page">Agendar Cita</span>
+                    <span class="breadcrumb-item active" aria-current="page">Schedule Appointment</span>
                 </nav>
             </div>
         </div>
@@ -220,7 +206,7 @@
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-md-12">
-                            <img src="{{ asset('user-template/images/blog-lg4.jpg') }}" class="img-fluid rounded-4 shadow" />
+                            <img src="{{ asset('user-template/images/puppets/DSCF0363.jpg') }}" class="img-fluid rounded-4 shadow" />
                         </div>
                     </div>
                 </div>
@@ -228,8 +214,8 @@
                 <div class="col-lg-6 mt-5 ">
                     <div class="product-info">
                         <div class="element-header">
-                            <h2 itemprop="name" class="display-6">Completa los Datos de la Cita para <strong>{{ $pet->nombre }}</strong></h2>
-                            <p>Por favor, selecciona una fecha y hora para el servicio de tu mascota.</p>
+                            <h2 itemprop="name" class="display-6">Complete the Appointment Details for <strong>{{ $pet->nombre }}</strong></h2>
+                            <p>Please select a date and time for your pet's service.</p>
                         </div>
                         
                         <form method="POST" action="{{ route('citas.store') }}">
@@ -238,19 +224,19 @@
                             <input type="hidden" name="pet_id" value="{{ $pet->id }}">
 
                             <div class="form-group mb-3">
-                                <label for="fecha" class="form-label"><strong>Fecha de la Cita</strong></label>
+                                <label for="fecha" class="form-label"><strong>Date of Appointment</strong></label>
                                 <input type="date" class="form-control p-3" id="fecha" name="fecha" required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="hora" class="form-label"><strong>Hora de la Cita</strong> (7 AM - 5 PM)</label>
+                                <label for="hora" class="form-label"><strong>Time of Appointment</strong> (7 AM - 5 PM)</label>
                                 <input type="time" class="form-control p-3" id="hora" name="hora" min="07:00" max="17:00" required>
-                                <small class="form-text text-muted">Nuestro horario de atención es de 7:00 AM a 5:00 PM.</small>
+                                <small class="form-text text-muted">Our working hours are from 7:00 AM to 5:00 PM.</small>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label for="mensaje" class="form-label"><strong>Mensaje o Notas Adicionales</strong> (Opcional)</label>
-                                <textarea class="form-control p-3" id="mensaje" name="mensaje" rows="4" maxlength="255" placeholder="Ej: Mi perro es un poco nervioso..."></textarea>
+                                <label for="mensaje" class="form-label"><strong>Message or Additional Notes</strong> (Optional)</label>
+                                <textarea class="form-control p-3" id="mensaje" name="mensaje" rows="4" maxlength="255" placeholder="E.g: My dog is a bit nervous..."></textarea>
                             </div>
                             
                             @if ($errors->any())
@@ -264,7 +250,7 @@
                             @endif
 
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-dark btn-lg rounded-1">Confirmar Cita</button>
+                                <button type="submit" class="btn btn-dark btn-lg rounded-1">Confirm Appointment</button>
                             </div>
                         </form>
                     </div>

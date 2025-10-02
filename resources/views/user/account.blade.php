@@ -181,18 +181,7 @@
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    <div class="search-bar border rounded-2 px-3 border-dark-subtle">
-                        <form id="search-form" class="text-center d-flex align-items-center" action=""
-                            method="">
-                            <input type="text" class="form-control border-0 bg-transparent"
-                                placeholder="Search for more than 10,000 products" />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-                            </svg>
-                        </form>
-                    </div>
+                    
                 </div>
 
                 <div
@@ -267,13 +256,7 @@
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                        <select class="filter-categories border-0 mb-0 me-5">
-                            <option>Shop by Category</option>
-                            <option>Clothes</option>
-                            <option>Food</option>
-                            <option>Food</option>
-                            <option>Toy</option>
-                        </select>
+                           
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
@@ -365,33 +348,10 @@
                             aria-labelledby="nav-sign-in-tab">
                             <div class="col-lg-8 offset-lg-2 mt-5">
 
-                                <p class="mb-0">Log-In With Social</p>
-                                <hr class="my-1">
-                                <div class="row mt-4 mb-5">
-                                    <div class="d-grid col-md-6 my-2">
-                                        <a href="#"
-                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
-                                            <div class="d-flex flex-wrap justify-content-center">
-                                                <iconify-icon icon="ion:logo-google"
-                                                    class="signup-social-icon me-2"></iconify-icon>
-                                                <p class="mb-0">Google</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="d-grid col-md-6 my-2">
-                                        <a href="#"
-                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
-                                            <div class="d-flex flex-wrap justify-content-center">
-                                                <iconify-icon icon="ion:logo-facebook"
-                                                    class="signup-social-icon me-2"></iconify-icon>
-                                                <p class="mb-0">Facebook</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                              
 
 
-                                <p class="mb-0">Or Log-In With Email</p>
+                                <p class="mb-0">Log-In With Email</p>
                                 <hr class="my-1">
 
                                 <form id="form1" class="form-group flex-wrap" method="POST"
@@ -445,33 +405,9 @@
                             aria-labelledby="nav-register-tab">
                             <div class="col-lg-8 offset-lg-2 mt-5">
 
-                                <p class="mb-0">Sign-up With Social</p>
-                                <hr class="my-1">
-                                <div class="row mt-4 mb-5">
-                                    <div class="d-grid col-md-6 my-2">
-                                        <a href="#"
-                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
-                                            <div class="d-flex flex-wrap justify-content-center">
-                                                <iconify-icon icon="ion:logo-google"
-                                                    class="signup-social-icon me-2"></iconify-icon>
-                                                <p class="mb-0">Google</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="d-grid col-md-6 my-2">
-                                        <a href="#"
-                                            class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 ">
-                                            <div class="d-flex flex-wrap justify-content-center">
-                                                <iconify-icon icon="ion:logo-facebook"
-                                                    class="signup-social-icon me-2"></iconify-icon>
-                                                <p class="mb-0">Facebook</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                                
 
-
-                                <p class="mb-0">Or Sign-Up With Email</p>
+                                <p class="mb-0">Sign-Up With Email</p>
                                 <hr class="my-1">
 
                                 <form id="form1" class="form-group flex-wrap" method="POST"

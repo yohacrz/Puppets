@@ -212,18 +212,7 @@
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    <div class="search-bar border rounded-2 px-3 border-dark-subtle">
-                        <form id="search-form" class="text-center d-flex align-items-center" action=""
-                            method="">
-                            <input type="text" class="form-control border-0 bg-transparent"
-                                placeholder="Search for more than 10,000 products" />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-                            </svg>
-                        </form>
-                    </div>
+                    
                 </div>
 
                 <div
@@ -295,39 +284,13 @@
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                        <select class="filter-categories border-0 mb-0 me-5">
-                            <option>Shop by Category</option>
-                            <option>Clothes</option>
-                            <option>Food</option>
-                            <option>Food</option>
-                            <option>Toy</option>
-                        </select>
+                           
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" role="button" id="pages"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu" aria-labelledby="pages">
-                                    <li><a href="{{ url('about') }}" class="dropdown-item">About Us</a></li>
-                                    <li><a href="{{ url('shop') }}" class="dropdown-item">Shop</a></li>
-                                    <li><a href="{{ url('single-product') }}" class="dropdown-item">Single Product</a>
-                                    </li>
-                                    <li><a href="{{ url('cart') }}" class="dropdown-item">Cart</a></li>
-                                    <li><a href="{{ url('wishlist') }}" class="dropdown-item">Wishlist</a></li>
-                                    <li><a href="{{ url('checkout') }}" class="dropdown-item">Checkout</a></li>
-                                    <li><a href="{{ url('blog') }}" class="dropdown-item">Blog</a></li>
-                                    <li><a href="{{ url('single-post') }}" class="dropdown-item">Single Post</a></li>
-                                    <li><a href="{{ url('contact') }}" class="dropdown-item">Contact</a></li>
-                                    <li><a href="{{ url('faqs') }}" class="dropdown-item">FAQs</a></li>
-                                    <li><a href="{{ url('account') }}" class="dropdown-item">Account</a></li>
-                                    <li><a href="{{ url('thank-you') }}" class="dropdown-item">Thankyou</a></li>
-                                    <li><a href="{{ url('error') }}" class="dropdown-item">Error 404</a></li>
-                                    <li><a href="{{ url('styles') }}" class="dropdown-item">Styles</a></li>
-                                </ul>
-                            </li>
+                                
                             <li class="nav-item">
                                 <a href="{{ url('shop') }}" class="nav-link">Shop</a>
                             </li>
@@ -380,11 +343,11 @@
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
             <div class="hero-content py-5 my-3 text-center">
-                <h2 class="display-3 mt-3 mb-0">¡Hola, {{ $user->username }}!</h2>
+                <h2 class="display-3 mt-3 mb-0">Hi, {{ $user->username }}!</h2>
                 <nav aria-label="breadcrumb" class="d-flex justify-content-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+                        <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                     </ol>
                 </nav>
             </div>
@@ -402,12 +365,12 @@
                                 class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase active"
                                 id="nav-datos-tab" data-bs-toggle="tab" data-bs-target="#nav-datos" type="button"
                                 role="tab" aria-controls="nav-datos" aria-selected="true">
-                                Mis Datos
+                                My Information
                             </button>
                             <button class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase"
                                 id="nav-mascotas-tab" data-bs-toggle="tab" data-bs-target="#nav-mascotas"
                                 type="button" role="tab" aria-controls="nav-mascotas" aria-selected="false">
-                                Mis Mascotas
+                                My Pets
                             </button>
                         </div>
                     </nav>
@@ -419,29 +382,29 @@
 
                                 <div class="card info-card p-4">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-4">Información de tu Cuenta</h4>
+                                        <h4 class="card-title mb-4">Your Account Information</h4>
                                         <p><iconify-icon icon="mdi:user-circle" class="fs-4"></iconify-icon>
                                             <strong>Username:</strong> {{ $user->username }}</p>
                                         <p><iconify-icon icon="mdi:email" class="fs-4"></iconify-icon>
                                             <strong>Email:</strong> {{ $user->email }}</p>
                                         <p><iconify-icon icon="mdi:calendar-check" class="fs-4"></iconify-icon>
-                                            <strong>Miembro desde:</strong> {{ $user->created_at->format('d/m/Y') }}
+                                            <strong>Member since:</strong> {{ $user->created_at->format('d/m/Y') }}
                                         </p>
                                     </div>
                                 </div>
 
                                 <div class="mt-5">
-                                    <h3 class="text-center">Próximas Citas</h3>
+                                    <h3 class="text-center">Upcoming Appointments  </h3>
 
                                     @if ($citas->isEmpty())
                                         <div class="alert alert-light mt-3 text-center">
-                                            No tienes citas programadas.
+                                            You have no scheduled appointments.
                                         </div>
                                     @else
                                         @foreach ($citas as $cita)
                                             <div class="card info-card text-center mb-4">
                                                 <div class="card-header bg-primary text-white">
-                                                    <h5 class="mb-0">PRÓXIMA CITA</h5>
+                                                    <h5 class="mb-0">UPCOMING APPOINTMENT</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     {{-- Gracias a las relaciones, podemos hacer esto: --}}
@@ -449,13 +412,13 @@
                                                     </h4>
                                                     <p class="mb-1">
                                                         <iconify-icon icon="mdi:calendar"></iconify-icon>
-                                                        <strong>Fecha:</strong>
+                                                        <strong>Date:</strong>
                                                         {{ \Carbon\Carbon::parse($cita->fecha)->format('d/m/Y') }}
                                                     </p>
                                                     <p class="mb-0">
                                                         <iconify-icon
                                                             icon="mdi:clock-time-four-outline"></iconify-icon>
-                                                        <strong>Hora:</strong>
+                                                        <strong>Hour:</strong>
                                                         {{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}
                                                     </p>
                                                 </div>
@@ -470,10 +433,10 @@
                         <div class="tab-pane fade" id="nav-mascotas" role="tabpanel"
                             aria-labelledby="nav-mascotas-tab">
                             <div class="col-lg-10 offset-lg-1 mt-5">
-                                <h3 class="text-center">Tus Compañeros Peludos 🐾</h3>
+                                <h3 class="text-center">Your Furry Friends 🐾</h3>
                                 @if ($mascotas->isEmpty())
                                     <div class="alert alert-info mt-4 text-center" role="alert">
-                                        Aún no has registrado ninguna mascota. ¡Anímate a agregar la primera!
+                                        You haven't registered any pets yet. Feel free to add your first one!   
                                     </div>
                                 @else
                                     <div class="row mt-4">
@@ -496,16 +459,16 @@
                                                         <h4 class="card-title pet-card-title">{{ $mascota->nombre }}
                                                         </h4>
                                                         <p class="mb-1"><iconify-icon icon="mdi:paw"></iconify-icon>
-                                                            <strong>Especie:</strong> {{ $mascota->especie }}</p>
+                                                            <strong>Species:</strong> {{ $mascota->especie }}</p>
                                                         <p class="mb-1"><iconify-icon
                                                                 icon="mdi:tag-outline"></iconify-icon>
-                                                            <strong>Raza:</strong> {{ $mascota->raza }}</p>
+                                                            <strong>Breed:</strong> {{ $mascota->raza }}</p>
                                                         <p class="mb-1"><iconify-icon
                                                                 icon="mdi:palette"></iconify-icon>
                                                             <strong>Color:</strong> {{ $mascota->color }}</p>
                                                         <p class="mb-0"><iconify-icon
                                                                 icon="mdi:cake-variant"></iconify-icon>
-                                                            <strong>Nacimiento:</strong>
+                                                            <strong>Birthdate:</strong>
                                                             {{ \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}
                                                         </p>
                                                     </div>
@@ -518,8 +481,8 @@
                                 <div class="d-grid mt-4">
                                     <button type="button" class="btn btn-dark btn-lg rounded-1"
                                         data-bs-toggle="modal" data-bs-target="#addPetModal">
-                                        <iconify-icon icon="mdi:plus-circle" class="me-1"></iconify-icon> Registrar
-                                        Nueva Mascota
+                                        <iconify-icon icon="mdi:plus-circle" class="me-1"></iconify-icon> Register
+                                        New Pet
                                     </button>
                                 </div>
                             </div>
@@ -528,7 +491,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center mt-5">
-                <a href="{{ route('home') }}" class="btn btn-outline-primary">Volver a Home</a>
+                <a href="{{ route('home') }}" class="btn btn-outline-primary">Back to Home</a>
             </div>
         </div>
     </section>
