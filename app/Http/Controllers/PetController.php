@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 
 class PetController extends Controller
@@ -14,7 +15,13 @@ class PetController extends Controller
     $request->validate([
         'especie' => 'required|string',
         'raza' => 'required|string',
-        'nombre' => 'required|string',
+        'nombre' => [
+            'required',
+            'string',
+            Rule::unique('pets')->where(function ($query) {
+                return $query->where('user_id', Auth::id());
+            }),
+        ],
         'color' => 'required|string',
         'fecha_nacimiento' => 'required|date',
     ]);
@@ -30,5 +37,15 @@ class PetController extends Controller
 
     return redirect()->route('profile')->with('success', 'Mascota registrada correctamente.');
 }
+
+
+public function destroy($id)
+{
+    $mascota = Pet::findOrFail($id);
+    $mascota->delete();
+
+    return redirect()->back()->with('success', 'Mascota eliminada correctamente.');
+}
+
 
 }

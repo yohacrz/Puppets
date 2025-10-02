@@ -30,28 +30,43 @@ class CitaController extends Controller
      * Guarda la nueva cita en la base de datos.
      */
     public function store(Request $request): RedirectResponse
-    {
-        // Validación de los datos del formulario.
-        $validatedData = $request->validate([
-            'pet_id' => [
-                'required',
-                Rule::exists('pets', 'id')->where('user_id', Auth::id())
-            ],
-            'fecha' => ['required', 'date', 'after_or_equal:today'],
-            'hora' => ['required', 'date_format:H:i', 'after_or_equal:07:00', 'before_or_equal:17:00'],
-            'mensaje' => ['nullable', 'string', 'max:255'],
-        ]);
+{
+    // Validación de los datos del formulario.
+    $validatedData = $request->validate([
+        'pet_id' => [
+            'required',
+            Rule::exists('pets', 'id')->where('user_id', Auth::id())
+        ],
+        'fecha' => ['required', 'date', 'after_or_equal:today'],
+        'hora' => ['required', 'date_format:H:i', 'after_or_equal:07:00', 'before_or_equal:17:00'],
+        'mensaje' => ['nullable', 'string', 'max:255'],
+    ]);
 
-        // Creación de la cita con los datos validados.
-        Cita::create([
-            'user_id' => Auth::id(),
-            'pet_id' => $validatedData['pet_id'],
-            'fecha' => $validatedData['fecha'],
-            'hora' => $validatedData['hora'],
-            'mensaje' => $validatedData['mensaje'],
-        ]);
+    // Normalizar fecha y hora
+    $fecha = \Carbon\Carbon::parse($validatedData['fecha'])->format('Y-m-d');
+    $hora = \Carbon\Carbon::parse($validatedData['hora'])->format('H:i');
 
-        // Redirección al perfil con un mensaje de éxito.
-        return redirect()->route('profile')->with('success', '¡Cita agendada con éxito!');
+    // Verificar si ya existe una cita en esa fecha y hora
+    $citaExistente = Cita::where('fecha', $fecha)
+        ->where('hora', $hora)
+        ->exists();
+
+    if ($citaExistente) {
+        return back()->withErrors([
+            'hora' => 'Ya existe una cita agendada en esa fecha y hora. Por favor elige otro horario.'
+        ])->withInput();
     }
+
+    // Crear la cita con los datos validados
+    Cita::create([
+        'user_id' => Auth::id(),
+        'pet_id' => $validatedData['pet_id'],
+        'fecha' => $fecha,
+        'hora' => $hora,
+        'mensaje' => $validatedData['mensaje'],
+    ]);
+
+    // Redirección al perfil con un mensaje de éxito.
+    return redirect()->route('profile')->with('success', '¡Cita agendada con éxito!');
+}
 }

@@ -99,6 +99,8 @@ Route::get('/admin', function () {
 Route::view('/testimonials', 'partials.testimonials')->name('testimonials');
 Route::view('/pricing',      'partials.pricing')->name('pricing');
 
+Route::delete('/mascotas/{id}', [PetController::class, 'destroy'])->name('mascotas.destroy');//METODO ELIMINAR MASCOTA
+
 
 //--- RUTAS DE AUTENTICACIÓN ---//
 
@@ -111,6 +113,10 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.process');
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register.process');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
