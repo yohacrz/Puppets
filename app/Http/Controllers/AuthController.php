@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
+
 
 class AuthController extends Controller
 {
@@ -26,7 +30,7 @@ class AuthController extends Controller
         ]);
 
         // 2) Crear el usuario mapeando a las columnas de tu tabla
-        $user = Usuario::create([
+        $user = User::create([
             'Email'           => $data['email'],
             'Nombre_Usuario'  => $data['name'],
             'Contrasena'      => Hash::make($data['password']),
@@ -34,6 +38,10 @@ class AuthController extends Controller
 
         // 3) Loguear y regenerar sesión
         Auth::login($user);
+
+        // ✅ Enviar correo de verificación manualmente
+    Notification::send(Auth::user(), new VerifyEmail());
+
         $request->session()->regenerate();
 
         // 4) Redirigir al dashboard

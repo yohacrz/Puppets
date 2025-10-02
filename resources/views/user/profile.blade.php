@@ -342,11 +342,6 @@
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
                                 <li>
-                                    <a href="{{ url('account') }}" class="mx-3">
-                                        <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="{{ url('wishlist') }}" class="mx-3">
                                         <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                                     </a>
@@ -362,6 +357,19 @@
                                         </span>
                                     </a>
                                 </li>
+                                @auth
+                                    {{-- Icono de logout solo para usuarios logueados --}}
+                                    <li>
+                                        <a href="{{ route('logout') }}" class="mx-3"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                @endauth
                             </ul>
 
                         </div>
@@ -508,6 +516,15 @@
                                                             <strong>Nacimiento:</strong>
                                                             {{ \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}
                                                         </p>
+
+                                                        <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta mascota?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger mt-3">
+        <iconify-icon icon="mdi:trash-can-outline"></iconify-icon> Eliminar
+    </button>
+</form>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -666,21 +683,29 @@
 
                         <div class="form-group mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input class="form-control" type="text" id="nombre" name="nombre"
+                            <input class="form-control" type="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="El nombre solo debe contener letras" id="nombre" name="nombre"
                                 placeholder="Nombre de tu mascota" required>
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="color" class="form-label">Color</label>
-                            <input class="form-control" type="text" id="color" name="color"
+                            <input class="form-control" type="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="El nombre solo debe contener letras" id="color" name="color"
                                 placeholder="Ej: Blanco, Negro con manchas" required>
                         </div>
 
+                        
+
                         <div class="form-group mb-3">
-                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                            <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento"
-                                required>
-                        </div>
+    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+    <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+</div>
+
+<script>
+    // Establece la fecha máxima como hoy
+    const hoy = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha_nacimiento').setAttribute('max', hoy);
+</script>
+
 
                         @if ($errors->any())
                             <div class="alert alert-danger">

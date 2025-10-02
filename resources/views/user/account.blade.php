@@ -409,12 +409,6 @@
                                             aria-describedby="passwordHelpBlock" required>
 
                                         <label class="py-3 d-flex flex-wrap justify-content-between">
-                                            <div>
-                                                <input type="checkbox" name="remember" id="remember"
-                                                    class="d-inline">
-                                                <span class="label-body">Remember Me</span>
-                                            </div>
-
                                             <div id="passwordHelpBlock" class="form-text">
                                                 <a href="{{ route('password.request') }}"
                                                     class="text-primary fw-bold"> Forgot Password?</a>
