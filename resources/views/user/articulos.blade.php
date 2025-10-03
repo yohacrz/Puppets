@@ -111,10 +111,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            
+
             {{-- CONTENEDOR DE INYECCIÓN DE AJAX --}}
             <div id="cart-offcanvas-content">
-                
+
                 {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usa la vista parcial que creaste) --}}
                 @include('partials.offcanvas_cart_content', ['cartSummary' => $cartSummary])
 
@@ -240,7 +240,7 @@
                                 @endauth
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                                
+
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
@@ -292,137 +292,206 @@
             <div class="row flex-md-row-reverse g-md-5 mb-5">
 
                 <main class="col-md-12"> {{-- Ahora usa las 12 columnas --}}
-    
-    {{-- FILTROS Y ORDENAMIENTO (Mantenido en la parte superior) --}}
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
-        
-        {{-- BARRA DE BÚSQUEDA --}}
-        <div class="widget-search-bar w-100 me-md-3">
-            <div class="search-bar border rounded-2 border-dark-subtle pe-3">
-                <form id="search-form" class="text-center d-flex align-items-center" action="{{ route('user.articulos') }}" method="GET">
-                    @if(request('sort'))<input type="hidden" name="sort" value="{{ request('sort') }}">@endif
-                    @if(request('category'))<input type="hidden" name="category" value="{{ request('category') }}">@endif
-                    
-                    <input type="text" name="search"
-                        class="form-control border-0 bg-transparent"
-                        placeholder="Search for products" value="{{ request('search') }}" />
-                    <button type="submit" class="btn p-0 m-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-                        </svg>
-                    </button>
-                </form>
-            </div>
-        </div>
 
-        {{-- FILTRO POR CATEGORÍA --}}
-        <select class="form-select filter-categories border-0 w-100 w-md-auto me-md-3" onchange="window.location.href = this.value;">
-            <option value="{{ route('user.articulos', array_merge(request()->query(), ['category' => null, 'page' => 1])) }}" {{ !request('category') ? 'selected' : '' }}>Filter by Category</option>
-            
-            {{-- Opción para quitar el filtro (si hay uno activo) --}}
-            @if(request('category'))
-                <option value="{{ route('user.articulos', array_merge(request()->query(), ['category' => null, 'page' => 1])) }}">— All Categories —</option>
-            @endif
+                    {{-- FILTROS Y ORDENAMIENTO (Mantenido en la parte superior) --}}
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
 
-            @foreach ($categorias_unicas as $cat)
-                <option value="{{ route('user.articulos', array_merge(request()->query(), ['category' => $cat, 'page' => 1])) }}" 
-                        {{ request('category') == $cat ? 'selected' : '' }}>
-                    {{ $cat }}
-                </option>
-            @endforeach
-        </select>
-        
-        {{-- ORDENAMIENTO POR PRECIO --}}
-        <select class="form-select filter-categories border-0 w-100 w-md-auto" onchange="window.location.href = this.value;">
-            <option value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => null, 'page' => 1])) }}" {{ !request('sort') ? 'selected' : '' }}>Default Sorting</option>
-            <option value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => 'price_desc', 'page' => 1])) }}" 
-                    {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price (High to Low)</option>
-            <option value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => 'price_asc', 'page' => 1])) }}" 
-                    {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price (Low to High)</option>
-        </select>
-    </div>
+                        {{-- BARRA DE BÚSQUEDA --}}
+                        <div class="widget-search-bar w-100 me-md-3">
+                            <div class="search-bar border rounded-2 border-dark-subtle pe-3">
+                                <form id="search-form" class="text-center d-flex align-items-center"
+                                    action="{{ route('user.articulos') }}" method="GET">
+                                    @if (request('sort'))
+                                        <input type="hidden" name="sort" value="{{ request('sort') }}">
+                                    @endif
+                                    @if (request('category'))
+                                        <input type="hidden" name="category" value="{{ request('category') }}">
+                                    @endif
 
-    {{-- CONTEO DE RESULTADOS --}}
-    <div class="filter-shop d-md-flex justify-content-between align-items-center mb-4">
-        <div class="showing-product">
-            <p class="m-0">Showing {{ $productos->firstItem() }}–{{ $productos->lastItem() }} of
-                {{ $productos->total() }} results</p>
-        </div>
-    </div>
-
-
-    <div class="product-grid row ">
-        {{-- BUCLE DINÁMICO DE PRODUCTOS --}}
-        @forelse ($productos as $producto)
-            <div class="col-lg-3 col-md-4 col-sm-6 my-4"> {{-- Ajustado para 4 columnas en desktop --}}
-                <div class="card position-relative product-card-dynamic">
-
-                    {{-- Etiqueta 'New' si el producto es reciente --}}
-                    @if ($producto->created_at->diffInDays(now()) < 10)
-                        <div
-                            class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle product-tag-new">
-                            New
-                        </div>
-                    @endif
-
-                    {{-- IMAGEN del Producto --}}
-                    <a href="{{ route('user.single-product', $producto) }}">
-                        <img src="{{ asset($producto->image) }}"
-                            class="img-fluid rounded-4 product-image-dynamic"
-                            alt="{{ $producto->name }}">
-                    </a>
-
-                    <div class="card-body p-0">
-                        <a href="{{ route('user.single-product', $producto) }}">
-                            <h3 class="card-title pt-4 m-0 product-name-dynamic">{{ $producto->name }}
-                            </h3>
-                        </a>
-
-                        <div class="card-text">
-                            <p class="product-description-dynamic text-muted my-1"
-                                style="font-size: 0.9em;">
-                                {{ \Illuminate\Support\Str::limit($producto->description, 30, '...') }}
-                            </p>
-
-                            {{-- ELIMINADO: RATING DE 5 ESTRELLAS --}}
-
-                            <h3 class="secondary-font text-primary product-price-dynamic">
-                                ${{ number_format($producto->price, 2) }}</h3>
-
-                            <div class="d-flex flex-wrap mt-3">
-                                {{-- BOTÓN AGREGAR AL CARRITO (AJAX) --}}
-                                <form action="{{ route('cart.add', $producto->id) }}" method="POST"
-                                    class="d-inline w-100 ajax-add-to-cart-form">
-                                    @csrf
-
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="size" value="N/A">
-
-                                    <button type="submit"
-                                        class="btn-cart px-4 pt-3 pb-3 add-to-cart-btn w-100">
-                                        <h5 class="text-uppercase m-0">Add to Cart</h5>
+                                    <input type="text" name="search" class="form-control border-0 bg-transparent"
+                                        placeholder="Search for products" value="{{ request('search') }}" />
+                                    <button type="submit" class="btn p-0 m-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
+                                        </svg>
                                     </button>
                                 </form>
                             </div>
                         </div>
+
+                        {{-- FILTRO POR CATEGORÍA --}}
+                        <select class="form-select filter-categories border-0 w-100 w-md-auto me-md-3"
+                            onchange="window.location.href = this.value;">
+                            <option
+                                value="{{ route('user.articulos', array_merge(request()->query(), ['category' => null, 'page' => 1])) }}"
+                                {{ !request('category') ? 'selected' : '' }}>Filter by Category</option>
+
+                            {{-- Opción para quitar el filtro (si hay uno activo) --}}
+                            @if (request('category'))
+                                <option
+                                    value="{{ route('user.articulos', array_merge(request()->query(), ['category' => null, 'page' => 1])) }}">
+                                    — All Categories —</option>
+                            @endif
+
+                            @foreach ($categorias_unicas as $cat)
+                                <option
+                                    value="{{ route('user.articulos', array_merge(request()->query(), ['category' => $cat, 'page' => 1])) }}"
+                                    {{ request('category') == $cat ? 'selected' : '' }}>
+                                    {{ $cat }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        {{-- ORDENAMIENTO POR PRECIO --}}
+                        <select class="form-select filter-categories border-0 w-100 w-md-auto"
+                            onchange="window.location.href = this.value;">
+                            <option
+                                value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => null, 'page' => 1])) }}"
+                                {{ !request('sort') ? 'selected' : '' }}>Default Sorting</option>
+                            <option
+                                value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => 'price_desc', 'page' => 1])) }}"
+                                {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price (High to Low)</option>
+                            <option
+                                value="{{ route('user.articulos', array_merge(request()->query(), ['sort' => 'price_asc', 'page' => 1])) }}"
+                                {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price (Low to High)</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-        @empty
-            <div class="col-12 text-center my-5">
-                <p class="fs-4 text-muted">No se encontraron productos disponibles que coincidan con los criterios de búsqueda/filtro.</p>
-            </div>
-        @endforelse
-    </div>
 
-    {{-- PAGINACIÓN DINÁMICA --}}
-    <nav class="navigation paging-navigation text-center mt-5" role="navigation">
-        <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
-            {{ $productos->links() }}
-        </div>
-    </nav>
+                    {{-- CONTEO DE RESULTADOS --}}
+                    <div class="filter-shop d-md-flex justify-content-between align-items-center mb-4">
+                        <div class="showing-product">
+                            <p class="m-0">Showing {{ $productos->firstItem() }}–{{ $productos->lastItem() }} of
+                                {{ $productos->total() }} results</p>
+                        </div>
+                    </div>
 
-</main>
+
+                    <div class="product-grid row ">
+                        <div class="product-grid row ">
+                            {{-- BUCLE DINÁMICO DE PRODUCTOS --}}
+                            @forelse ($productos as $producto)
+                                @php
+                                    // 1. CRÍTICO: Acceso seguro a las propiedades de stock por talla
+                                    $stock_s = (int) ($producto->stock_S ?? 0);
+                                    $stock_m = (int) ($producto->stock_M ?? 0);
+                                    $stock_l = (int) ($producto->stock_L ?? 0);
+                                    $stock_xl = (int) ($producto->stock_XL ?? 0);
+                                    
+                                    // Definimos las tallas y sus stocks
+                                    $sizes = [
+                                        'S' => $stock_s,
+                                        'M' => $stock_m,
+                                        'L' => $stock_l,
+                                        'XL' => $stock_xl,
+                                    ];
+                                    
+                                    // 2. Determinamos si es un producto basado en tallas (si la suma del stock por talla es > 0)
+                                    $is_size_product = array_sum($sizes) > 0;
+                                @endphp
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 my-4">
+                                    <div class="card position-relative product-card-dynamic">
+
+                                        {{-- Etiqueta 'New' si el producto es reciente --}}
+                                        @if ($producto->created_at->diffInDays(now()) < 10)
+                                            <div
+                                                class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle product-tag-new">
+                                                New
+                                            </div>
+                                        @endif
+
+                                        {{-- IMAGEN del Producto --}}
+                                        <a href="{{ route('user.single-product', $producto) }}">
+                                            <img src="{{ asset($producto->image) }}"
+                                                class="img-fluid rounded-4 product-image-dynamic"
+                                                alt="{{ $producto->name }}">
+                                        </a>
+
+                                        <div class="card-body p-0">
+                                            <a href="{{ route('user.single-product', $producto) }}">
+                                                <h3 class="card-title pt-4 m-0 product-name-dynamic">
+                                                    {{ $producto->name }}
+                                                </h3>
+                                            </a>
+
+                                            <div class="card-text">
+                                                <p class="product-description-dynamic text-muted my-1"
+                                                    style="font-size: 0.9em;">
+                                                    {{ \Illuminate\Support\Str::limit($producto->description, 30, '...') }}
+                                                </p>
+
+                                                <h3 class="secondary-font text-primary product-price-dynamic">
+                                                    ${{ number_format($producto->price, 2) }}</h3>
+
+                                                <div class="d-flex flex-wrap mt-3">
+                                                    {{-- BOTÓN AGREGAR AL CARRITO (AJAX) --}}
+                                                    <form action="{{ route('cart.add', $producto->id) }}"
+                                                        method="POST" class="d-inline w-100 ajax-add-to-cart-form">
+                                                        @csrf
+
+                                                        <input type="hidden" name="quantity" value="1">
+                                                        <input type="hidden" name="size"
+                                                            id="selected_size_{{ $producto->id }}"
+                                                            value="{{ $is_size_product ? '' : 'ÚNICA' }}">
+
+                                                        {{-- 🔑 LÓGICA DE VISIBILIDAD DE TALLA 🔑 --}}
+                                                        @if ($is_size_product)
+                                                            {{-- ➡️ Selector para productos CON tallas --}}
+                                                            <div class="form-group mb-2">
+                                                                <select
+                                                                    class="form-select form-select-sm size-selector"
+                                                                    data-product-id="{{ $producto->id }}" required>
+                                                                    <option value="" disabled selected>-- Elija Talla
+                                                                        --</option>
+
+                                                                    @foreach ($sizes as $sizeKey => $stockValue)
+                                                                        @if ($stockValue > 0)
+                                                                            <option value="{{ $sizeKey }}">
+                                                                                Talla {{ $sizeKey }}
+                                                                                ({{ $stockValue }} disponibles)
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        @else
+                                                            {{-- ➡️ Talla Fija para productos SIN tallas --}}
+                                                            <p class="text-muted mb-2">Talla Única (Stock:
+                                                                {{ (int) ($producto->stock ?? 0) }})</p>
+                                                        @endif
+                                                        {{-- 🔑 FIN LÓGICA DE VISIBILIDAD 🔑 --}}
+
+                                                        <button type="submit"
+                                                            class="btn-cart px-4 pt-3 pb-3 add-to-cart-btn w-100"
+                                                            id="add-btn-{{ $producto->id }}"
+                                                            @if ($is_size_product || (int) ($producto->stock ?? 0) == 0) disabled @endif>
+                                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-12 text-center my-5">
+                                    <p class="fs-4 text-muted">No se encontraron productos disponibles que coincidan
+                                        con los criterios de búsqueda/filtro.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    {{-- PAGINACIÓN DINÁMICA --}}
+                    <nav class="navigation paging-navigation text-center mt-5" role="navigation">
+                        <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
+                            {{ $productos->links() }}
+                        </div>
+                    </nav>
+
+                </main>
                 <aside class="col-md-3 mt-5 d-none"> {{-- OCULTAMOS LA BARRA LATERAL DE FILTROS --}}
                     {{-- CONTENIDO DE FILTROS ELIMINADO --}}
                 </aside>
@@ -447,93 +516,118 @@
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
-        // ====================================================================
-        // 1. LÓGICA AJAX PRINCIPAL: AGREGAR AL CARRITO (Previene duplicados)
-        // ====================================================================
+            // ====================================================================
+            // 1. LÓGICA AJAX PRINCIPAL: AGREGAR AL CARRITO (Previene duplicados)
+            // ====================================================================
 
-        $('.ajax-add-to-cart-form').on('submit', function(e) {
-            e.preventDefault(); // Evita la recarga de página
+            $('.ajax-add-to-cart-form').on('submit', function(e) {
+                e.preventDefault(); // Evita la recarga de página
 
-            const $form = $(this);
-            const url = $form.attr('action');
-            const formData = $form.serialize(); 
-            const $button = $form.find('button[type="submit"]');
-            const $h5 = $button.find('h5'); 
+                const $form = $(this);
+                const url = $form.attr('action');
+                const formData = $form.serialize();
+                const $button = $form.find('button[type="submit"]');
+                const $h5 = $button.find('h5');
 
-            // Deshabilitar el botón y mostrar estado de carga
-            $button.prop('disabled', true);
-            $h5.text('AÑADIENDO...');
+                // Deshabilitar el botón y mostrar estado de carga
+                $button.prop('disabled', true);
+                $h5.text('AÑADIENDO...');
 
-            // Ejecutar la petición AJAX
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        const newCount = response.cart_count || 0;
-                        
-                        // --- 1. ACTUALIZA EL CONTADOR DEL NÚMERO ROSA ---
-                        $('.badge.bg-primary').text(newCount); 
-                        
-                        // --- 2. INYECTA EL NUEVO HTML DE LA LISTA DE PRODUCTOS ---
-                        // El response.cart_html contiene el contenido dinámico de la vista parcial.
-                        $('#cart-offcanvas-content').html(response.cart_html);
+                // Ejecutar la petición AJAX
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            const newCount = response.cart_count || 0;
 
-                        // 3. Mostrar el offcanvas automáticamente (Usando Bootstrap JS)
-                        const offcanvasElement = document.getElementById('offcanvasCart');
-                        if (offcanvasElement) {
-                            // Usar getOrCreateInstance para compatibilidad
-                            const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
-                            offcanvas.show();
+                            // --- 1. ACTUALIZA EL CONTADOR DEL NÚMERO ROSA ---
+                            $('.badge.bg-primary').text(newCount);
+
+                            // --- 2. INYECTA EL NUEVO HTML DE LA LISTA DE PRODUCTOS ---
+                            $('#cart-offcanvas-content').html(response.cart_html);
+
+                            // 3. Mostrar el offcanvas automáticamente (Usando Bootstrap JS)
+                            const offcanvasElement = document.getElementById('offcanvasCart');
+                            if (offcanvasElement) {
+                                const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    offcanvasElement);
+                                offcanvas.show();
+                            }
+
+                            // 4. Reversión del feedback
+                            $h5.text('¡AÑADIDO!');
+                            setTimeout(function() {
+                                $h5.text('ADD TO CART');
+                                $button.prop('disabled', false);
+                            }, 1500);
+
+                        } else {
+                            // Manejar errores de validación/lógica del servidor
+                            console.error('Error al añadir producto:', response.message);
+                            $h5.text('ERROR');
+                            setTimeout(function() {
+                                $h5.text('ADD TO CART');
+                                $button.prop('disabled', false);
+                            }, 1500);
                         }
-                        
-                        // 4. Reversión del feedback
-                        $h5.text('¡AÑADIDO!');
-                        setTimeout(function() {
-                            $h5.text('ADD TO CART');
-                            $button.prop('disabled', false);
-                        }, 1500);
-
-                    } else {
-                        // Manejar errores de validación/lógica del servidor
-                        console.error('Error al añadir producto:', response.message);
-                        $h5.text('ERROR');
+                    },
+                    error: function(xhr) {
+                        // Manejar errores de conexión
+                        console.error("AJAX Error:", xhr.responseText);
+                        $h5.text('FALLÓ');
                         setTimeout(function() {
                             $h5.text('ADD TO CART');
                             $button.prop('disabled', false);
                         }, 1500);
                     }
-                },
-                error: function(xhr) {
-                    // Manejar errores de conexión
-                    console.error("AJAX Error:", xhr.responseText);
-                    $h5.text('FALLÓ');
-                    setTimeout(function() {
-                        $h5.text('ADD TO CART');
-                        $button.prop('disabled', false);
-                    }, 1500);
+                });
+            });
+
+
+            // ====================================================================
+            // 2. LÓGICA DE ORDENAMIENTO (SELECTOR)
+            // ====================================================================
+
+            $('#sort-selector').on('change', function() {
+                var selectedUrl = $(this).val();
+                if (selectedUrl) {
+                    window.location.href = selectedUrl; // Redirige con el parámetro 'sort'
                 }
             });
+
+
+            // ====================================================================
+            // 3. LÓGICA DE SELECCIÓN DE TALLA Y HABILITACIÓN DEL BOTÓN
+            // ====================================================================
+
+            $('.size-selector').on('change', function() {
+                const productId = $(this).data('product-id');
+                const selectedSize = $(this).val();
+                const $sizeField = $('#selected_size_' + productId);
+                const $addButton = $('#add-btn-' + productId);
+
+                if (selectedSize) {
+                    // 1. Asigna el valor de la talla seleccionada al input oculto 'size'
+                    $sizeField.val(selectedSize);
+
+                    // 2. Habilita el botón de añadir al carrito
+                    $addButton.prop('disabled', false);
+                } else {
+                    // Si no se selecciona ninguna talla
+                    $sizeField.val('');
+                    $addButton.prop('disabled', true);
+                }
+            });
+
+
         });
-
-
-        // ====================================================================
-        // 2. LÓGICA DE ORDENAMIENTO (SELECTOR)
-        // ====================================================================
-
-        $('#sort-selector').on('change', function() {
-            var selectedUrl = $(this).val();
-            if (selectedUrl) {
-                window.location.href = selectedUrl; // Redirige con el parámetro 'sort'
-            }
-        });
-    });
-</script>
+    </script>
 
 </body>
 

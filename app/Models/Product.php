@@ -11,6 +11,7 @@ class Product extends Model
 
     /**
      * The attributes that are mass assignable.
+     * * ✅ CRÍTICO: Se han añadido todas las columnas de stock y color.
      *
      * @var array<int, string>
      */
@@ -18,8 +19,28 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock',
+        'stock',       // Stock total
+        'stock_S',     // Stock por talla S
+        'stock_M',     // Stock por talla M
+        'stock_L',     // Stock por talla L
+        'stock_XL',    // Stock por talla XL
+        'color',       // Columna de color
         'image',
         'estado',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     * * ✅ CRÍTICO: Asegura que el stock se maneje como número entero.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer', 
+        'stock_S' => 'integer', 
+        'stock_M' => 'integer',
+        'stock_L' => 'integer',
+        'stock_XL' => 'integer',
     ];
 }
