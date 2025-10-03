@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>PUPPETS</title>
+    <title>PUPPETS - Cart</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -100,72 +101,7 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
-        aria-labelledby="My Cart">
-        <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-circle pt-2">3</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Grey Hoodie</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$12</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Dog Food</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Soft Toy</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold">Total (USD)</span>
-                        <strong>$20</strong>
-                    </li>
-                </ul>
 
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
-        aria-labelledby="Search">
-        <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-
-            <div class="order-md-last">
-                <h4 class="text-primary text-uppercase mb-3">
-                    Search
-                </h4>
-                <div class="search-bar border rounded-2 border-dark-subtle">
-                    <form id="search-form" class="text-center d-flex align-items-center" action=""
-                        method="">
-                        <input type="text" class="form-control border-0 bg-transparent"
-                            placeholder="Search Here" />
-                        <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <header>
         <div class="container py-2">
@@ -181,7 +117,7 @@
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    
+
                 </div>
 
                 <div
@@ -194,9 +130,6 @@
                         <span class="fs-6 secondary-font text-muted">Email</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -215,21 +148,7 @@
                                 <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ url('wishlist') }}" class="mx-3">
-                                <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                    03
-                                </span>
-                            </a>
-                        </li>
+                        {{-- ELIMINADO: Elemento Wishlist en móvil --}}
 
                         <li>
                             <a href="#" class="mx-3" data-bs-toggle="offcanvas"
@@ -256,7 +175,6 @@
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                           
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
@@ -264,7 +182,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ url('/shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
@@ -272,45 +190,24 @@
                             <li class="nav-item">
                                 <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
-
-
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
                                 <li>
-                                    <a href="{{ url('//account') }}" class="mx-3">
+                                    <a href="{{ url('/account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="{{ url('/wishlist') }}" class="mx-3">
-                                        <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
+                                {{-- ELIMINADO: Elemento Wishlist en escritorio --}}
 
-                                <li class="">
-                                    <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                        <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                        <span
-                                            class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                            03
-                                        </span>
-                                    </a>
-                                </li>
+
                             </ul>
 
                         </div>
-
                     </div>
-
                 </div>
-
             </nav>
-
-
-
         </div>
     </header>
 
@@ -319,8 +216,8 @@
             <div class="hero-content py-5 my-3">
                 <h2 class="display-1 mt-3 mb-0">Cart</h2>
                 <nav class="breadcrumb">
-                    <a class="breadcrumb-item nav-link" href="#">Home</a>
-                    <a class="breadcrumb-item nav-link" href="#">Pages</a>
+                    <a class="breadcrumb-item nav-link" href="{{ url('/') }}">Home</a>
+                    <a class="breadcrumb-item nav-link" href="{{ route('user.articulos') }}">Shop</a>
                     <span class="breadcrumb-item active" aria-current="page">Cart</span>
                 </nav>
             </div>
@@ -335,187 +232,114 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="card-title text-uppercase">Product</th>
+                                <th scope="col" class="card-title text-uppercase">Price</th>
                                 <th scope="col" class="card-title text-uppercase">Quantity</th>
                                 <th scope="col" class="card-title text-uppercase">Subtotal</th>
                                 <th scope="col" class="card-title text-uppercase"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item1.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
+                            @php $total_general = 0; @endphp
+
+                            {{-- BUCLE DINÁMICO SOBRE LOS PRODUCTOS EN EL CARRITO --}}
+                            @forelse ($cart as $item_key => $item)
+                                @php
+                                    $subtotal = $item['price'] * $item['quantity'];
+                                    $total_general += $subtotal;
+                                    // Stock máximo simulado (reemplazar 99 con el stock real si es posible)
+                                    $max_stock = 99;
+                                @endphp
+
+                                <tr data-item-key="{{ $item_key }}">
+                                    <td scope="row" class="py-4">
+                                        <div class="cart-info d-flex flex-wrap align-items-center ">
+                                            <div class="col-lg-3">
+                                                <div class="card-image">
+                                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
+                                                        class="img-fluid">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="card-detail ps-3">
+                                                    <h5 class="card-title">
+                                                        {{-- Enlace del producto (Verificación segura) --}}
+                                                        <a href="{{ isset($item['id']) ? route('user.single-product', $item['id']) : '#' }}"
+                                                            class="text-decoration-none">{{ $item['name'] }}</a>
+                                                    </h5>
+                                                    {{-- Verificación segura de la Talla --}}
+                                                    @if (isset($item['size']) && $item['size'] != 'N/A')
+                                                        <small class="text-muted d-block">Size:
+                                                            {{ $item['size'] }}</small>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Grey Hoodie</a>
-                                                </h5>
+                                    </td>
+
+                                    <td class="py-4 align-middle">
+                                        <span
+                                            class="secondary-font fw-medium total-unit-price">${{ number_format($item['price'], 2) }}</span>
+                                    </td>
+
+                                    <td class="py-4 align-middle">
+                                        {{-- CONTADOR DE CANTIDAD DINÁMICO ARREGLADO (DISEÑO: - 1 +) --}}
+                                        <form action="{{ route('cart.update') }}" method="POST"
+                                            class="update-form d-inline-flex" id="update-{{ $item_key }}">
+                                            @csrf
+                                            <input type="hidden" name="item_key" value="{{ $item_key }}">
+
+                                            {{-- CAMBIO CLAVE AQUÍ: Asegurar la estructura para tu diseño apilado/separado --}}
+                                            <div class="input-group product-qty align-items-center w-50">
+
+                                                
+                                                {{-- 1. CAMPO DE TEXTO DE CANTIDAD (CENTRO) --}}
+                                                <input type="text" id="qty-{{ $item_key }}" name="quantity"
+                                                    class="form-control input-number text-center p-2 mx-0"
+                                                    value="{{ $item['quantity'] }}" min="1"
+                                                    data-max-stock="{{ $max_stock }}">
+
+                                                
                                             </div>
+                                        </form>
+                                    </td>
+
+                                    <td class="py-4 align-middle">
+                                        {{-- SUBTOTAL DE LA FILA --}}
+                                        <div class="total-price">
+                                            <span
+                                                class="secondary-font fw-medium total-item-price-{{ $item_key }}">${{ number_format($subtotal, 2) }}</span>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
+                                    </td>
+
+                                    {{-- En cart.blade.php, dentro del @forelse --}}
+                                    <td class="py-4 align-middle">
+                                        <div class="cart-remove">
+                                            {{-- ¡USAMOS urlencode() PARA PASAR LA CLAVE CORRECTAMENTE! --}}
+                                            <a href="{{ route('cart.remove', ['item_key' => urlencode($item_key)]) }}"
+                                                class="remove-item-link">
+                                                <svg width="24" height="24">
+                                                    <use xlink:href="#trash"></use>
                                                 </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$150.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item9.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
-                                            </div>
+                                            </a>
                                         </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Dog Food</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$90.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="py-4">
-                                    <div class="cart-info d-flex flex-wrap align-items-center ">
-                                        <div class="col-lg-3">
-                                            <div class="card-image">
-                                                <img src="{{ asset('user-template/images/item5.jpg') }}"
-                                                    alt="cloth" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <div class="card-detail ps-3">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="text-decoration-none">Cat Home</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="input-group product-qty align-items-center w-50">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-light btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number text-center p-2 mx-1" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-light btn-number" data-type="plus"
-                                                data-field="">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="total-price">
-                                        <span class="secondary-font fw-medium">$260.00</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 align-middle">
-                                    <div class="cart-remove">
-                                        <a href="#">
-                                            <svg width="24" height="24">
-                                                <use xlink:href="#trash"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <p class="fs-4 text-muted">¡Tu carrito está vacío! 🐶</p>
+                                        <a href="{{ route('user.articulos') }}"
+                                            class="btn btn-primary p-3 rounded-1">Ir a la Tienda</a>
+                                    </td>
+                                </tr>
+                            @endforelse
+                            {{-- FIN DEL BUCLE DINÁMICO --}}
 
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Resumen del Carrito --}}
                 <div class="col-md-4">
                     <div class="cart-totals">
                         <h2 class="pb-4">Cart Total</h2>
@@ -525,9 +349,10 @@
                                     <tr class="subtotal pt-2 pb-2 border-top border-bottom">
                                         <th>Subtotal</th>
                                         <td data-title="Subtotal">
-                                            <span class="price-amount amount text-dark ps-5">
+                                            <span class="price-amount amount text-dark ps-5" id="cart-subtotal">
                                                 <bdi>
-                                                    <span class="price-currency-symbol">$</span>1,500.00
+                                                    <span
+                                                        class="price-currency-symbol">$</span>{{ number_format($total_general, 2) }}
                                                 </bdi>
                                             </span>
                                         </td>
@@ -535,9 +360,10 @@
                                     <tr class="order-total pt-2 pb-2 border-bottom">
                                         <th>Total</th>
                                         <td data-title="Total">
-                                            <span class="price-amount amount text-dark ps-5">
+                                            <span class="price-amount amount text-dark ps-5" id="cart-total">
                                                 <bdi>
-                                                    <span class="price-currency-symbol">$</span>1,500.00</bdi>
+                                                    <span
+                                                        class="price-currency-symbol">$</span>{{ number_format($total_general, 2) }}</bdi>
                                             </span>
                                         </td>
                                     </tr>
@@ -545,14 +371,15 @@
                             </table>
                         </div>
                         <div class="button-wrap row g-2">
-                            <div class="col-md-6"><button class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Update
-                                    Cart</button>
-                            </div>
-                            <div class="col-md-6"><button
-                                    class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Continue To
-                                    Shop</button></div>
-                            <div class="col-md-12"><a href="{{ url('checkout') }}"
-                                    class="btn btn-primary p-3 text-uppercase rounded-1 w-100">Proceed to checkout</a>
+                            {{-- Estos botones ya no son necesarios porque AJAX actualiza automáticamente --}}
+                            <div class="col-md-6"><button class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100"
+                                    disabled>Update Cart</button></div>
+                            <div class="col-md-6"><a href="{{ route('user.articulos') }}"
+                                    class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Continue To Shop</a></div>
+                            <div class="col-md-12">
+                                <a href="{{ url('checkout') }}"
+                                    class="btn btn-primary p-3 text-uppercase rounded-1 w-100 {{ empty($cart) ? 'disabled' : '' }}">Proceed
+                                    to checkout</a>
                             </div>
                         </div>
                     </div>
@@ -563,195 +390,20 @@
 
     <section id="register"
         style="background: url('{{ asset('user-template/images/background-img.png') }}') no-repeat;">
-        <div class="container ">
-            <div class="row my-5 py-5">
-                <div class="offset-md-3 col-md-6 my-5 ">
-                    <h2 class="display-3 fw-normal text-center">Get 20% Off on <span class="text-primary">first
-                            Purchase</span>
-                    </h2>
-                    <form>
-                        <div class="mb-3">
-                            <input type="email" class="form-control form-control-lg" name="email" id="email"
-                                placeholder="Enter Your Email Address">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control form-control-lg" name="email"
-                                id="password1" placeholder="Create Password">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control form-control-lg" name="email"
-                                id="password2" placeholder="Repeat Password">
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-dark btn-lg rounded-1">Register it now</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {{-- Contenido de la Sección Register --}}
     </section>
 
     <section id="service">
-        <div class="container pt-5 mt-5">
-            <div class="row g-md-5 pt-4">
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:shopping-cart"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Free Delivery</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:user-check"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">100% secure payment</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:tag"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Daily Offer</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 my-3">
-                    <div class="card">
-                        <div>
-                            <iconify-icon class="service-icon text-primary" icon="la:award"></iconify-icon>
-                        </div>
-                        <h3 class="card-title py-2 m-0">Quality guarantee</h3>
-                        <div class="card-text">
-                            <p class="blog-paragraph fs-6">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {{-- Contenido de la Sección Service --}}
     </section>
 
 
-
     <footer id="footer" class="my-5">
-        <div class="container py-5 my-5">
-            <div class="row">
-
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo">
-                        <p class="blog-paragraph fs-6 mt-3">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
-                        <div class="social-links">
-                            <ul class="d-flex list-unstyled gap-2">
-                                <li class="social">
-                                    <a href="#">
-                                        <iconify-icon class="social-icon" icon="ri:facebook-fill"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li class="social">
-                                    <a href="#">
-                                        <iconify-icon class="social-icon" icon="ri:twitter-fill"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li class="social">
-                                    <a href="#">
-                                        <iconify-icon class="social-icon" icon="ri:pinterest-fill"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li class="social">
-                                    <a href="#">
-                                        <iconify-icon class="social-icon" icon="ri:instagram-fill"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li class="social">
-                                    <a href="#">
-                                        <iconify-icon class="social-icon" icon="ri:youtube-fill"></iconify-icon>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Quick Links</h3>
-                        <ul class="menu-list list-unstyled">
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">About us</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Offer </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Services</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Conatct Us</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Help Center</h5>
-                            <ul class="menu-list list-unstyled">
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">FAQs</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Payment</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Returns & Refunds</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Checkout</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Delivery Information</a>
-                                </li>
-                            </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div>
-                        <h3>Our Newsletter</h3>
-                        <p class="blog-paragraph fs-6">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
-                        <div class="search-bar border rounded-pill border-dark-subtle px-2">
-                            <form class="text-center d-flex align-items-center" action="" method="">
-                                <input type="text" class="form-control border-0 bg-transparent"
-                                    placeholder="Enter your email here" />
-                                <iconify-icon class="send-icon" icon="tabler:location-filled"></iconify-icon>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {{-- Contenido del Footer --}}
     </footer>
 
 
-    {{-- Scripts locales adaptados con el helper asset() --}}
+    {{-- Scripts --}}
     <script src="{{ asset('user-template/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -760,6 +412,164 @@
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+
+    {{-- LÓGICA JAVASCRIPT ACTUALIZADA PARA SWEETALERT2 Y EL CONTADOR AJAX --}}
+    <script>
+        $(document).ready(function() {
+            // FUNCIÓN AUXILIAR PARA DAR FORMATO DE MONEDA
+            function formatCurrency(amount) {
+                return '$' + parseFloat(amount).toFixed(2);
+            }
+
+            // FUNCIÓN AJAX PRINCIPAL PARA ENVIAR ACTUALIZACIÓN
+            function updateCartViaAjax($input) {
+                const $form = $input.closest('form');
+                const itemKey = $form.find('input[name="item_key"]').val();
+                // La validación en el servidor asegura que sea >= 1, forzamos aquí por precaución
+                const newQuantity = Math.max(1, parseInt($input.val()));
+                const csrfToken = $form.find('input[name="_token"]').val();
+
+                // Deshabilitar la interfaz mientras se procesa la solicitud
+                $input.prop('disabled', true);
+                $form.find('button').prop('disabled', true);
+
+                $.ajax({
+                    url: '{{ route('cart.update') }}',
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken,
+                        item_key: itemKey,
+                        quantity: newQuantity
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            // 1. Actualizar el Subtotal de la línea
+                            $(`.total-item-price-${itemKey}`).text(formatCurrency(response
+                                .item_subtotal));
+
+                            // 2. Actualizar el Total General (Subtotal y Total en el resumen)
+                            $('#cart-subtotal bdi').html(
+                                '<span class="price-currency-symbol">$</span>' + response.total);
+                            $('#cart-total bdi').html('<span class="price-currency-symbol">$</span>' +
+                                response.total);
+                        } else {
+                            // Si hay un error, lo más seguro es recargar.
+                            window.location.reload();
+                        }
+
+                        // Re-habilitar la interfaz
+                        $input.prop('disabled', false);
+                        $form.find('button').prop('disabled', false);
+                    },
+                    error: function(xhr) {
+                        console.error("Error al actualizar el carrito:", xhr.responseText);
+                        Swal.fire({
+                            title: 'Error de Actualización',
+                            text: 'Hubo un error al actualizar el carrito. Por favor, recargue la página.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        }).then(() => {
+                            $input.prop('disabled', false);
+                            $form.find('button').prop('disabled', false);
+                        });
+                    }
+                });
+            }
+
+            // MANEJADOR DE CLIC para botones PLUS/MINUS (AJAX)
+            $('.quantity-left-minus, .quantity-right-plus').on('click', function(e) {
+                e.preventDefault();
+
+                const type = $(this).data('type');
+                const targetId = $(this).data('target');
+                const $input = $(targetId);
+                let currentQty = parseInt($input.val());
+                const minVal = parseInt($input.attr('min')) || 1;
+                const maxStock = parseInt($input.data('max-stock'));
+                let newQty = currentQty;
+
+                if ($input.prop('disabled')) return;
+
+                if (type === 'minus') {
+                    if (currentQty > minVal) {
+                        newQty = currentQty - 1;
+                    }
+                } else if (type === 'plus') {
+                    if (currentQty < maxStock) {
+                        newQty = currentQty + 1;
+                    }
+                }
+
+                if (newQty !== currentQty) {
+                    $input.val(newQty);
+                    updateCartViaAjax($input);
+                }
+            });
+
+            // MANEJADOR DE CAMBIO MANUAL (al teclear la cantidad y presionar enter/cambiar foco)
+            $('.input-number').on('change', function() {
+                let $input = $(this);
+                let qty = parseInt($input.val());
+                const minVal = parseInt($input.attr('min')) || 1;
+                const maxVal = parseInt($input.data('max-stock'));
+
+                if ($input.prop('disabled')) return;
+
+                // Aplicar validaciones de mínimo y máximo
+                if (isNaN(qty) || qty < minVal) {
+                    qty = minVal;
+                } else if (qty > maxVal) {
+                    qty = maxVal;
+                }
+
+                $input.val(qty);
+                updateCartViaAjax($input);
+            });
+
+            // MANEJADOR DE ELIMINACIÓN RÁPIDA (Ícono de basurero con SweetAlert2)
+            $('.remove-item-link').on('click', function(e) {
+                e.preventDefault(); // Detenemos la acción por defecto
+                const removeUrl = $(this).attr('href');
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡El artículo será eliminado de tu carrito!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminarlo',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirma, redirigimos (el controlador manejará la eliminación y la recarga a la vista principal)
+                        window.location.href = removeUrl;
+                    }
+                });
+            });
+
+            // RESTRICCIÓN ADICIONAL: Solo permitir números y evitar el negativo en el input
+            $('.input-number').on('keydown', function(e) {
+                // Permitir: backspace(8), delete(46), tab(9), escape(27), enter(13)
+                if ($.inArray(e.keyCode, [8, 9, 27, 13, 46]) !== -1 ||
+                    // Permitir: Ctrl+A (65), Ctrl+C (67), Ctrl+X (88)
+                    (e.keyCode == 65 && e.ctrlKey === true) ||
+                    (e.keyCode == 67 && e.ctrlKey === true) ||
+                    (e.keyCode == 88 && e.ctrlKey === true) ||
+                    // Permitir: home(36), end(35), left(37), right(39)
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                    return;
+                }
+                // Bloquear el guión (-) y solo permitir números 0-9
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode >
+                        105)) {
+                    e.preventDefault();
+                }
+            });
+
+        });
+    </script>
 </body>
 
 </html>

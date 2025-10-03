@@ -134,7 +134,9 @@
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span class="fw-bold">Total (USD)</span>
-            <strong>$20</strong>
+            <strong>$21
+              
+            </strong>
           </li>
         </ul>
 

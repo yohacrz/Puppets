@@ -11,10 +11,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\PetController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartController; 
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\Admin\CitaController as AdminCitaController;
 use App\Http\Controllers\Admin\PetController as AdminPetController;
 
@@ -46,15 +47,13 @@ Route::get('/', function () {
 
 // Esta ruta es SOLO para el formulario.
 Route::get('/formulario-tienda', function () {
-    return view('user.shop'); // Aquí sí usamos tu vista del formulario.
-})->name('user.shop');
+    return view('user.articulos'); // Aquí sí usamos tu vista del formulario.
+})->name('user.articulos');
 
 
-// Esta ruta es para que la gente VEA los productos.
-Route::get('/tienda', [ProductController::class, 'showShop'])->name('tienda.index');
 
 
-// Ruta para la página del carrito
+// Muestra el carrito
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 // Ruta para la página de la whishlist
@@ -224,6 +223,27 @@ Route::put('admin/clients/{client}/toggle', [ClientController::class, 'toggleSta
     ->name('admin.gestion.clientes.toggle_status');
 
 //---------------------------------------------------------------------------------
+
+
+
+// Ruta principal de la tienda, ahora dinámica y con el nombre 'user.articulos'
+Route::get('/shop', [ArticulosController::class, 'articulos'])->name('user.articulos'); 
+
+// Ruta para el producto individual (usa el nombre que usaste en las tarjetas estáticas)
+Route::get('/single-product/{product}', [ArticulosController::class, 'singleProduct'])->name('user.single-product');
+
+// Agrega un producto. NOTA: Asegúrate de que tu formulario en articulos y single-product apunte a esta ruta.
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add'); 
+
+// Elimina un producto. Usamos GET solo para la demo, en producción es mejor POST/DELETE
+// DESPUÉS (Agrega la restricción where para permitir todos los caracteres, incluyendo barras codificadas)
+Route::get('/cart/remove/{item_key}', [App\Http\Controllers\CartController::class, 'remove'])
+    ->name('cart.remove')
+    ->where('item_key', '.*'); // Esto permite CUALQUIER carácter en item_key, incluyendo / codificados
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+
+//---------------------------------------------------------------------------------
+
 
 //--- RUTAS PROTEGIDAS (REQUIEREN LOGIN) ---//
 

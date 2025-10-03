@@ -100,6 +100,12 @@
         </div>
     </div>
 
+    @php
+        // Importante: Asume que CartController::getCartSummary() devuelve ['count', 'total', 'items']
+        $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
+    @endphp
+    {{-- 1. OFFCANVAS DEL CARRITO --}}
+
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
         aria-labelledby="My Cart">
         <div class="offcanvas-header justify-content-center">
@@ -108,38 +114,63 @@
         <div class="offcanvas-body">
             <div class="order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-circle pt-2">3</span>
+                    <span class="text-primary">Your Cart</span>
+                    {{-- Contador de ítems dinámico --}}
+                    <span class="badge bg-primary rounded-circle pt-2">{{ $cartSummary['count'] }}</span>
                 </h4>
+
+                {{-- LISTA DINÁMICA DE PRODUCTOS (MUESTRA IMAGEN, NOMBRE, CANTIDAD Y PRECIO) --}}
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Grey Hoodie</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$12</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Dog Food</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Soft Toy</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
+                    @forelse ($cartSummary['items'] as $item)
+                        <li class="list-group-item d-flex justify-content-between lh-sm align-items-center">
+
+                            {{-- CONTENIDO DE LA FILA --}}
+                            <div class="d-flex w-100">
+                                {{-- 1. IMAGEN (Mini-Thumbnail) --}}
+                                {{-- Muestra la imagen para simular la vista completa del carrito --}}
+                                <div class="flex-shrink-0 me-3" style="width: 50px; height: 50px;">
+                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
+                                        class="img-fluid rounded-1" style="max-height: 100%;">
+                                </div>
+
+                                {{-- 2. NOMBRE y CANTIDAD --}}
+                                <div class="flex-grow-1">
+                                    <h6 class="my-0">{{ $item['name'] }}</h6>
+
+                                    {{-- Cantidad y Talla --}}
+                                    <small class="text-body-secondary">
+                                        Qty: {{ $item['quantity'] }}
+                                        @if (isset($item['size']) && $item['size'] != 'N/A')
+                                            | Size: {{ $item['size'] }}
+                                        @endif
+                                    </small>
+                                </div>
+                            </div>
+
+                            {{-- 3. PRECIO TOTAL DE LA LÍNEA --}}
+                            <span
+                                class="text-body-secondary">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                        </li>
+                    @empty
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">No items in cart.</span>
+                        </li>
+                    @endforelse
+
+                    {{-- TOTAL DEL CARRITO --}}
+                    <li class="list-group-item d-flex justify-content-between pt-3">
                         <span class="fw-bold">Total (USD)</span>
-                        <strong>$20</strong>
+                        {{-- Total dinámico del carrito --}}
+                        <strong>${{ number_format($cartSummary['total'], 2) }}</strong>
                     </li>
                 </ul>
 
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                {{-- BOTÓN DE CHECKOUT: Redirige a la vista completa del carrito (cart.blade.php) --}}
+                <a href="{{ route('cart.index') }}"
+                    class="w-100 btn btn-primary btn-lg {{ $cartSummary['count'] == 0 ? 'disabled' : '' }}"
+                    type="button">
+                    Continue to checkout
+                </a>
             </div>
         </div>
     </div>
@@ -181,7 +212,7 @@
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    
+
                 </div>
 
                 <div
@@ -282,14 +313,14 @@
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                           
+
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
@@ -1280,8 +1311,7 @@
                                             <h5 class="text-uppercase m-0">Add to Cart</h5>
                                         </a>
                                         <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled"
-                                                class="fs-5"></iconify-icon>
+                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
                                         </a>
                                     </div>
 
