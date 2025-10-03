@@ -12,77 +12,25 @@ class ShopController extends Controller
         // 1. INICIALIZAR LA CONSULTA
         $query = Product::query();
 
-        // 2. OBTENER VALORES ÚNICOS PARA EL FILTRO DEL SIDEBAR
-        // Se hace al principio para asegurar que la lista de filtros sea completa.
-        $allProducts = Product::all();
-        
-        // CORREGIDO: Usamos la columna 'categoria' de tu BD para ambas listas
-        $categorias_unicas = $allProducts->pluck('categoria')->unique()->filter()->values()->toArray();
-        $marcas_unicas = $allProducts->pluck('categoria')->unique()->filter()->values()->toArray();
-
-
-        // 3. APLICAR FILTRO DE BÚSQUEDA (Columna 'name' y 'description')
+        // 2. APLICAR FILTRO DE BÚSQUEDA (El único filtro restante)
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
+            $query->where('name', 'like', '%' . $search . '%')
                   ->orWhere('description', 'like', '%' . $search . '%');
-            });
         }
 
-        // 4. APLICAR FILTRO DE CATEGORÍA
-        if ($request->filled('category')) {
-            $category = $request->input('category');
-            $query->where('categoria', $category); // Usando la columna 'categoria'
-        }
-        
-        // 5. APLICAR FILTRO DE MARCA (Usando 'categoria' como marcador de posición)
-        if ($request->filled('brand')) {
-            $brand = $request->input('brand');
-            $query->where('categoria', $brand); 
-        }
+        // 3. OBTENER Y AGRUPAR LOS PRODUCTOS FILTRADOS POR CATEGORÍA
+        // Obtenemos todos los productos (sin paginación aquí, para agrupar por categoría)
+        $productos_filtrados = $query->get();
 
-        // 6. APLICAR FILTRO DE PRECIO (RANGO)
-        if ($request->filled('min_price') && $request->filled('max_price')) {
-            $min = $request->input('min_price');
-            $max = $request->input('max_price');
-            $query->whereBetween('price', [(float)$min, (float)$max]);
-        }
+        // Agrupamos la colección por la columna 'categoria' de tu BD.
+        // Esto genera una colección donde la clave es el nombre de la categoría.
+        $productos_agrupados = $productos_filtrados->groupBy('categoria');
         
-        // 7. APLICAR ORDENAMIENTO
-        if ($request->filled('sort')) {
-            $sort = $request->input('sort');
-            
-            switch ($sort) {
-                case 'name_asc':
-                    $query->orderBy('name', 'asc');
-                    break;
-                case 'name_desc':
-                    $query->orderBy('name', 'desc');
-                    break;
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'rating_asc':
-                case 'rating_desc':
-                    $query->orderBy('price', $sort === 'rating_desc' ? 'desc' : 'asc'); 
-                    break;
-                case 'latest':
-                default:
-                    $query->latest();
-                    break;
-            }
-        } else {
-            $query->latest();
-        }
+        // El buscador lo mantendremos como una variable separada si se usa para el input
+        $searchQuery = $request->input('search', '');
 
-        // 8. PAGINACIÓN Y EJECUCIÓN
-        $productos = $query->paginate(12)->withQueryString(); 
-        
-        // 9. RETURN FINAL: DEBE ENVIAR TODAS LAS VARIABLES
-        return view('user.articulos', compact('productos', 'categorias_unicas', 'marcas_unicas'));
+        // 4. Devolver la vista. Solo enviamos los productos agrupados y la query de búsqueda.
+        return view('user.articulos', compact('productos_agrupados', 'searchQuery'));
     }
 }

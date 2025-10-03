@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product; // Asegúrate de que este namespace es correcto
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth; // Ya debe estar ahí
+use Illuminate\Support\Facades\DB;   // Ya debe estar ahí
+use Carbon\Carbon;                   // Ya debe estar ahí
+use App\Models\Pago;
 
 class CartController extends Controller
 {
@@ -98,7 +102,7 @@ class CartController extends Controller
     // Aseguramos que la cantidad sea al menos 1 para no dejar en 0
     $request->validate([
         'item_key' => 'required|string',
-        'quantity' => 'required|integer|min:1', // MODIFICADO: Mínimo 1 para evitar 0 o negativos.
+        'quantity' => 'required|integer|min:1',
     ]);
 
     $item_key = $request->input('item_key');
@@ -109,7 +113,6 @@ class CartController extends Controller
         $cart[$item_key]['quantity'] = $quantity;
         
         // No verificamos $quantity == 0 porque la validación con 'min:1' lo evita.
-        // Si quisieras que 0 elimine, tendrías que cambiar la validación y añadir aquí la lógica de unset().
 
         session()->put('cart', $cart);
 
@@ -119,18 +122,18 @@ class CartController extends Controller
         // Calcular el subtotal de la línea actualizado
         $itemSubtotal = $cart[$item_key]['price'] * $cart[$item_key]['quantity'];
 
-        // Devolver JSON para que JavaScript pueda actualizar los totales
+        // DEVOLVER JSON para que JavaScript pueda actualizar los totales
         return response()->json([
             'status' => 'success',
-            'total' => number_format($cartSummary['total'], 2, '.', ''), // Total general
-            'item_subtotal' => number_format($itemSubtotal, 2, '.', ''), // Subtotal de la línea
+            // CLAVE: Devolvemos números puros (FLOAT) sin formato de moneda
+            'total' => $cartSummary['total'], 
+            'item_subtotal' => $itemSubtotal, 
             'item_key' => $item_key
         ]);
     }
 
-    // Devolvemos 200 con status: 'removed' si el ítem ya no existe, 
-    // lo cual puede ocurrir si se eliminó en otra pestaña/sesión.
-    return response()->json(['status' => 'removed', 'message' => 'Producto no encontrado.'], 200);
+    // Devolvemos 404 si el ítem ya no existe para que JS lo maneje.
+    return response()->json(['status' => 'removed', 'message' => 'Producto no encontrado.'], 404);
 }
     
     /**
@@ -153,5 +156,71 @@ class CartController extends Controller
             'items' => $cart,
         ];
     }
+
+
+
+
+
+    public function checkout(Request $request)
+{
+    $cart = session()->get('cart', []);
+    $cartSummary = self::getCartSummary();
+    $user = Auth::user();
+
+    if (empty($cart)) {
+        return redirect()->route('cart.index')->with('error', 'El carrito está vacío.');
+    }
+
+    try {
+        DB::beginTransaction();
+
+        $productos_json = json_encode($cart);
+
+        // 2. Crear el registro en la tabla 'pagos'
+        $pago = Pago::create([
+            'id_user' => $user->id,
+            'productos' => $productos_json,
+            'total' => $cartSummary['total'],
+            'fecha_hora' => Carbon::now()->format('Y-m-d H:i:s'),
+            'estado' => 1, // <--- CAMBIO CLAVE: Establecido en 1 (Pendiente)
+        ]);
+
+        // 3. Limpiar el carrito de la sesión
+        session()->forget('cart');
+
+        DB::commit();
+
+        // 4. Redirigir a la vista del ticket/confirmación, pasando el ID del pago/orden.
+        return redirect()->route('checkout.receipt', $pago->id);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        // Log the error: \Log::error("Error processing checkout: " . $e->getMessage());
+        return redirect()->route('cart.index')->with('error', 'Error al procesar el pago. Intente de nuevo.');
+    }
+}
+
+/**
+ * Muestra el ticket/comprobante de la orden.
+ */
+public function showReceipt($pago_id)
+{
+    // Cargar la orden de la base de datos
+    $pago = Pago::findOrFail($pago_id);
+
+    // Asegurar que el usuario solo vea sus propios pagos (si está logueado)
+    if (Auth::check() && Auth::id() !== $pago->id_user) {
+        abort(403);
+    }
+    
+    // Deserializar la lista de productos para la vista
+    $items = json_decode($pago->productos, true);
+    
+    // Asumimos que $pago contiene la relación al usuario (si no, cargar el usuario manualmente)
+    $comprador = $pago->user; // Asumiendo que Pago tiene una relación 'user'
+
+    return view('user.checkout', compact('pago', 'items', 'comprador'));
+//---------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------
+}

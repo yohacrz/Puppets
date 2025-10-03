@@ -1,29 +1,47 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin; // <-- ¡ESTE ES TU NAMESPACE!
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Pet; // Asumiendo que tienes un modelo Pet
+use App\Models\Pet; 
+use Illuminate\Http\Request; 
+use App\Exports\PetsExport; 
+use Maatwebsite\Excel\Facades\Excel; 
 
 class PetController extends Controller
 {
-    // Método para listar todas las mascotas
-    public function index()
+    /**
+     * Muestra la tabla con todas las mascotas registradas y aplica el filtro.
+     */
+    public function index(Request $request) 
     {
-        // Cargamos la relación 'user' (el dueño) para mostrar el username en la vista
-        $pets = Pet::with('user')->get(); 
-        
-        // La vista será 'admin.gestion.mascotas.index'
-        return view('admin.gestion.mascotas.index', compact('pets'));
+        $query = Pet::with('user')->orderBy('created_at', 'desc');
+
+        $especie = $request->get('especie');
+        if (!empty($especie)) {
+            $query->where('especie', 'like', '%' . trim($especie) . '%');
+        }
+
+        $mascotas = $query->get();
+
+        return view('admin.gestion.mascotas.index', compact('mascotas'));
     }
-    
-    // ... puedes añadir otros métodos CRUD (show, edit, update, destroy) aquí
-    // Los dejamos vacíos por simplicidad para evitar errores de Class Not Found
-    public function show($id) { return redirect()->route('admin.gestion.mascotas.index'); }
-    public function create() { return view('admin.gestion.mascotas.create'); }
-    public function store(Request $request) { /* lógica de guardado */ }
-    public function edit(Pet $pet) { return view('admin.gestion.mascotas.edit', compact('pet')); }
-    public function update(Request $request, $id) { /* lógica de actualización */ }
-    public function destroy($id) { return redirect()->back(); }
+
+    /**
+     * Exporta las mascotas a un archivo Excel.
+     */
+    public function exportExcel(Request $request) // <-- ¡DEBE EXISTIR!
+    {
+        $especie = $request->get('especie'); 
+
+        return Excel::download(new PetsExport($especie), 'mascotas_registradas.xlsx');
+    }
+
+    /* El resto de métodos... */
+    public function create() { return redirect()->route('admin.gestion.mascotas.index'); }
+    public function store() { /* Lógica futura aquí */ }
+    public function show(Pet $pet) { return redirect()->route('admin.gestion.mascotas.index'); }
+    public function edit(Pet $pet) { /* Lógica futura aquí */ }
+    public function update(Pet $pet) { /* Lógica futura aquí */ }
+    public function destroy(Pet $pet) { /* Lógica futura aquí */ }
 }

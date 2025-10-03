@@ -11,11 +11,14 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\PetController;
+
 use App\Http\Controllers\CartController; 
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\ArticulosController;
+use App\Http\Controllers\Admin\PagoController; 
+
 use App\Http\Controllers\Admin\CitaController as AdminCitaController;
 use App\Http\Controllers\Admin\PetController as AdminPetController;
 
@@ -134,18 +137,25 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::get('/profile', function () {
-        $user = Auth::user();
-        $mascotas = Pet::where('user_id', $user->id)->get();
-        
-        // Obtenemos solo las citas futuras del usuario, ordenadas por la más próxima
-        $citas = Cita::where('user_id', $user->id)
-                     ->where('fecha', '>=', now())
-                     ->orderBy('fecha', 'asc')
-                     ->orderBy('hora', 'asc')
-                     ->get();
+    $user = Auth::user();
+    $mascotas = Pet::where('user_id', $user->id)->get();
+    
+    // Obtenemos solo las citas futuras del usuario, ordenadas por la más próxima
+    $citas = Cita::where('user_id', $user->id)
+                  ->where('fecha', '>=', now())
+                  ->orderBy('fecha', 'asc')
+                  ->orderBy('hora', 'asc')
+                  ->get();
 
-        return view('user.profile', compact('user', 'mascotas', 'citas'));
-    })->name('profile');
+    // 1. OBTENER EL HISTORIAL DE PAGOS DEL USUARIO
+    // Cargamos los pagos del usuario, ordenados del más reciente al más antiguo.
+    $pagos = \App\Models\Pago::where('id_user', $user->id)
+                             ->orderBy('fecha_hora', 'desc')
+                             ->get();
+
+    // 2. INCLUIR '$pagos' en el compact para pasarlos a la vista
+    return view('user.profile', compact('user', 'mascotas', 'citas', 'pagos'));
+})->name('profile');
 
     // Mascotas
     Route::get('/addPet', function () {
@@ -207,6 +217,29 @@ Route::get('admin/citas/export/excel', [AdminCitaController::class, 'exportExcel
 Route::get('admin/products/export/excel', [ProductController::class, 'exportExcel'])
     ->name('admin.gestion.productos.export.excel');
 
+
+    // ✅ CORREGIDO: Asegúrate de usar el nombre de clase correcto (ClientController)
+Route::get('clientes/exportar-excel', [ClientController::class, 'exportExcel'])->name('admin.gestion.clientes.export.excel');
+
+// Y también tu ruta de índice
+Route::get('clientes', [ClientController::class, 'index'])->name('admin.gestion.clientes.index');
+
+
+// Ruta para el índice con filtro
+Route::get('pagos', [PagoController::class, 'index'])->name('admin.gestion.pagos.index');
+
+// Ruta para la exportación a Excel
+Route::get('pagos/exportar-excel', [PagoController::class, 'exportExcel'])->name('admin.gestion.pagos.export.excel');
+
+
+// Si estás usando Route::resource, necesitas la ruta extra para la exportación
+Route::get('admin/mascotas/exportar-excel', [AdminPetController::class, 'exportExcel'])->name('admin.gestion.mascotas.export.excel');
+//                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+
+// Y si usas Route::resource, asegúrate que se llama así:
+Route::resource('admin/mascotas', AdminPetController::class)->names('admin.gestion.mascotas');
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^
+
 //------------------------------------------------------------------------------
 Route::resource('admin/clients', ClientController::class)->names('admin.gestion.clientes');
 Route::resource('admin/citas', AdminCitaController::class)->names('admin.gestion.citas');
@@ -242,8 +275,26 @@ Route::get('/cart/remove/{item_key}', [App\Http\Controllers\CartController::clas
     ->where('item_key', '.*'); // Esto permite CUALQUIER carácter en item_key, incluyendo / codificados
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
-//---------------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------------
+// Ruta POST para procesar el checkout (asumo que requiere autenticación)
+Route::post('/checkout', [CartController::class, 'checkout'])
+    ->name('checkout.process')
+    ->middleware('auth'); // Recomendado para compras
+
+// Ruta GET para mostrar el ticket después de la compra
+Route::get('/checkout/{pago_id}/receipt', [CartController::class, 'showReceipt'])
+    ->name('checkout.receipt');
+
+ //---------------------------------------------------------------------------------
+
+ // En la sección de RUTAS ADMIN, añade la ruta resource:
+Route::put('admin/pagos/{pago}/toggle', [PagoController::class, 'toggleEstado'])
+    ->name('admin.gestion.pagos.toggle_estado');
+
+Route::resource('admin/pagos', PagoController::class)->names('admin.gestion.pagos');
+
+Route::resource('admin/mascotas', AdminPetController::class)->names('admin.gestion.mascotas');
 
 //--- RUTAS PROTEGIDAS (REQUIEREN LOGIN) ---//
 

@@ -72,9 +72,8 @@
         <div class="boxed">
             <div id="content-container">
                 <div id="page-content">
-                    
-                    {{-- ESTA ES LA LÍNEA MÁS IMPORTANTE --}}
-                    {{-- Aquí se insertará el contenido de cada página individual --}}
+
+                    {{-- CONTENIDO DE LA VISTA ESPECÍFICA --}}
                     @yield('content')
 
                 </div>
@@ -118,6 +117,22 @@
                                         </a>
                                     </li>
 
+                                    {{-- 4. NUEVO: GESTIÓN DE PAGOS (Órdenes) --}}
+                                    <li>
+                                        <a href="{{ route('admin.gestion.pagos.index') }}">
+                                            <i class="fas fa-credit-card"></i>
+                                            <span class="menu-title">Órdenes/Pagos</span>
+                                        </a>
+                                    </li>
+
+                                    {{-- 5. NUEVO: GESTIÓN DE MASCOTAS --}}
+                                    <li>
+                                        <a href="{{ route('admin.gestion.mascotas.index') }}">
+                                            <i class="fas fa-paw"></i>
+                                            <span class="menu-title">Mascotas (Pets)</span>
+                                        </a>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -139,10 +154,14 @@
         </button>
     </div>
 
+    {{-- SCRIPTS DE LA PLANTILLA BASE --}}
     <script src="{{ asset('admin-template/js/jquery.min.js') }}"></script>
     <script src="{{ asset('admin-template/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('admin-template/js/nifty.min.js') }}"></script>
     <script src="{{ asset('admin-template/plugins/pace/pace.min.js') }}"></script>
+
+    {{-- 💡 ARREGLO CLAVE: AQUÍ SE INSERTARÁ EL CÓDIGO DE CHART.JS DE LAS VISTAS --}}
+    @yield('scripts') 
 
 </body>
 

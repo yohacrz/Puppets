@@ -37,14 +37,12 @@
             border-radius: 5px;
             transition: all 0.2s;
             display: block;
-            /* Para asegurar que el estilo se aplique bien */
         }
 
         /* Color Rosa para Disponible (Clase 'active' o sin 'disabled') */
         .size-selector:not(.disabled) {
             background-color: #f7e0e8;
             border-color: #ff69b4;
-            /* Color rosa fuerte como borde */
             color: #ff69b4;
             font-weight: bold;
         }
@@ -64,7 +62,6 @@
 <body>
 
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        {{-- MANTENER TODOS LOS SÍMBOLOS SVG AQUÍ --}}
         <defs>
             <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
                 <path fill="currentColor"
@@ -133,16 +130,27 @@
         </div>
     </div>
 
-    {{-- Contenido del Offcanvas de Carrito (Mantener) --}}
+    @php
+    // Obtenemos el resumen del carrito, crucial para inicializar el contador y el contenido.
+    $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
+    @endphp
+
+    {{-- 1. OFFCANVAS DEL CARRITO (DEFINICIÓN GLOBAL ÚNICA) --}}
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
         aria-labelledby="My Cart">
-        {{-- ... (Contenido estático del Carrito) ... --}}
-    </div>
+        <div class="offcanvas-header justify-content-center">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
-    {{-- Contenido del Offcanvas de Búsqueda (Mantener) --}}
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
-        aria-labelledby="Search">
-        {{-- ... (Contenido estático de Búsqueda) ... --}}
+            {{-- CONTENEDOR DE INYECCIÓN DE AJAX --}}
+            <div id="cart-offcanvas-content">
+
+                {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usa la vista parcial que creaste) --}}
+                @include('partials.offcanvas_cart_content', ['cartSummary' => $cartSummary])
+
+            </div>
+        </div>
     </div>
 
     {{-- Header (Mantener) --}}
@@ -173,9 +181,6 @@
                         <span class="fs-6 secondary-font text-muted">Email</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -185,37 +190,7 @@
         </div>
 
         <div class="container">
-            <nav class="main-menu d-flex navbar navbar-expand-lg ">
-
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-                        <li>
-                            <a href="{{ url('account') }}" class="mx-3">
-                                <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        {{-- ELIMINADO: Elemento Wishlist en móvil --}}
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                    03
-                                </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -224,14 +199,12 @@
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
-
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
@@ -250,12 +223,22 @@
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
+
+                                @guest
                                 <li>
                                     <a href="{{ url('/account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
-                                {{-- ELIMINADO: Elemento Wishlist en escritorio --}}
+                                @endguest
+
+                                @auth
+                                <li>
+                                    <a href="{{ route('profile') }}" class="mx-3">
+                                        <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
+                                    </a>
+                                </li>
+                                @endauth
 
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
@@ -263,26 +246,32 @@
                                         <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                         <span
                                             class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                            03
+                                            {{ $cartSummary['count'] }}
                                         </span>
                                     </a>
                                 </li>
+
+                                @auth
+                                <li>
+                                    <a href="{{ route('logout') }}" class="mx-3"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                                @endauth
+
                             </ul>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </nav>
-
-
-
         </div>
     </header>
 
-    {{-- Banner (Dinamizado para mostrar el nombre del producto) --}}
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
             <div class="hero-content py-5 my-3">
@@ -296,7 +285,6 @@
         </div>
     </section>
 
-
     <section id="selling-product">
         <div class="container my-md-5 py-5">
             <div class="row g-md-5">
@@ -305,26 +293,10 @@
                         <div class="col-md-12">
                             <div class="swiper product-large-slider">
                                 <div class="swiper-wrapper">
-                                    {{-- IMAGEN PRINCIPAL DINÁMICA --}}
                                     <div class="swiper-slide">
                                         <img src="{{ asset($product->image) }}" class="img-fluid"
                                             alt="{{ $product->name }}" />
                                     </div>
-                                    {{-- Aquí irían más imágenes, si las hubiera --}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            {{-- THUMBNAILS (Mantener si son estáticos, sino, dinamizar aquí con más imágenes del producto) --}}
-                            <div thumbsSlider="" class="swiper product-thumbnail-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('user-template/images/item8.jpg') }}" class="img-fluid" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('user-template/images/item4.jpg') }}" class="img-fluid" />
-                                    </div>
-                                    {{-- ... otros thumbnails ... --}}
                                 </div>
                             </div>
                         </div>
@@ -336,7 +308,6 @@
                         <div class="element-header">
                             <h2 itemprop="name" class="display-6">{{ $product->name }}</h2>
                             <div class="rating-container d-flex gap-0 align-items-center">
-                                {{-- RATING ESTÁTICO --}}
                                 <span class="rating secondary-font">
                                     <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
                                     <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
@@ -350,42 +321,37 @@
                         <div class="product-price pt-3 pb-3">
                             <strong
                                 class="text-primary display-6 fw-bold">${{ number_format($product->price, 2) }}</strong>
-                            {{-- <del class="ms-2">$240.00</del> --}}
                         </div>
 
-                        {{-- DESCRIPCIÓN --}}
                         <p>{{ $product->description }}</p>
 
                         <div class="cart-wrap">
+
                             {{-- LÓGICA PARA STOCK POR TALLA --}}
                             @php
-                                $tallas = ['S', 'M', 'L', 'XL'];
-                                $has_stock_general = $product->stock > 0;
-                                // Mapeamos las tallas a sus columnas de stock
-                                $stocks = [
-                                    'S' => $product->stock_S ?? 0,
-                                    'M' => $product->stock_M ?? 0,
-                                    'L' => $product->stock_L ?? 0,
-                                    'XL' => $product->stock_XL ?? 0,
-                                ];
-                                // Calculamos el stock máximo para el input de cantidad
-                                $max_stock = max($stocks);
+                            $tallas = ['S', 'M', 'L', 'XL'];
+                            $has_stock_general = $product->stock > 0;
+                            $stocks = [
+                            'S' => $product->stock_S ?? 0,
+                            'M' => $product->stock_M ?? 0,
+                            'L' => $product->stock_L ?? 0,
+                            'XL' => $product->stock_XL ?? 0,
+                            ];
+                            $max_stock = max($stocks);
                             @endphp
 
                             {{-- APARTADO DE COLOR DINÁMICO --}}
-                            {{-- SOLO SE MUESTRA SI LA COLUMNA 'color' TIENE UN VALOR REGISTRADO --}}
                             @if (!empty($product->color))
-                                <div class="color-options product-select">
-                                    <div class="color-toggle pt-2" data-option-index="0">
-                                        <h6 class="item-title fw-bold">Color:</h6>
-                                        <ul class="select-list list-unstyled d-flex">
-                                            {{-- Muestra el valor de la columna 'color' --}}
-                                            <li class="select-item pe-3" title="{{ $product->color }}">
-                                                <span class="btn btn-light active">{{ $product->color }}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <div class="color-options product-select">
+                                <div class="color-toggle pt-2" data-option-index="0">
+                                    <h6 class="item-title fw-bold">Color:</h6>
+                                    <ul class="select-list list-unstyled d-flex">
+                                        <li class="select-item pe-3" title="{{ $product->color }}">
+                                            <span class="btn btn-light active">{{ $product->color }}</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                            </div>
                             @endif
 
                             {{-- APARTADO DE TALLAS DINÁMICO --}}
@@ -393,89 +359,56 @@
                                 <h6 class="item-title fw-bold">Size:</h6>
                                 <ul class="select-list list-unstyled d-flex">
                                     @foreach ($tallas as $talla)
-                                        @php
-                                            $stock_disponible = $stocks[$talla];
-                                            $is_disabled = $stock_disponible <= 0;
-                                            $class_state = $is_disabled ? 'disabled' : 'active';
+                                    @php
+                                    $stock_disponible = $stocks[$talla];
+                                    $is_disabled = $stock_disponible <= 0;
+                                        $class_state=$is_disabled ? 'disabled' : 'active' ;
                                         @endphp
                                         <li data-value="{{ $talla }}" class="select-item pe-3">
-                                            <a href="#" class="size-selector {{ $class_state }}"
-                                                data-stock="{{ $stock_disponible }}"
-                                                data-talla="{{ $talla }}">
-                                                {{ $talla }}
-                                            </a>
+                                        <a href="#" class="size-selector {{ $class_state }}"
+                                            data-stock="{{ $stock_disponible }}"
+                                            data-talla="{{ $talla }}">
+                                            {{ $talla }}
+                                        </a>
                                         </li>
-                                    @endforeach
+                                        @endforeach
                                 </ul>
                             </div>
 
-                            {{-- INPUT DE CANTIDAD Y STOCK DISPONIBLE --}}
-                            <div class="product-quantity pt-2">
-                                <div class="stock-number text-dark">
-                                    {{-- Muestra el stock MÁXIMO disponible de todas las tallas inicialmente --}}
-                                    <em id="current-stock-display">{{ $max_stock }} in stock</em>
-                                </div>
+                            
 
-                                <div class="stock-button-wrap">
-                                    {{-- FORMULARIO DE CARRITO DINÁMICO --}}
-                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                                        @csrf
-                                        <div class="input-group product-qty align-items-center w-25">
-                                            <span class="input-group-btn">
-                                                <button type="button"
-                                                    class="quantity-left-minus btn btn-light btn-number"
-                                                    data-type="minus">
-                                                    <svg width="16" height="16">
-                                                        <use xlink:href="#minus"></use>
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                            {{-- Se desactiva si el stock general es 0 --}}
-                                            <input type="text" id="quantity" name="quantity"
-                                                class="form-control input-number text-center p-2 mx-1" value="1"
-                                                min="1" max="{{ $max_stock }}"
-                                                {{ !$has_stock_general ? 'disabled' : '' }}>
-                                            <span class="input-group-btn">
-                                                <button type="button"
-                                                    class="quantity-right-plus btn btn-light btn-number"
-                                                    data-type="plus" data-field=""
-                                                    {{ !$has_stock_general ? 'disabled' : '' }}>
-                                                    <svg width="16" height="16">
-                                                        <use xlink:href="#plus"></use>
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </div>
+                            {{-- FORMULARIO Y BOTONES (ESTRUCTURA CORREGIDA PARA AJAX) --}}
+                            <div class="stock-button-wrap mt-4">
 
-                                        <div class="d-flex flex-wrap pt-4">
-                                            {{-- Botón Add to Cart --}}
-                                            <button type="submit" class="btn-cart me-3 px-4 pt-3 pb-3"
-                                                {{ !$has_stock_general ? 'disabled' : '' }}>
-                                                <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                            </button>
-                                            {{-- ELIMINADO: Botón Wishlist --}}
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                {{-- La clase "ajax-add-to-cart-form" es crucial para que JavaScript lo encuentre --}}
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="ajax-add-to-cart-form">
+                                    @csrf
 
-                            <div class="meta-product pt-4">
-                                <div class="meta-item d-flex align-items-baseline">
+                                    <input type="hidden" name="size" id="selected-size-input" value="">
+
                                     
-                                    <ul class="select-list list-unstyled d-flex">
-                                        <li data-value="S" class="select-item">{{ $product->id }}</li>
-                                    </ul>
-                                </div>
-                                <div class="meta-item d-flex align-items-baseline">
-                                    <h6 class="item-title fw-bold no-margin pe-2">Category:</h6>
-                                    <ul class="select-list list-unstyled d-flex">
-                                        {{-- Usamos la columna 'categoria' de tu BD --}}
-                                        <li class="select-item">
-                                            <a href="#">{{ $product->categoria ?? 'N/A' }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                {{-- ... Tags ... --}}
+                                    <div class="d-flex flex-wrap pt-4 align-items-center gap-3">
+                                        <a href="{{ route('user.articulos') }}" class="btn btn-light me-3 px-4 pt-3 pb-3 border rounded-1">
+                                            <h5 class="text-uppercase m-0">Go Back</h5>
+                                        </a>
+
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                    
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="meta-product pt-4">
+                            <div class="meta-item d-flex align-items-baseline">
+                            </div>
+                            <div class="meta-item d-flex align-items-baseline">
+                                <h6 class="item-title fw-bold no-margin pe-2">Category:</h6>
+                                <ul class="select-list list-unstyled d-flex">
+                                    <li class="select-item">
+                                        <a href="#">{{ $product->categoria ?? 'N/A' }}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -484,124 +417,64 @@
         </div>
     </section>
 
-    <section class="product-info-tabs py-md-5">
-        {{-- TABLA DE DESCRIPCIÓN --}}
-        <div class="container">
-            <div class="row">
-                <div class="d-flex flex-column flex-md-row align-items-start gap-5">
-                    <div class="nav flex-row flex-wrap flex-md-column nav-pills me-3 col-lg-3" id="v-pills-tab"
-                        role="tablist" aria-orientation="vertical">
-                        <button class="nav-link fs-5 mb-2 text-start active" id="v-pills-description-tab"
-                            data-bs-toggle="pill" data-bs-target="#v-pills-description" type="button"
-                            role="tab" aria-controls="v-pills-description"
-                            aria-selected="true">Description</button>
-                        <button class="nav-link fs-5 mb-2 text-start" id="v-pills-additional-tab"
-                            data-bs-toggle="pill" data-bs-target="#v-pills-additional" type="button" role="tab"
-                            aria-controls="v-pills-additional" aria-selected="false" tabindex="-1">Additional
-                            Information</button>
-                        <button class="nav-link fs-5 mb-2 text-start" id="v-pills-reviews-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-reviews" type="button" role="tab"
-                            aria-controls="v-pills-reviews" aria-selected="false" tabindex="-1">Customer
-                            Reviews</button>
-                    </div>
-                    <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade active show" id="v-pills-description" role="tabpanel"
-                            aria-labelledby="v-pills-description-tab" tabindex="0">
-                            <h2>Product Description</h2>
-                            {{-- DESCRIPCIÓN LARGA --}}
-                            <p>{{ $product->description }}</p>
-                            {{-- ... (Contenido estático/ejemplo) ... --}}
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-additional" role="tabpanel"
-                            aria-labelledby="v-pills-additional-tab" tabindex="0">
-                            <h2>How to Use the Product</h2>
-                            {{-- ... (Contenido estático/ejemplo) ... --}}
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-reviews" role="tabpanel"
-                            aria-labelledby="v-pills-reviews-tab" tabindex="0">
-                            {{-- ... (Contenido estático/ejemplo de reviews) ... --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ... (Secciones estáticas: Register, Service, Footer) ... --}}
-
-    {{-- SCRIPTS --}}
     <script src="{{ asset('user-template/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-    </script>
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
-    {{-- LÓGICA JAVASCRIPT PARA ACTUALIZAR STOCK AL SELECCIONAR TALLA --}}
     <script>
-        $(document).ready(function() {
-            // Manejador de evento para la selección de talla
-            $('.size-selector').on('click', function(e) {
-                e.preventDefault();
+    $(document).ready(function() {
+        
+        // ... (Aquí puede ir tu código para seleccionar tallas y cantidad) ...
 
-                var $this = $(this);
-                var stock = parseInt($this.data('stock'));
-                var talla = $this.data('talla');
+        // ASEGÚRATE DE QUE ESTE BLOQUE EXACTO EXISTA Y NO ESTÉ COMENTADO
+        $('.ajax-add-to-cart-form').on('submit', function(e) {
+            e.preventDefault(); 
 
-                // 1. Alternar la clase 'active' para visualización
-                $('.size-selector').removeClass('active');
-                $this.addClass('active');
+            const $form = $(this);
+            const url = $form.attr('action');
+            const formData = $form.serialize(); 
+            const $button = $form.find('button[type="submit"]');
+            const $h5 = $button.find('h5'); 
 
-                // 2. Actualizar el indicador de stock
-                $('#current-stock-display').text(stock + ' in stock');
+            $button.prop('disabled', true);
+            $h5.text('AÑADIENDO...');
 
-                // 3. Actualizar el input de cantidad (máximo y estado)
-                var $qtyInput = $('#quantity');
-                var $qtyPlusBtn = $('.quantity-right-plus');
-                var $addToCartBtn = $('.btn-cart');
-
-                $qtyInput.attr('max', stock);
-
-                if (stock > 0) {
-                    // Habilitar
-                    $qtyInput.prop('disabled', false).val(1);
-                    $qtyPlusBtn.prop('disabled', false);
-                    $addToCartBtn.prop('disabled', false);
-                } else {
-                    // Deshabilitar
-                    $qtyInput.prop('disabled', true).val(0);
-                    $qtyPlusBtn.prop('disabled', true);
-                    $addToCartBtn.prop('disabled', true);
-                }
-
-                // Opcional: Podrías añadir un campo oculto aquí para enviar la talla al carrito:
-                // $('#talla_seleccionada').val(talla);
-            });
-
-            // Lógica de cantidad +/- (Asegúrate de que tus scripts.js manejen esto o implementa aquí)
-            $('.quantity-left-minus').on('click', function() {
-                var currentQty = parseInt($('#quantity').val());
-                if (currentQty > 1) {
-                    $('#quantity').val(currentQty - 1);
-                }
-            });
-
-            $('.quantity-right-plus').on('click', function() {
-                var currentQty = parseInt($('#quantity').val());
-                var maxStock = parseInt($('#quantity').attr('max'));
-
-                if (currentQty < maxStock) {
-                    $('#quantity').val(currentQty + 1);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('.badge.bg-primary').text(response.cart_count); 
+                        $('#cart-offcanvas-content').html(response.cart_html);
+                        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('offcanvasCart'));
+                        offcanvas.show();
+                        
+                        $h5.text('¡AÑADIDO!');
+                        setTimeout(function() {
+                            $h5.text('ADD TO CART');
+                            $button.prop('disabled', false);
+                        }, 1500);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("AJAX Error:", xhr.responseText);
+                    $h5.text('FALLÓ');
+                    setTimeout(function() {
+                        $h5.text('ADD TO CART');
+                        $button.prop('disabled', false);
+                    }, 1500);
                 }
             });
-
-            // Simular la selección inicial de la primera talla disponible (si existe)
-            // Se selecciona la primera talla que NO esté deshabilitada.
-            $('.size-selector:not(.disabled)').first().trigger('click');
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>

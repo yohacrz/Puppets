@@ -31,7 +31,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: none;
             border-radius: 15px;
-            /* Bordes más redondeados */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             background-color: #ffffff;
         }
@@ -53,7 +52,6 @@
         .pet-card-title {
             font-family: 'Chilanka', cursive;
             color: var(--bs-primary);
-            /* Usa el color primario de Bootstrap */
             font-size: 1.8rem;
         }
     </style>
@@ -131,49 +129,30 @@
         </div>
     </div>
 
+    @php
+        // Obtenemos el resumen del carrito, crucial para inicializar el contador y el contenido.
+        $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
+    @endphp
+
+    {{-- 1. OFFCANVAS DEL CARRITO (DEFINICIÓN GLOBAL ÚNICA) --}}
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
         aria-labelledby="My Cart">
         <div class="offcanvas-header justify-content-center">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-circle pt-2">3</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Grey Hoodie</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$12</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Dog Food</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Soft Toy</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold">Total (USD)</span>
-                        <strong>$20</strong>
-                    </li>
-                </ul>
+            
+            {{-- CONTENEDOR DE INYECCIÓN DE AJAX --}}
+            <div id="cart-offcanvas-content">
+                
+                {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usa la vista parcial que creaste) --}}
+                @include('partials.offcanvas_cart_content', ['cartSummary' => $cartSummary])
 
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
             </div>
         </div>
     </div>
+
+    {{-- 2. OFFCANVAS DE BÚSQUEDA (DEFINICIÓN GLOBAL ÚNICA) --}}
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
         aria-labelledby="Search">
@@ -212,7 +191,7 @@
                 </div>
 
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    
+
                 </div>
 
                 <div
@@ -225,6 +204,9 @@
                         <span class="fs-6 secondary-font text-muted">Email</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
+
+
+
                 </div>
             </div>
         </div>
@@ -234,41 +216,8 @@
         </div>
 
         <div class="container">
-            <nav class="main-menu d-flex navbar navbar-expand-lg ">
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
 
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-                        <li>
-                            <a href="{{ url('account') }}" class="mx-3">
-                                <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('wishlist') }}" class="mx-3">
-                                <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                    03
-                                </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -277,49 +226,64 @@
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
-
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                           
+
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link">Home</a>
-                            </li>
-                                
-                            <li class="nav-item">
-                                <a href="{{ url('shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
-                                <li>
-                                    <a href="{{ url('wishlist') }}" class="mx-3">
-                                        <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
 
+                                @guest
+                                    {{-- Icono de cuenta para visitantes --}}
+                                    <li>
+                                        {{-- CORREGIDO: Apunta a la ruta '/account' --}}
+                                        <a href="{{ url('/account') }}" class="mx-3">
+                                            <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
+                                        </a>
+                                    </li>
+                                @endguest
+
+                                @auth
+                                    {{-- Icono de cuenta para usuarios logueados (VISTA ESCRITORIO) --}}
+                                    <li>
+                                        <a href="{{ route('profile') }}" class="mx-3">
+                                            <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
+                                        </a>
+                                    </li>
+                                @endauth
+
+                                {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
+                                
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                         <span
                                             class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                            03
+                                            {{ $cartSummary['count'] }} {{-- Contador Dinámico Escritorio --}}
                                         </span>
                                     </a>
                                 </li>
+
                                 @auth
                                     {{-- Icono de logout solo para usuarios logueados --}}
                                     <li>
@@ -333,16 +297,12 @@
                                         </form>
                                     </li>
                                 @endauth
+
                             </ul>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </nav>
-
 
 
         </div>
@@ -380,6 +340,13 @@
                                 type="button" role="tab" aria-controls="nav-mascotas" aria-selected="false">
                                 My Pets
                             </button>
+
+                            <button class="nav-link mx-3 fs-3 border-bottom border-dark-subtle border-0 text-uppercase"
+                                id="nav-compras-tab" data-bs-toggle="tab" data-bs-target="#nav-compras"
+                                type="button" role="tab" aria-controls="nav-compras" aria-selected="false">
+                                My Purchases
+                            </button>
+
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -392,9 +359,11 @@
                                     <div class="card-body">
                                         <h4 class="card-title mb-4">Your Account Information</h4>
                                         <p><iconify-icon icon="mdi:user-circle" class="fs-4"></iconify-icon>
-                                            <strong>Username:</strong> {{ $user->username }}</p>
+                                            <strong>Username:</strong> {{ $user->username }}
+                                        </p>
                                         <p><iconify-icon icon="mdi:email" class="fs-4"></iconify-icon>
-                                            <strong>Email:</strong> {{ $user->email }}</p>
+                                            <strong>Email:</strong> {{ $user->email }}
+                                        </p>
                                         <p><iconify-icon icon="mdi:calendar-check" class="fs-4"></iconify-icon>
                                             <strong>Member since:</strong> {{ $user->created_at->format('d/m/Y') }}
                                         </p>
@@ -402,36 +371,36 @@
                                 </div>
 
                                 <div class="mt-5">
-                                    <h3 class="text-center">Upcoming Appointments  </h3>
+                                    <h3 class="text-center">Upcoming Appointments </h3>
 
                                     @if ($citas->isEmpty())
-                                        <div class="alert alert-light mt-3 text-center">
-                                            You have no scheduled appointments.
-                                        </div>
+                                    <div class="alert alert-light mt-3 text-center">
+                                        You have no scheduled appointments.
+                                    </div>
                                     @else
-                                        @foreach ($citas as $cita)
-                                            <div class="card info-card text-center mb-4">
-                                                <div class="card-header bg-primary text-white">
-                                                    <h5 class="mb-0">UPCOMING APPOINTMENT</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    {{-- Gracias a las relaciones, podemos hacer esto: --}}
-                                                    <h4 class="card-title pet-card-title">{{ $cita->pet->nombre }}
-                                                    </h4>
-                                                    <p class="mb-1">
-                                                        <iconify-icon icon="mdi:calendar"></iconify-icon>
-                                                        <strong>Date:</strong>
-                                                        {{ \Carbon\Carbon::parse($cita->fecha)->format('d/m/Y') }}
-                                                    </p>
-                                                    <p class="mb-0">
-                                                        <iconify-icon
-                                                            icon="mdi:clock-time-four-outline"></iconify-icon>
-                                                        <strong>Hour:</strong>
-                                                        {{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                    @foreach ($citas as $cita)
+                                    <div class="card info-card text-center mb-4">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="mb-0">UPCOMING APPOINTMENT</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            {{-- Gracias a las relaciones, podemos hacer esto: --}}
+                                            <h4 class="card-title pet-card-title">{{ $cita->pet->nombre }}
+                                            </h4>
+                                            <p class="mb-1">
+                                                <iconify-icon icon="mdi:calendar"></iconify-icon>
+                                                <strong>Date:</strong>
+                                                {{ \Carbon\Carbon::parse($cita->fecha)->format('d/m/Y') }}
+                                            </p>
+                                            <p class="mb-0">
+                                                <iconify-icon
+                                                    icon="mdi:clock-time-four-outline"></iconify-icon>
+                                                <strong>Hour:</strong>
+                                                {{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                     @endif
                                 </div>
 
@@ -443,56 +412,59 @@
                             <div class="col-lg-10 offset-lg-1 mt-5">
                                 <h3 class="text-center">Your Furry Friends 🐾</h3>
                                 @if ($mascotas->isEmpty())
-                                    <div class="alert alert-info mt-4 text-center" role="alert">
-                                        You haven't registered any pets yet. Feel free to add your first one!   
-                                    </div>
+                                <div class="alert alert-info mt-4 text-center" role="alert">
+                                    You haven't registered any pets yet. Feel free to add your first one!
+                                </div>
                                 @else
-                                    <div class="row mt-4">
-                                        @foreach ($mascotas as $mascota)
-                                            <div class="col-md-6">
-                                                <div class="card info-card text-center mb-4" style="cursor: pointer;"
-                                                    data-bs-toggle="modal" data-bs-target="#petGreetingModal"
-                                                    data-pet-name="{{ $mascota->nombre }}"
-                                                    data-pet-species="{{ $mascota->especie }}"
-                                                    data-pet-id="{{ $mascota->id }}">
-                                                    <div class="card-body">
-                                                        @if (strtolower($mascota->especie) == 'gato')
-                                                            <iconify-icon icon="ph:cat-fill"
-                                                                class="display-3 text-secondary mb-2"></iconify-icon>
-                                                        @else
-                                                            <iconify-icon icon="ph:dog-fill"
-                                                                class="display-3 text-secondary mb-2"></iconify-icon>
-                                                        @endif
+                                <div class="row mt-4">
+                                    @foreach ($mascotas as $mascota)
+                                    <div class="col-md-6">
+                                        <div class="card info-card text-center mb-4" style="cursor: pointer;"
+                                            data-bs-toggle="modal" data-bs-target="#petGreetingModal"
+                                            data-pet-name="{{ $mascota->nombre }}"
+                                            data-pet-species="{{ $mascota->especie }}"
+                                            data-pet-id="{{ $mascota->id }}">
+                                            <div class="card-body">
+                                                @if (strtolower($mascota->especie) == 'gato')
+                                                <iconify-icon icon="ph:cat-fill"
+                                                    class="display-3 text-secondary mb-2"></iconify-icon>
+                                                @else
+                                                <iconify-icon icon="ph:dog-fill"
+                                                    class="display-3 text-secondary mb-2"></iconify-icon>
+                                                @endif
 
-                                                        <h4 class="card-title pet-card-title">{{ $mascota->nombre }}
-                                                        </h4>
-                                                        <p class="mb-1"><iconify-icon icon="mdi:paw"></iconify-icon>
-                                                            <strong>Species:</strong> {{ $mascota->especie }}</p>
-                                                        <p class="mb-1"><iconify-icon
-                                                                icon="mdi:tag-outline"></iconify-icon>
-                                                            <strong>Breed:</strong> {{ $mascota->raza }}</p>
-                                                        <p class="mb-1"><iconify-icon
-                                                                icon="mdi:palette"></iconify-icon>
-                                                            <strong>Color:</strong> {{ $mascota->color }}</p>
-                                                        <p class="mb-0"><iconify-icon
-                                                                icon="mdi:cake-variant"></iconify-icon>
-                                                            <strong>Birthdate:</strong>
-                                                            {{ \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}
-                                                        </p>
+                                                <h4 class="card-title pet-card-title">{{ $mascota->nombre }}
+                                                </h4>
+                                                <p class="mb-1"><iconify-icon icon="mdi:paw"></iconify-icon>
+                                                    <strong>Species:</strong> {{ $mascota->especie }}
+                                                </p>
+                                                <p class="mb-1"><iconify-icon
+                                                        icon="mdi:tag-outline"></iconify-icon>
+                                                    <strong>Breed:</strong> {{ $mascota->raza }}
+                                                </p>
+                                                <p class="mb-1"><iconify-icon
+                                                        icon="mdi:palette"></iconify-icon>
+                                                    <strong>Color:</strong> {{ $mascota->color }}
+                                                </p>
+                                                <p class="mb-0"><iconify-icon
+                                                        icon="mdi:cake-variant"></iconify-icon>
+                                                    <strong>Birthdate:</strong>
+                                                    {{ \Carbon\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}
+                                                </p>
 
-                                                        <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta mascota?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-danger mt-3">
-        <iconify-icon icon="mdi:trash-can-outline"></iconify-icon> Eliminar
-    </button>
-</form>
+                                                <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta mascota?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger mt-3">
+                                                        <iconify-icon icon="mdi:trash-can-outline"></iconify-icon> Eliminar
+                                                    </button>
+                                                </form>
 
-                                                    </div>
-                                                </div>
                                             </div>
-                                        @endforeach
+                                        </div>
                                     </div>
+                                    @endforeach
+                                </div>
                                 @endif
 
                                 <div class="d-grid mt-4">
@@ -507,6 +479,84 @@
                     </div>
                 </div>
             </div>
+
+            {{-- ================================================================= --}}
+            {{-- INICIO DEL BLOQUE CORREGIDO: HISTORIAL DE COMPRAS --}}
+            {{-- ================================================================= --}}
+            <div class="tab-pane fade" id="nav-compras" role="tabpanel"
+                aria-labelledby="nav-compras-tab">
+                <div class="col-lg-10 offset-lg-1 mt-5">
+                    <h3 class="text-center mb-4">Purchase History</h3>
+
+                    @forelse ($pagos as $pago)
+                    {{-- ESTE ES EL NUEVO BLOQUE CORREGIDO --}}
+                    @php
+                    // Paso 1: Obtenemos los productos.
+                    $items = $pago->productos;
+
+                    // Paso 2: Si es un string (texto de un registro antiguo), lo decodificamos.
+                    if (is_string($items)) {
+                    $items = json_decode($items, true);
+                    }
+
+                    // Paso 3: Si después de todo no es un array (por si hubo un error), lo forzamos a ser un array vacío.
+                    if (!is_array($items)) {
+                    $items = [];
+                    }
+
+                    // La lógica del estado permanece igual.
+                    $is_completed = $pago->estado == 0;
+                    $estado_texto = $is_completed ? 'COMPLETED' : 'PENDING VERIFICATION';
+                    @endphp
+
+                    <div class="card info-card mb-4">
+
+                        {{-- ✅ CORRECCIÓN 3: Se eliminó un div duplicado que envolvía el badge de estado. --}}
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 text-primary">Order #{{ $pago->id }}</h5>
+
+                            <span class="badge {{ $is_completed ? 'bg-success' : 'bg-warning' }} rounded-pill text-dark fw-bold text-uppercase p-2">
+                                {{ $estado_texto }}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <p class="mb-1 small text-muted"><strong>Comprador:</strong> {{ $user->name ?? 'N/A' }}</p>
+                            <p class="mb-1 small text-muted"><strong>Fecha:</strong> {{ \Carbon\Carbon::parse($pago->fecha_hora)->format('d/m/Y h:i A') }}</p>
+                            <p class="mb-3 small text-muted">
+                                <strong>Items Purchased:</strong> {{ count($items ?? []) }}
+                            </p>
+
+                            <ul class="list-group list-group-flush mb-3 small">
+                                @foreach ($items ?? [] as $item)
+                                <li class="list-group-item d-flex justify-content-between px-0">
+                                    <span>{{ $item['quantity'] }} x {{ $item['name'] }}</span>
+                                    <span>${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                </li>
+                                @endforeach
+                            </ul>
+
+                            <div class="d-flex justify-content-between mt-3 pt-2 border-top">
+                                <h5 class="mb-0">TOTAL</h5>
+                                <h5 class="text-primary mb-0">${{ number_format($pago->total, 2) }}</h5>
+                            </div>
+
+                            <div class="text-end mt-3">
+                                <a href="{{ route('checkout.receipt', $pago->id) }}" class="btn btn-sm btn-outline-primary">View Receipt</a>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="alert alert-info mt-4 text-center">
+                        You have no recorded purchase history yet.
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+            {{-- ================================================================= --}}
+            {{-- FIN DEL BLOQUE CORREGIDO --}}
+            {{-- ================================================================= --}}
+
             <div class="d-flex justify-content-center mt-5">
                 <a href="{{ route('home') }}" class="btn btn-outline-primary">Back to Home</a>
             </div>
@@ -656,28 +706,28 @@
                                 placeholder="Ej: Blanco, Negro con manchas" required>
                         </div>
 
-                        
+
 
                         <div class="form-group mb-3">
-    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-    <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-</div>
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                        </div>
 
-<script>
-    // Establece la fecha máxima como hoy
-    const hoy = new Date().toISOString().split('T')[0];
-    document.getElementById('fecha_nacimiento').setAttribute('max', hoy);
-</script>
+                        <script>
+                            // Establece la fecha máxima como hoy
+                            const hoy = new Date().toISOString().split('T')[0];
+                            document.getElementById('fecha_nacimiento').setAttribute('max', hoy);
+                        </script>
 
 
                         @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                         @endif
 
                         <div class="modal-footer">

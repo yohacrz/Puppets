@@ -26,6 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
 </head>
 
@@ -139,27 +140,8 @@
         </div>
 
         <div class="container">
-            <nav class="main-menu d-flex navbar navbar-expand-lg ">
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
 
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-                        <li>
-                            <a href="{{ url('account') }}" class="mx-3">
-                                <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        {{-- ELIMINADO: Elemento Wishlist en móvil --}}
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -168,7 +150,6 @@
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
-
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -176,11 +157,11 @@
 
                     <div class="offcanvas-body justify-content-between">
 
+
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link">Home</a>
+                                <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
-
                             <li class="nav-item">
                                 <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
@@ -194,16 +175,42 @@
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
+
+                                @guest
+                                {{-- Icono de cuenta para visitantes --}}
                                 <li>
+                                    {{-- CORREGIDO: Apunta a la ruta '/account' --}}
                                     <a href="{{ url('/account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
-                                {{-- ELIMINADO: Elemento Wishlist en escritorio --}}
+                                @endguest
 
+                                @auth
+                                {{-- Icono de cuenta para usuarios logueados (VISTA ESCRITORIO) --}}
+                                <li>
+                                    <a href="{{ route('profile') }}" class="mx-3">
+                                        <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
+                                    </a>
+                                </li>
+                                @endauth
+
+
+                                @auth
+                                {{-- Icono de logout solo para usuarios logueados --}}
+                                <li>
+                                    <a href="{{ route('logout') }}" class="mx-3"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                                @endauth
 
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -243,95 +250,95 @@
 
                             {{-- BUCLE DINÁMICO SOBRE LOS PRODUCTOS EN EL CARRITO --}}
                             @forelse ($cart as $item_key => $item)
-                                @php
-                                    $subtotal = $item['price'] * $item['quantity'];
-                                    $total_general += $subtotal;
-                                    // Stock máximo simulado (reemplazar 99 con el stock real si es posible)
-                                    $max_stock = 99;
-                                @endphp
+                            @php
+                            $subtotal = $item['price'] * $item['quantity'];
+                            $total_general += $subtotal;
+                            // Stock máximo simulado (reemplazar 99 con el stock real si es posible)
+                            $max_stock = 99;
+                            @endphp
 
-                                <tr data-item-key="{{ $item_key }}">
-                                    <td scope="row" class="py-4">
-                                        <div class="cart-info d-flex flex-wrap align-items-center ">
-                                            <div class="col-lg-3">
-                                                <div class="card-image">
-                                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
-                                                        class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <div class="card-detail ps-3">
-                                                    <h5 class="card-title">
-                                                        {{-- Enlace del producto (Verificación segura) --}}
-                                                        <a href="{{ isset($item['id']) ? route('user.single-product', $item['id']) : '#' }}"
-                                                            class="text-decoration-none">{{ $item['name'] }}</a>
-                                                    </h5>
-                                                    {{-- Verificación segura de la Talla --}}
-                                                    @if (isset($item['size']) && $item['size'] != 'N/A')
-                                                        <small class="text-muted d-block">Size:
-                                                            {{ $item['size'] }}</small>
-                                                    @endif
-                                                </div>
+                            <tr data-item-key="{{ $item_key }}">
+                                <td scope="row" class="py-4">
+                                    <div class="cart-info d-flex flex-wrap align-items-center ">
+                                        <div class="col-lg-3">
+                                            <div class="card-image">
+                                                <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
+                                                    class="img-fluid">
                                             </div>
                                         </div>
-                                    </td>
+                                        <div class="col-lg-9">
+                                            <div class="card-detail ps-3">
+                                                <h5 class="card-title">
+                                                    {{-- Enlace del producto (Verificación segura) --}}
+                                                    <a href="{{ isset($item['id']) ? route('user.single-product', $item['id']) : '#' }}"
+                                                        class="text-decoration-none">{{ $item['name'] }}</a>
+                                                </h5>
+                                                {{-- Verificación segura de la Talla --}}
+                                                @if (isset($item['size']) && $item['size'] != 'N/A')
+                                                <small class="text-muted d-block">Size:
+                                                    {{ $item['size'] }}</small>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
 
-                                    <td class="py-4 align-middle">
+                                <td class="py-4 align-middle">
+                                    <span
+                                        class="secondary-font fw-medium total-unit-price">${{ number_format($item['price'], 2) }}</span>
+                                </td>
+
+                                <td class="py-4 align-middle">
+                                    {{-- CONTADOR DE CANTIDAD DINÁMICO ARREGLADO (DISEÑO: - 1 +) --}}
+                                    <form action="{{ route('cart.update') }}" method="POST"
+                                        class="update-form d-inline-flex" id="update-{{ $item_key }}">
+                                        @csrf
+                                        <input type="hidden" name="item_key" value="{{ $item_key }}">
+
+                                        {{-- CAMBIO CLAVE AQUÍ: Asegurar la estructura para tu diseño apilado/separado --}}
+                                        <div class="input-group product-qty align-items-center w-50">
+
+
+                                            {{-- 1. CAMPO DE TEXTO DE CANTIDAD (CENTRO) --}}
+                                            <input type="text" id="qty-{{ $item_key }}" name="quantity"
+                                                class="form-control input-number text-center p-2 mx-0"
+                                                value="{{ $item['quantity'] }}" min="1"
+                                                data-max-stock="{{ $max_stock }}">
+
+
+                                        </div>
+                                    </form>
+                                </td>
+
+                                <td class="py-4 align-middle">
+                                    {{-- SUBTOTAL DE LA FILA --}}
+                                    <div class="total-price">
                                         <span
-                                            class="secondary-font fw-medium total-unit-price">${{ number_format($item['price'], 2) }}</span>
-                                    </td>
+                                            class="secondary-font fw-medium total-item-price-{{ $item_key }}">${{ number_format($subtotal, 2) }}</span>
+                                    </div>
+                                </td>
 
-                                    <td class="py-4 align-middle">
-                                        {{-- CONTADOR DE CANTIDAD DINÁMICO ARREGLADO (DISEÑO: - 1 +) --}}
-                                        <form action="{{ route('cart.update') }}" method="POST"
-                                            class="update-form d-inline-flex" id="update-{{ $item_key }}">
-                                            @csrf
-                                            <input type="hidden" name="item_key" value="{{ $item_key }}">
-
-                                            {{-- CAMBIO CLAVE AQUÍ: Asegurar la estructura para tu diseño apilado/separado --}}
-                                            <div class="input-group product-qty align-items-center w-50">
-
-                                                
-                                                {{-- 1. CAMPO DE TEXTO DE CANTIDAD (CENTRO) --}}
-                                                <input type="text" id="qty-{{ $item_key }}" name="quantity"
-                                                    class="form-control input-number text-center p-2 mx-0"
-                                                    value="{{ $item['quantity'] }}" min="1"
-                                                    data-max-stock="{{ $max_stock }}">
-
-                                                
-                                            </div>
-                                        </form>
-                                    </td>
-
-                                    <td class="py-4 align-middle">
-                                        {{-- SUBTOTAL DE LA FILA --}}
-                                        <div class="total-price">
-                                            <span
-                                                class="secondary-font fw-medium total-item-price-{{ $item_key }}">${{ number_format($subtotal, 2) }}</span>
-                                        </div>
-                                    </td>
-
-                                    {{-- En cart.blade.php, dentro del @forelse --}}
-                                    <td class="py-4 align-middle">
-                                        <div class="cart-remove">
-                                            {{-- ¡USAMOS urlencode() PARA PASAR LA CLAVE CORRECTAMENTE! --}}
-                                            <a href="{{ route('cart.remove', ['item_key' => urlencode($item_key)]) }}"
-                                                class="remove-item-link">
-                                                <svg width="24" height="24">
-                                                    <use xlink:href="#trash"></use>
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {{-- En cart.blade.php, dentro del @forelse --}}
+                                <td class="py-4 align-middle">
+                                    <div class="cart-remove">
+                                        {{-- ¡USAMOS urlencode() PARA PASAR LA CLAVE CORRECTAMENTE! --}}
+                                        <a href="{{ route('cart.remove', ['item_key' => urlencode($item_key)]) }}"
+                                            class="remove-item-link">
+                                            <svg width="24" height="24">
+                                                <use xlink:href="#trash"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-5">
-                                        <p class="fs-4 text-muted">¡Tu carrito está vacío! 🐶</p>
-                                        <a href="{{ route('user.articulos') }}"
-                                            class="btn btn-primary p-3 rounded-1">Ir a la Tienda</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <p class="fs-4 text-muted">¡Tu carrito está vacío! 🐶</p>
+                                    <a href="{{ route('user.articulos') }}"
+                                        class="btn btn-primary p-3 rounded-1">Ir a la Tienda</a>
+                                </td>
+                            </tr>
                             @endforelse
                             {{-- FIN DEL BUCLE DINÁMICO --}}
 
@@ -376,12 +383,22 @@
                                     disabled>Update Cart</button></div>
                             <div class="col-md-6"><a href="{{ route('user.articulos') }}"
                                     class="btn btn-dark btn-lg rounded-1 fs-6 p-3 w-100">Continue To Shop</a></div>
+                            {{-- 3. BOTÓN "PROCEED TO CHECKOUT" (Funcionalidad de Envío POST) --}}
+                            {{-- En cart.blade.php, dentro de <div class="col-md-12"> --}}
                             <div class="col-md-12">
-                                <a href="{{ url('checkout') }}"
-                                    class="btn btn-primary p-3 text-uppercase rounded-1 w-100 {{ empty($cart) ? 'disabled' : '' }}">Proceed
-                                    to checkout</a>
+                                <a href="#"
+                                    id="proceed-checkout-btn" {{-- AÑADIMOS ESTA ID --}}
+                                    class="btn btn-primary p-3 text-uppercase rounded-1 w-100 {{ empty($cart) ? 'disabled' : '' }}">
+                                    Proceed to checkout
+                                </a>
                             </div>
+
+
                         </div>
+                        <form id="checkout-form" action="{{ route('checkout.process') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -403,7 +420,6 @@
     </footer>
 
 
-    {{-- Scripts --}}
     <script src="{{ asset('user-template/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -414,9 +430,16 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
 
-    {{-- LÓGICA JAVASCRIPT ACTUALIZADA PARA SWEETALERT2 Y EL CONTADOR AJAX --}}
+    {{-- LÓGICA JAVASCRIPT FINAL (FUSIONADO Y CORREGIDO) --}}
     <script>
+        // Nota: Asume que SweetAlert2, jQuery, y Bootstrap JS están cargados correctamente ANTES.
+
         $(document).ready(function() {
+            // Variable para verificar el estado de autenticación (Laravel Blade)
+            // Esto solo se ejecutará una vez al cargar la página
+            const isAuthenticated = @json(Auth::check()); 
+            const checkoutBtn = $('#proceed-checkout-btn');
+
             // FUNCIÓN AUXILIAR PARA DAR FORMATO DE MONEDA
             function formatCurrency(amount) {
                 return '$' + parseFloat(amount).toFixed(2);
@@ -426,16 +449,14 @@
             function updateCartViaAjax($input) {
                 const $form = $input.closest('form');
                 const itemKey = $form.find('input[name="item_key"]').val();
-                // La validación en el servidor asegura que sea >= 1, forzamos aquí por precaución
                 const newQuantity = Math.max(1, parseInt($input.val()));
                 const csrfToken = $form.find('input[name="_token"]').val();
 
-                // Deshabilitar la interfaz mientras se procesa la solicitud
                 $input.prop('disabled', true);
                 $form.find('button').prop('disabled', true);
 
                 $.ajax({
-                    url: '{{ route('cart.update') }}',
+                    url: "{{ route('cart.update') }}",
                     method: 'POST',
                     data: {
                         _token: csrfToken,
@@ -444,43 +465,39 @@
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            // 1. Actualizar el Subtotal de la línea
-                            $(`.total-item-price-${itemKey}`).text(formatCurrency(response
-                                .item_subtotal));
+                            $(`.total-item-price-${itemKey}`).text(formatCurrency(response.item_subtotal));
 
-                            // 2. Actualizar el Total General (Subtotal y Total en el resumen)
-                            $('#cart-subtotal bdi').html(
-                                '<span class="price-currency-symbol">$</span>' + response.total);
-                            $('#cart-total bdi').html('<span class="price-currency-symbol">$</span>' +
-                                response.total);
+                            const formattedTotal = formatCurrency(response.total);
+                            $('#cart-subtotal').find('bdi').html('<span class="price-currency-symbol">$</span>' + formattedTotal.substring(1));
+                            $('#cart-total').find('bdi').html('<span class="price-currency-symbol">$</span>' + formattedTotal.substring(1));
+
+                            const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500, timerProgressBar: true });
+                            Toast.fire({ icon: 'success', title: 'Cantidad actualizada' });
+
                         } else {
-                            // Si hay un error, lo más seguro es recargar.
                             window.location.reload();
                         }
 
-                        // Re-habilitar la interfaz
                         $input.prop('disabled', false);
                         $form.find('button').prop('disabled', false);
                     },
                     error: function(xhr) {
-                        console.error("Error al actualizar el carrito:", xhr.responseText);
                         Swal.fire({
-                            title: 'Error de Actualización',
-                            text: 'Hubo un error al actualizar el carrito. Por favor, recargue la página.',
+                            title: 'Error de Conexión',
+                            text: 'Hubo un error al comunicarse con el servidor.',
                             icon: 'error',
                             confirmButtonText: 'Aceptar'
-                        }).then(() => {
-                            $input.prop('disabled', false);
-                            $form.find('button').prop('disabled', false);
-                        });
+                        }).then(() => { window.location.reload(); });
                     }
                 });
             }
+            
+            // ====================================================================
+            // 2. LÓGICA DE CONTADORES (+ / - / TECLADO)
+            // ====================================================================
 
-            // MANEJADOR DE CLIC para botones PLUS/MINUS (AJAX)
             $('.quantity-left-minus, .quantity-right-plus').on('click', function(e) {
                 e.preventDefault();
-
                 const type = $(this).data('type');
                 const targetId = $(this).data('target');
                 const $input = $(targetId);
@@ -503,11 +520,10 @@
 
                 if (newQty !== currentQty) {
                     $input.val(newQty);
-                    updateCartViaAjax($input);
+                    updateCartViaAjax($input); // Enviar AJAX
                 }
             });
 
-            // MANEJADOR DE CAMBIO MANUAL (al teclear la cantidad y presionar enter/cambiar foco)
             $('.input-number').on('change', function() {
                 let $input = $(this);
                 let qty = parseInt($input.val());
@@ -516,7 +532,6 @@
 
                 if ($input.prop('disabled')) return;
 
-                // Aplicar validaciones de mínimo y máximo
                 if (isNaN(qty) || qty < minVal) {
                     qty = minVal;
                 } else if (qty > maxVal) {
@@ -524,50 +539,65 @@
                 }
 
                 $input.val(qty);
-                updateCartViaAjax($input);
+                updateCartViaAjax($input); // Enviar AJAX
             });
-
-            // MANEJADOR DE ELIMINACIÓN RÁPIDA (Ícono de basurero con SweetAlert2)
-            $('.remove-item-link').on('click', function(e) {
-                e.preventDefault(); // Detenemos la acción por defecto
-                const removeUrl = $(this).attr('href');
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "¡El artículo será eliminado de tu carrito!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, eliminarlo',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Si el usuario confirma, redirigimos (el controlador manejará la eliminación y la recarga a la vista principal)
-                        window.location.href = removeUrl;
-                    }
-                });
-            });
-
-            // RESTRICCIÓN ADICIONAL: Solo permitir números y evitar el negativo en el input
+            
+            // RESTRICCIÓN ADICIONAL: Solo permitir números en el input
             $('.input-number').on('keydown', function(e) {
-                // Permitir: backspace(8), delete(46), tab(9), escape(27), enter(13)
                 if ($.inArray(e.keyCode, [8, 9, 27, 13, 46]) !== -1 ||
-                    // Permitir: Ctrl+A (65), Ctrl+C (67), Ctrl+X (88)
                     (e.keyCode == 65 && e.ctrlKey === true) ||
-                    (e.keyCode == 67 && e.ctrlKey === true) ||
-                    (e.keyCode == 88 && e.ctrlKey === true) ||
-                    // Permitir: home(36), end(35), left(37), right(39)
                     (e.keyCode >= 35 && e.keyCode <= 40)) {
                     return;
                 }
-                // Bloquear el guión (-) y solo permitir números 0-9
-                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode >
-                        105)) {
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
                     e.preventDefault();
                 }
             });
 
+            // ====================================================================
+            // 3. LÓGICA DE VALIDACIÓN DE CHECKOUT
+            // ====================================================================
+            
+            checkoutBtn.on('click', function(e) {
+                e.preventDefault();
+
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
+
+                if (!isAuthenticated) {
+                    Swal.fire({
+                        title: '¡Necesitas una cuenta!',
+                        text: "Para completar la compra, por favor inicia sesión o crea una cuenta.",
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff69b4',
+                        cancelButtonColor: '#343a40',
+                        confirmButtonText: 'Crear cuenta / Iniciar Sesión',
+                        cancelButtonText: 'Seguir Comprando'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url('account') }}";
+                        }
+                    });
+                } else {
+                    // SI ESTÁ AUTENTICADO: FORZAR ENVÍO POST DE CHECKOUT
+                    Swal.fire({
+                        title: 'Confirmar Orden',
+                        text: "Estás a punto de proceder al pago por transferencia.",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff69b4',
+                        cancelButtonColor: '#343a40',
+                        confirmButtonText: 'Confirmar Checkout',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('checkout-form').submit();
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>

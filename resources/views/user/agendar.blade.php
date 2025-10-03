@@ -49,17 +49,22 @@
     <header>
         <div class="container py-2">
             <div class="row py-4 pb-0 pb-sm-4 align-items-center ">
+
                 <div class="col-sm-4 col-lg-3 text-center text-sm-start">
                     <div class="main-logo">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo" class="img-fluid">
+                            <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo"
+                                class="img-fluid">
                         </a>
                     </div>
                 </div>
+
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-                    
+
                 </div>
-                <div class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
+
+                <div
+                    class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block">
                         <span class="fs-6 secondary-font text-muted">Phone</span>
                         <h5 class="mb-0">+503-6000-5222</h5>
@@ -68,125 +73,101 @@
                         <span class="fs-6 secondary-font text-muted">Email</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
+
+
+
                 </div>
             </div>
         </div>
+
         <div class="container-fluid">
             <hr class="m-0">
         </div>
+
         <div class="container">
-             <nav class="main-menu d-flex navbar navbar-expand-lg">
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-                        @guest
-                        <li>
-                            <a href="{{ url('/account') }}" class="mx-3">
-                                <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        @endguest
-                        @auth
-                        <li>
-                            <a href="{{ route('profile') }}" class="mx-3">
-                                <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        @endauth
-                        <li>
-                            <a href="{{ url('wishlist') }}" class="mx-3">
-                                <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">03</span>
-                            </a>
-                        </li>
-                        @auth
-                        <li>
-                            <a href="{{ route('logout') }}" class="mx-3" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
-                                <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
-                            </a>
-                            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                        @endauth
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header justify-content-center">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
                     </div>
+
                     <div class="offcanvas-body justify-content-between">
-                           
+
+
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
                                 <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('shop') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
                         </ul>
+
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
+
                                 @guest
+                                {{-- Icono de cuenta para visitantes --}}
                                 <li>
+                                    {{-- CORREGIDO: Apunta a la ruta '/account' --}}
                                     <a href="{{ url('/account') }}" class="mx-3">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
                                 @endguest
+
                                 @auth
+                                {{-- Icono de cuenta para usuarios logueados (VISTA ESCRITORIO) --}}
                                 <li>
                                     <a href="{{ route('profile') }}" class="mx-3">
                                         <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
                                     </a>
                                 </li>
                                 @endauth
-                                <li>
-                                    <a href="{{ url('wishlist') }}" class="mx-3">
-                                        <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                        <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                        <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">03</span>
-                                    </a>
-                                </li>
+
+                                {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
+
+
+
                                 @auth
+                                {{-- Icono de logout solo para usuarios logueados --}}
                                 <li>
-                                    <a href="{{ route('logout') }}" class="mx-3" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <a href="{{ route('logout') }}" class="mx-3"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </li>
                                 @endauth
+
                             </ul>
                         </div>
                     </div>
                 </div>
             </nav>
+
+
         </div>
     </header>
+
 
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
@@ -217,7 +198,7 @@
                             <h2 itemprop="name" class="display-6">Complete the Appointment Details for <strong>{{ $pet->nombre }}</strong></h2>
                             <p>Please select a date and time for your pet's service.</p>
                         </div>
-                        
+
                         <form method="POST" action="{{ route('citas.store') }}">
                             @csrf
 
@@ -238,15 +219,15 @@
                                 <label for="mensaje" class="form-label"><strong>Message or Additional Notes</strong> (Optional)</label>
                                 <textarea class="form-control p-3" id="mensaje" name="mensaje" rows="4" maxlength="255" placeholder="E.g: My dog is a bit nervous..."></textarea>
                             </div>
-                            
+
                             @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
 
                             <div class="d-grid gap-2">
@@ -334,7 +315,7 @@
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const dateInput = document.getElementById('fecha');
@@ -346,4 +327,5 @@
     </script>
 
 </body>
+
 </html>

@@ -237,41 +237,8 @@
         </div>
 
         <div class="container">
-            <nav class="main-menu d-flex navbar navbar-expand-lg ">
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
 
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-                        <li>
-                            <a href="{{ url('account') }}" class="mx-3">
-                                <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('wishlist') }}" class="mx-3">
-                                <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                    03
-                                </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -280,26 +247,18 @@
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
-
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
-                        <select class="filter-categories border-0 mb-0 me-5">
-                            <option>Shop by Category</option>
-                            <option>Clothes</option>
-                            <option>Food</option>
-                            <option>Food</option>
-                            <option>Toy</option>
-                        </select>
+
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link">Home</a>
+                                <a href="{{ url('/') }}" class="nav-link active">Home</a>
                             </li>
-
                             <li class="nav-item">
                                 <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
                             </li>
@@ -309,41 +268,61 @@
                             <li class="nav-item">
                                 <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
                             </li>
-
-
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-end">
                             <ul class="d-flex justify-content-end list-unstyled m-0">
-                                <li>
-                                    <a href="{{ url('/account') }}" class="mx-3">
-                                        <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/wishlist') }}" class="mx-3">
-                                        <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
 
+                                @guest
+                                    {{-- Icono de cuenta para visitantes --}}
+                                    <li>
+                                        {{-- CORREGIDO: Apunta a la ruta '/account' --}}
+                                        <a href="{{ url('/account') }}" class="mx-3">
+                                            <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
+                                        </a>
+                                    </li>
+                                @endguest
+
+                                @auth
+                                    {{-- Icono de cuenta para usuarios logueados (VISTA ESCRITORIO) --}}
+                                    <li>
+                                        <a href="{{ route('profile') }}" class="mx-3">
+                                            <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
+                                        </a>
+                                    </li>
+                                @endauth
+
+                                {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
+                                
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                         <span
                                             class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                            03
+                                            {{ $cartSummary['count'] }} {{-- Contador Dinámico Escritorio --}}
                                         </span>
                                     </a>
                                 </li>
+
+                                @auth
+                                    {{-- Icono de logout solo para usuarios logueados --}}
+                                    <li>
+                                        <a href="{{ route('logout') }}" class="mx-3"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                @endauth
+
                             </ul>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </nav>
 
 

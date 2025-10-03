@@ -100,77 +100,25 @@
         </div>
     </div>
 
-    @php
-        // Importante: Asume que CartController::getCartSummary() devuelve ['count', 'total', 'items']
+   @php
+        // Obtenemos el resumen del carrito, crucial para inicializar el contador y el contenido.
         $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
     @endphp
-    {{-- 1. OFFCANVAS DEL CARRITO --}}
 
+    {{-- 1. OFFCANVAS DEL CARRITO (DEFINICIÓN GLOBAL ÚNICA) --}}
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
         aria-labelledby="My Cart">
         <div class="offcanvas-header justify-content-center">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your Cart</span>
-                    {{-- Contador de ítems dinámico --}}
-                    <span class="badge bg-primary rounded-circle pt-2">{{ $cartSummary['count'] }}</span>
-                </h4>
+            
+            {{-- CONTENEDOR DE INYECCIÓN DE AJAX --}}
+            <div id="cart-offcanvas-content">
+                
+                {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usa la vista parcial que creaste) --}}
+                @include('partials.offcanvas_cart_content', ['cartSummary' => $cartSummary])
 
-                {{-- LISTA DINÁMICA DE PRODUCTOS (MUESTRA IMAGEN, NOMBRE, CANTIDAD Y PRECIO) --}}
-                <ul class="list-group mb-3">
-                    @forelse ($cartSummary['items'] as $item)
-                        <li class="list-group-item d-flex justify-content-between lh-sm align-items-center">
-
-                            {{-- CONTENIDO DE LA FILA --}}
-                            <div class="d-flex w-100">
-                                {{-- 1. IMAGEN (Mini-Thumbnail) --}}
-                                {{-- Muestra la imagen para simular la vista completa del carrito --}}
-                                <div class="flex-shrink-0 me-3" style="width: 50px; height: 50px;">
-                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
-                                        class="img-fluid rounded-1" style="max-height: 100%;">
-                                </div>
-
-                                {{-- 2. NOMBRE y CANTIDAD --}}
-                                <div class="flex-grow-1">
-                                    <h6 class="my-0">{{ $item['name'] }}</h6>
-
-                                    {{-- Cantidad y Talla --}}
-                                    <small class="text-body-secondary">
-                                        Qty: {{ $item['quantity'] }}
-                                        @if (isset($item['size']) && $item['size'] != 'N/A')
-                                            | Size: {{ $item['size'] }}
-                                        @endif
-                                    </small>
-                                </div>
-                            </div>
-
-                            {{-- 3. PRECIO TOTAL DE LA LÍNEA --}}
-                            <span
-                                class="text-body-secondary">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
-                        </li>
-                    @empty
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="text-muted">No items in cart.</span>
-                        </li>
-                    @endforelse
-
-                    {{-- TOTAL DEL CARRITO --}}
-                    <li class="list-group-item d-flex justify-content-between pt-3">
-                        <span class="fw-bold">Total (USD)</span>
-                        {{-- Total dinámico del carrito --}}
-                        <strong>${{ number_format($cartSummary['total'], 2) }}</strong>
-                    </li>
-                </ul>
-
-                {{-- BOTÓN DE CHECKOUT: Redirige a la vista completa del carrito (cart.blade.php) --}}
-                <a href="{{ route('cart.index') }}"
-                    class="w-100 btn btn-primary btn-lg {{ $cartSummary['count'] == 0 ? 'disabled' : '' }}"
-                    type="button">
-                    Continue to checkout
-                </a>
             </div>
         </div>
     </div>
@@ -239,66 +187,6 @@
         <div class="container">
             <nav class="main-menu d-flex navbar navbar-expand-lg">
 
-                <div class="d-flex d-lg-none align-items-end mt-3">
-                    <ul class="d-flex justify-content-end list-unstyled m-0">
-
-                        @guest
-                            {{-- Icono de cuenta para visitantes --}}
-                            <li>
-                                {{-- CORREGIDO: Apunta a la ruta '/account' --}}
-                                <a href="{{ url('/account') }}" class="mx-3">
-                                    <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                                </a>
-                            </li>
-                        @endguest
-
-                        @auth
-                            {{-- Icono de cuenta para usuarios logueados (VISTA MÓVIL) --}}
-                            <li>
-                                <a href="{{ route('profile') }}" class="mx-3">
-                                    <iconify-icon icon="mdi:account-circle" class="fs-4"></iconify-icon>
-                                </a>
-                            </li>
-                        @endauth
-
-                        {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                        <li>
-                            <a href="{{ url('wishlist') }}" class="mx-3">
-                                <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
-                                <span
-                                    class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">03</span>
-                            </a>
-                        </li>
-
-                        @auth
-                            {{-- Icono de logout solo para usuarios logueados --}}
-                            <li>
-                                <a href="{{ route('logout') }}" class="mx-3"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
-                                    <iconify-icon icon="mdi:logout" class="fs-4"></iconify-icon>
-                                </a>
-                                <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST"
-                                    class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        @endauth
-
-                        {{-- Icono de búsqueda (siempre visible) --}}
-                        <li>
-                            <a href="#" class="mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-                                <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -353,17 +241,15 @@
                                 @endauth
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                                <li>
-                                    <a href="{{ url('/wishlist') }}" class="mx-3">
-                                        <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li>
+                                
+                                <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                         <span
-                                            class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">03</span>
+                                            class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
+                                            {{ $cartSummary['count'] }} {{-- Contador Dinámico Escritorio --}}
+                                        </span>
                                     </a>
                                 </li>
 
