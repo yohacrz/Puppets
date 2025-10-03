@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1: 3307
--- Tiempo de generación: 03-10-2025 a las 07:30:52
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 03-10-2025 a las 12:26:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -78,6 +78,30 @@ INSERT INTO `citas` (`id`, `user_id`, `pet_id`, `fecha`, `hora`, `mensaje`, `cre
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ganancias`
+--
+
+CREATE TABLE `ganancias` (
+  `id` int(10) NOT NULL,
+  `id_products` int(255) NOT NULL,
+  `cobro` float NOT NULL,
+  `fecha` varchar(100) NOT NULL,
+  `pago_id` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ganancias`
+--
+
+INSERT INTO `ganancias` (`id`, `id_products`, `cobro`, `fecha`, `pago_id`) VALUES
+(1, 5, 12, '2025-10-03 09:41:42', 0),
+(2, 5, 12, '2025-10-03 09:42:17', 0),
+(3, 5, 12, '2025-10-03 09:45:21', 3),
+(4, 4, 25, '2025-10-03 09:45:22', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `jobs`
 --
 
@@ -112,7 +136,32 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2025_05_28_002710_create_cache_table', 1),
 (3, '2025_05_28_002727_create_jobs_table', 1),
 (4, '2025_08_31_050454_create_users_table', 1),
-(5, '2025_09_01_051928_create_pets_table', 2);
+(5, '2025_09_01_051928_create_pets_table', 2),
+(6, '2025_08_31_062800_create_appointments_table', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `id` int(100) NOT NULL,
+  `id_user` int(100) NOT NULL,
+  `productos` varchar(1000) NOT NULL,
+  `total` float NOT NULL,
+  `fecha_hora` varchar(100) NOT NULL,
+  `estado` int(5) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id`, `id_user`, `productos`, `total`, `fecha_hora`, `estado`) VALUES
+(1, 12, '\"{\\\"6-N\\\\\\/A\\\":{\\\"id\\\":6,\\\"name\\\":\\\"Pelota para entrenar\\\",\\\"quantity\\\":\\\"1\\\",\\\"price\\\":\\\"8.00\\\",\\\"image\\\":\\\"images\\\\\\/products\\\\\\/1758421605.jpg\\\",\\\"size\\\":\\\"N\\\\\\/A\\\"}}\"', 8, '2025-10-03 07:51:15', 1),
+(2, 12, '[{\"id\":4,\"name\":\"Pechera Rosa\",\"quantity\":\"1\",\"price\":\"25.00\",\"image\":\"images\\/products\\/1758421538.jpg\",\"size\":\"N\\/A\"}]', 25, '2025-10-03 09:22:14', 0),
+(3, 12, '\"{\\\"5-N\\\\\\/A\\\":{\\\"id\\\":5,\\\"name\\\":\\\"Conjuto de toallas\\\",\\\"quantity\\\":\\\"1\\\",\\\"price\\\":\\\"12.00\\\",\\\"image\\\":\\\"images\\\\\\/products\\\\\\/1758421570.jpg\\\",\\\"size\\\":\\\"N\\\\\\/A\\\"}}\"', 12, '2025-10-03 09:23:04', 0);
 
 -- --------------------------------------------------------
 
@@ -175,8 +224,8 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `created_at`, `updated_at`, `categoria`, `name`, `description`, `price`, `color`, `stock`, `talla_S`, `talla_M`, `talla_L`, `talla_XL`, `image`, `estado`) VALUES
 (2, '2025-09-21 08:21:21', '2025-10-03 02:01:29', 'Higiene', 'Shampo 200ml', 'Shampo suave y protector para perrito de 200 ml', 12.00, '', 101, 0, 0, 0, 0, 'images/products/1758421281.jpg', 1),
 (3, '2025-09-21 08:24:58', '2025-09-21 08:24:58', 'Higiene', 'espuma seca', 'Espuma seca para el lavado e higiene de tu canino en epocas frias!!', 8.00, '', 200, 0, 0, 0, 0, 'images/products/1758421498.jpg', 1),
-(4, '2025-09-21 08:25:38', '2025-09-21 08:25:38', 'Accesorio', 'Pechera Rosa', 'Bonita pechera de color rosa talla M para perros medianos', 25.00, 'rosa', 25, 0, 0, 0, 0, 'images/products/1758421538.jpg', 1),
-(5, '2025-09-21 08:26:10', '2025-09-21 08:26:10', 'Higiene', 'Conjuto de toallas', 'Paquete de 3 colores de toallas suaves de tamano mediano', 12.00, 'multicolor', 100, 0, 0, 0, 0, 'images/products/1758421570.jpg', 1),
+(4, '2025-09-21 08:25:38', '2025-10-03 15:45:22', 'Accesorio', 'Pechera Rosa', 'Bonita pechera de color rosa talla M para perros medianos', 25.00, 'rosa', 24, 0, 0, 0, 0, 'images/products/1758421538.jpg', 1),
+(5, '2025-09-21 08:26:10', '2025-10-03 15:45:21', 'Higiene', 'Conjuto de toallas', 'Paquete de 3 colores de toallas suaves de tamano mediano', 12.00, 'multicolor', 98, 0, 0, 0, 0, 'images/products/1758421570.jpg', 1),
 (6, '2025-09-21 08:26:45', '2025-09-21 08:26:45', 'Juguete', 'Pelota para entrenar', 'Pelota de color verde para entrenar y hacer de las comidas divertidas', 8.00, 'verde', 100, 0, 0, 0, 0, 'images/products/1758421605.jpg', 1);
 
 -- --------------------------------------------------------
@@ -247,6 +296,12 @@ ALTER TABLE `citas`
   ADD KEY `citas_pet_id_foreign` (`pet_id`);
 
 --
+-- Indices de la tabla `ganancias`
+--
+ALTER TABLE `ganancias`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `jobs`
 --
 ALTER TABLE `jobs`
@@ -257,6 +312,12 @@ ALTER TABLE `jobs`
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -297,6 +358,12 @@ ALTER TABLE `citas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `ganancias`
+--
+ALTER TABLE `ganancias`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `jobs`
 --
 ALTER TABLE `jobs`
@@ -306,7 +373,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pets`
