@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>PUPPETS</title>
@@ -9,8 +9,8 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
+    <meta name="keywords" content="mascotas, perros, accesorios, blog canino">
+    <meta name="description" content="Tu tienda online favorita para todo lo relacionado con perros.">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
@@ -34,7 +34,7 @@
         <defs>
             <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
                 <path fill="currentColor"
-                    d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z" />
+                    d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V5h6v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z" />
             </symbol>
             <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right" viewBox="0 0 24 24">
                 <path fill="currentColor"
@@ -107,14 +107,14 @@
     {{-- 1. OFFCANVAS DEL CARRITO --}}
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
-        aria-labelledby="My Cart">
+        aria-labelledby="Mi Carrito">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
             <div class="order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your Cart</span>
+                    <span class="text-primary">Tu Carrito</span>
                     {{-- Contador de ítems dinámico --}}
                     <span class="badge bg-primary rounded-circle pt-2">{{ $cartSummary['count'] }}</span>
                 </h4>
@@ -139,9 +139,9 @@
 
                                     {{-- Cantidad y Talla --}}
                                     <small class="text-body-secondary">
-                                        Qty: {{ $item['quantity'] }}
+                                        Cant: {{ $item['quantity'] }}
                                         @if (isset($item['size']) && $item['size'] != 'N/A')
-                                            | Size: {{ $item['size'] }}
+                                            | Talla: {{ $item['size'] }}
                                         @endif
                                     </small>
                                 </div>
@@ -153,7 +153,7 @@
                         </li>
                     @empty
                         <li class="list-group-item d-flex justify-content-between">
-                            <span class="text-muted">No items in cart.</span>
+                            <span class="text-muted">No hay artículos en el carrito.</span>
                         </li>
                     @endforelse
 
@@ -169,28 +169,28 @@
                 <a href="{{ route('cart.index') }}"
                     class="w-100 btn btn-primary btn-lg {{ $cartSummary['count'] == 0 ? 'disabled' : '' }}"
                     type="button">
-                    Continue to checkout
+                    Ir a Pagar
                 </a>
             </div>
         </div>
     </div>
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
-        aria-labelledby="Search">
+        aria-labelledby="Buscar">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
 
             <div class="order-md-last">
                 <h4 class="text-primary text-uppercase mb-3">
-                    Search
+                    Buscar
                 </h4>
                 <div class="search-bar border rounded-2 border-dark-subtle">
                     <form id="search-form" class="text-center d-flex align-items-center" action=""
                         method="">
                         <input type="text" class="form-control border-0 bg-transparent"
-                            placeholder="Search Here" />
+                            placeholder="Busca aquí (ej. 'juguete', 'collar')" />
                         <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
                     </form>
                 </div>
@@ -218,11 +218,11 @@
                 <div
                     class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block">
-                        <span class="fs-6 secondary-font text-muted">Phone</span>
+                        <span class="fs-6 secondary-font text-muted">Teléfono de Soporte</span>
                         <h5 class="mb-0">+503-6000-5222</h5>
                     </div>
                     <div class="support-box text-end d-none d-xl-block">
-                        <span class="fs-6 secondary-font text-muted">Email</span>
+                        <span class="fs-6 secondary-font text-muted">Correo Electrónico</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
 
@@ -249,7 +249,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+                            aria-label="Cerrar"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
@@ -257,16 +257,16 @@
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link active">Home</a>
+                                <a href="{{ url('/') }}" class="nav-link active">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Tienda</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog PUPPETS</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contacto</a>
                             </li>
                         </ul>
 
@@ -293,7 +293,7 @@
                                 @endauth
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                                
+
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
@@ -333,12 +333,8 @@
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
             <div class="hero-content py-5 my-3">
-                <h2 class="display-1 mt-3 mb-0">Blog</h2>
-                <nav class="breadcrumb">
-                    <a class="breadcrumb-item nav-link" href="#">Home</a>
-                    <a class="breadcrumb-item nav-link" href="#">Pages</a>
-                    <span class="breadcrumb-item active" aria-current="page">Blog</span>
-                </nav>
+                <h2 class="display-1 mt-3 mb-0">Nuestro Blog Canino</h2>
+            
             </div>
         </div>
     </section>
@@ -353,19 +349,16 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog1.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0246.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">10 Reasons to be helpful towards any animals</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Beneficios de los Juguetes y Premios de Enriquecimiento</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Entender por qué los premios y juguetes no son solo un gusto, sino una
+                                    herramienta esencial para la salud mental y dental de su perro. ¡Invierta en su felicidad!</p>
                             </div>
 
                         </div>
@@ -378,19 +371,17 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog2.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0133.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">How to know your pet is hungry</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Señales Clave para Identificar el Hambre en su Mascota</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Descifrar si su perro pide comida por necesidad o por costumbre.
+                                    Aprenda a reconocer el lenguaje corporal para mantener una dieta balanceada y saludable.</p>
+                                
                             </div>
 
                         </div>
@@ -403,19 +394,17 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog3.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0204.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">Best home for your pets</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Creando un Santuario: El Espacio Ideal para el Descanso</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Una guía sobre cómo elegir y ubicar la cama perfecta. Un descanso de calidad
+                                    es vital para el bienestar emocional y físico después de un día de actividad.</p>
+                                
                             </div>
 
                         </div>
@@ -428,19 +417,17 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog1.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0363.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">10 Reasons to be helpful towards any animals</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Más Allá del Paseo: Introduciendo Ejercicios de Agilidad</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Descubra cómo las actividades estructuradas, como el agility,
+                                    mejoran la coordinación y fortalecen el vínculo con su mascota. ¡Diversión garantizada!</p>
+                                
                             </div>
 
                         </div>
@@ -453,19 +440,17 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog2.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0156.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">How to know your pet is hungry</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Secretos de Estilistas: El Cuidado Integral del Pelaje</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Consejos expertos de grooming para mantener un manto sano y brillante.
+                                    Desde el baño correcto hasta la elección de cepillos específicos para cada raza.</p>
+                               
                             </div>
 
                         </div>
@@ -478,40 +463,22 @@
 
                     </div>
                     <div class="card position-relative">
-                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog3.jpg') }}"
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/puppets/DSCF0209-Edit.jpg') }}"
                                 class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="{{ url('single-post') }}">
-                                <h3 class="card-title pt-4 pb-3 m-0">Best home for your pets</h3>
+                                <h3 class="card-title pt-4 pb-3 m-0">Socialización Canina Segura: Comportamiento en Espacios Públicos</h3>
                             </a>
 
                             <div class="card-text">
-                                <p class="blog-paragraph fs-6">At the core of our practice is the idea that cities are
-                                    the incubators of
-                                    our greatest
-                                    achievements, and the best hope for a sustainable future.</p>
-                                <a href="{{ url('single-post') }}" class="blog-read">read more</a>
+                                <p class="blog-paragraph fs-6">Cómo fomentar interacciones positivas en el parque y la calle.
+                                    Una buena socialización previene miedos y agresividad, asegurando el bienestar de todos.</p>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-            <nav class="navigation paging-navigation text-center mt-3" role="navigation">
-                <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
-                    <a href="#" class="pagination-arrow d-flex align-items-center mx-3">
-                        <iconify-icon icon="ic:baseline-keyboard-arrow-left"
-                            class="pagination-arrow fs-1"></iconify-icon>
-                    </a>
-                    <span aria-current="page" class="page-numbers mt-2 fs-3 mx-3 current">1</span>
-                    <a class="page-numbers mt-2 fs-3 mx-3" href="#">2</a>
-                    <a class="page-numbers mt-2 fs-3 mx-3" href="#">3</a>
-                    <a href="#" class="pagination-arrow d-flex align-items-center mx-3">
-                        <iconify-icon icon="ic:baseline-keyboard-arrow-right"
-                            class="pagination-arrow fs-1"></iconify-icon>
-                    </a>
-                </div>
-            </nav>
         </div>
     </div>
 
@@ -524,8 +491,7 @@
                 <div class="col-md-3">
                     <div class="footer-menu">
                         <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo">
-                        <p class="blog-paragraph fs-6 mt-3">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
+                        <p class="blog-paragraph fs-6 mt-3">Suscríbete a nuestro boletín para recibir ofertas y novedades de **PUPPETS**.</p>
                         <div class="social-links">
                             <ul class="d-flex list-unstyled gap-2">
                                 <li class="social">
@@ -558,64 +524,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Quick Links</h3>
-                        <ul class="menu-list list-unstyled">
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">About us</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Offer </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Services</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Conatct Us</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Help Center</h5>
-                            <ul class="menu-list list-unstyled">
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">FAQs</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Payment</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Returns & Refunds</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Checkout</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Delivery Information</a>
-                                </li>
-                            </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div>
-                        <h3>Our Newsletter</h3>
-                        <p class="blog-paragraph fs-6">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
-                        <div class="search-bar border rounded-pill border-dark-subtle px-2">
-                            <form class="text-center d-flex align-items-center" action="" method="">
-                                <input type="text" class="form-control border-0 bg-transparent"
-                                    placeholder="Enter your email here" />
-                                <iconify-icon class="send-icon" icon="tabler:location-filled"></iconify-icon>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                
+                
 
             </div>
         </div>

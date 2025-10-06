@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>PUPPETS</title>
@@ -9,8 +9,8 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
+    <meta name="keywords" content="mascotas, perros, accesorios, blog canino">
+    <meta name="description" content="Tienda PUPPETS: el mejor destino para tus mascotas.">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
@@ -100,45 +100,86 @@
         </div>
     </div>
 
-   @php
+    @php
         // Obtenemos el resumen del carrito, crucial para inicializar el contador y el contenido.
         $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
     @endphp
 
     {{-- 1. OFFCANVAS DEL CARRITO (DEFINICIÓN GLOBAL ÚNICA) --}}
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
-        aria-labelledby="My Cart">
+        aria-labelledby="Mi Carrito">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
-            
+
             {{-- CONTENEDOR DE INYECCIÓN DE AJAX --}}
             <div id="cart-offcanvas-content">
-                
-                {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usa la vista parcial que creaste) --}}
-                @include('partials.offcanvas_cart_content', ['cartSummary' => $cartSummary])
 
+                {{-- RENDERIZACIÓN INICIAL DEL CONTENIDO (Usando el contenido original del prompt) --}}
+                <div class="order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Tu Carrito</span>
+                        {{-- Contador de ítems dinámico --}}
+                        <span class="badge bg-primary rounded-circle pt-2">{{ $cartSummary['count'] }}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        @forelse ($cartSummary['items'] as $item)
+                            <li class="list-group-item d-flex justify-content-between lh-sm align-items-center">
+                                <div class="d-flex w-100">
+                                    <div class="flex-shrink-0 me-3" style="width: 50px; height: 50px;">
+                                        <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}"
+                                            class="img-fluid rounded-1" style="max-height: 100%;">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="my-0">{{ $item['name'] }}</h6>
+                                        <small class="text-body-secondary">
+                                            Cant: {{ $item['quantity'] }}
+                                            @if (isset($item['size']) && $item['size'] != 'N/A')
+                                                | Talla: {{ $item['size'] }}
+                                            @endif
+                                        </small>
+                                    </div>
+                                </div>
+                                <span
+                                    class="text-body-secondary">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                            </li>
+                        @empty
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="text-muted">No hay artículos en el carrito.</span>
+                            </li>
+                        @endforelse
+                        <li class="list-group-item d-flex justify-content-between pt-3">
+                            <span class="fw-bold">Total (USD)</span>
+                            <strong>${{ number_format($cartSummary['total'], 2) }}</strong>
+                        </li>
+                    </ul>
+                    <a href="{{ route('cart.index') }}"
+                        class="w-100 btn btn-primary btn-lg {{ $cartSummary['count'] == 0 ? 'disabled' : '' }}"
+                        type="button">
+                        Ir a Pagar
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
-        aria-labelledby="Search">
+        aria-labelledby="Buscar">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
 
             <div class="order-md-last">
                 <h4 class="text-primary text-uppercase mb-3">
-                    Search
+                    Buscar Productos
                 </h4>
                 <div class="search-bar border rounded-2 border-dark-subtle">
                     <form id="search-form" class="text-center d-flex align-items-center" action=""
                         method="">
                         <input type="text" class="form-control border-0 bg-transparent"
-                            placeholder="Search Here" />
+                            placeholder="Buscar aquí (ej. 'collar', 'comida')" />
                         <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
                     </form>
                 </div>
@@ -197,7 +238,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+                            aria-label="Cerrar"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
@@ -241,7 +282,7 @@
                                 @endauth
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                                
+
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
@@ -290,11 +331,14 @@
                                 <img src="{{ asset('user-template/images/banner-img.png') }}" class="img-fluid">
                             </div>
                             <div class="content-wrapper col-md-7 p-5 mb-5">
-                                <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %</div>
+                                <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %
+                                </div>
                                 <h2 class="banner-title display-1 fw-normal">El mejor destino <span
                                         class="text-primary">para tus mascotas</span>
                                 </h2>
-                                <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                                {{-- REEMPLAZO: Botón de Compra --}}
+                                <a href="{{ route('user.articulos') }}"
+                                    class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                                     Comprar
                                     <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                                         <use xlink:href="#arrow-right"></use>
@@ -309,11 +353,14 @@
                                 <img src="{{ asset('user-template/images/banner-img3.png') }}" class="img-fluid">
                             </div>
                             <div class="content-wrapper col-md-7 p-5 mb-5">
-                                <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %</div>
+                                <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %
+                                </div>
                                 <h2 class="banner-title display-1 fw-normal">El mejor destino <span
                                         class="text-primary">para tus mascotas</span>
                                 </h2>
-                                <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                                {{-- REEMPLAZO: Botón de Compra --}}
+                                <a href="{{ route('user.articulos') }}"
+                                    class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                                     Comprar
                                     <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                                         <use xlink:href="#arrow-right"></use>
@@ -327,15 +374,19 @@
                             <div class="img-wrapper col-md-5">
                                 <img src="{{ asset('user-template/images/banner-img4.png') }}" class="img-fluid">
                             </div>
-                            <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %</div>
+                            <div class="content-wrapper col-md-7 p-5 mb-5">
+                                <div class="secondary-font text-primary text-uppercase mb-4">Ahorra entre 10 y 20 %</div>
                                 <h2 class="banner-title display-1 fw-normal">El mejor destino <span
                                         class="text-primary">para tus mascotas</span>
                                 </h2>
-                                <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                                {{-- REEMPLAZO: Botón de Compra --}}
+                                <a href="{{ route('user.articulos') }}"
+                                    class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                                     Comprar
                                     <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                                         <use xlink:href="#arrow-right"></use>
                                     </svg></a>
+                            </div>
 
                         </div>
                     </div>
@@ -347,271 +398,113 @@
         </div>
     </section>
 
-    <section id="categories">
-        <div class="container my-3 py-5">
-            <div class="row my-5">
-                <div class="col text-center">
-                    <a href="#" class="categories-item">
-                        <iconify-icon class="category-icon" icon="ph:bowl-food"></iconify-icon>
-                        <h5>Tienda</h5>
-                    </a>
-                </div>
-
-                <div class="col text-center">
-                    <a href="#" class="categories-item">
-                        <iconify-icon class="category-icon" icon="ph:dog"></iconify-icon>
-                        <h5>Servicios para Perros</h5>
-                    </a>
-                </div>
-
-                <div class="col text-center">
-                    <a href="#" class="categories-item">
-                        <iconify-icon class="category-icon" icon="ph:cat"></iconify-icon>
-                        <h5>Servicio para Gatos</h5>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="clothing" class="my-5 overflow-hidden">
         <div class="container pb-5">
 
             <div class="section-header d-md-flex justify-content-between align-items-center mb-3">
                 <h2 class="display-3 fw-normal">Ropa para tus mascotas</h2>
                 <div>
-                    <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                    {{-- Botón que siempre redirige a la vista completa de artículos (ya estaba correcto) --}}
+                    <a href="{{ route('user.articulos') }}"
+                        class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                         Comprar
                         <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                             <use xlink:href="#arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
             <div class="products-carousel swiper">
                 <div class="swiper-wrapper">
 
-                    <div class="swiper-slide">
-                        <div class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle">
-                            Nuevo
-                        </div>
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item1.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
+                    {{-- Bucle limitado a 4 por el controlador (Articulo::limit(4)) --}}
+                    @forelse ($latestProducts as $producto)
+                        <div class="swiper-slide">
+                            <div class="card position-relative product-card-dynamic">
+                                @php
+                                    // La lógica de stock ya no es necesaria para el botón, solo para la etiqueta Agotado
+                                    $has_stock =
+                                        ($producto->stock ?? 0) > 0 ||
+                                        ($producto->stock_S ?? 0) +
+                                            ($producto->stock_M ?? 0) +
+                                            ($producto->stock_L ?? 0) +
+                                            ($producto->stock_XL ?? 0) >
+                                            0;
+                                @endphp
+
+                                {{-- Etiqueta 'New' si el producto es reciente --}}
+                                @if ($producto->created_at->diffInDays(now()) < 10)
+                                    <div
+                                        class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle product-tag-new">
+                                        Nuevo
+                                    </div>
+                                @endif
+
+                                {{-- Etiqueta 'Out of Stock' --}}
+                                @if (!$has_stock)
+                                    <div
+                                        class="z-1 position-absolute rounded-3 m-3 px-3 border border-danger text-danger product-tag-out">
+                                        Agotado
+                                    </div>
+                                @endif
+
+                                {{-- IMAGEN del Producto --}}
+                                <a href="{{ route('user.single-product', $producto->id) }}">
+                                    <img src="{{ asset($producto->image) }}"
+                                        class="img-fluid rounded-4 product-image-dynamic"
+                                        alt="{{ $producto->name }}">
                                 </a>
 
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
+                                <div class="card-body p-0">
+                                    <a href="{{ route('user.single-product', $producto->id) }}">
+                                        <h3 class="card-title pt-4 m-0 product-name-dynamic">
+                                            {{ $producto->name }}
+                                        </h3>
+                                    </a>
 
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
+                                    <div class="card-text">
+                                        {{-- Rating estático --}}
+                                        <span class="rating secondary-font">
+                                            <iconify-icon icon="clarity:star-solid"
+                                                class="text-primary"></iconify-icon>
+                                            <iconify-icon icon="clarity:star-solid"
+                                                class="text-primary"></iconify-icon>
+                                            <iconify-icon icon="clarity:star-solid"
+                                                class="text-primary"></iconify-icon>
+                                            <iconify-icon icon="clarity:star-solid"
+                                                class="text-primary"></iconify-icon>
+                                            <iconify-icon icon="clarity:star-outline"
+                                                class="text-primary"></iconify-icon>
+                                            4.0
+                                        </span>
 
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
+                                        <h3 class="secondary-font text-primary product-price-dynamic">
+                                            ${{ number_format($producto->price, 2) }}</h3>
+
+                                        <div class="d-flex flex-column mt-3">
+
+                                            {{-- REEMPLAZO: Botón que redirige a la página de artículos --}}
+                                            <a href="{{ route('user.articulos', ['product_id' => $producto->id]) }}"
+                                                class="btn-cart px-4 pt-3 pb-3 w-100">
+                                                <h5 class="text-uppercase m-0">Comprar Ahora</h5>
+                                            </a>
+
+                                            {{-- REQUISITO CUMPLIDO: Botón de corazón (Wishlist) ELIMINADO --}}
+
+                                        </div>
                                     </div>
-
-
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item2.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
-                                </a>
-
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
-
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
-
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
-                                    </div>
-
-                                </div>
-
+                    @empty
+                        <div class="swiper-slide">
+                            <div class="text-center p-5">
+                                <p class="fs-5 text-muted">No hay productos de ropa disponibles.</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle">
-                            -10%
-                        </div>
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item3.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
-                                </a>
-
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
-
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
-
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item4.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
-                                </a>
-
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
-
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
-
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item7.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
-                                </a>
-
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
-
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
-
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card position-relative">
-                            <a href="{{ url('single-product') }}"><img
-                                    src="{{ asset('user-template/images/item8.jpg') }}" class="img-fluid rounded-4"
-                                    alt="image"></a>
-                            <div class="card-body p-0">
-                                <a href="{{ url('single-product') }}">
-                                    <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
-                                </a>
-
-                                <div class="card-text">
-                                    <span class="rating secondary-font">
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>
-                                        5.0</span>
-
-                                    <h3 class="secondary-font text-primary">$18.00</h3>
-
-                                    <div class="d-flex flex-wrap mt-3">
-                                        <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
-                                            <h5 class="text-uppercase m-0">Add to Cart</h5>
-                                        </a>
-                                        <a href="#" class="btn-wishlist px-4 pt-3 ">
-                                            <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
+                    {{-- FIN DEL MÉTODO DE PRODUCTOS DINÁMICOS --}}
 
                 </div>
             </div>
@@ -628,7 +521,9 @@
                     <div class="secondary-font text-primary text-uppercase mb-3 fs-4">Hasta 40% de descuento</div>
                     <h2 class="banner-title display-1 fw-normal">Ofertas!!!
                     </h2>
-                    <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                    {{-- REEMPLAZO: Botón de Compra --}}
+                    <a href="{{ route('user.articulos') }}"
+                        class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                         Comprar
                         <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                             <use xlink:href="#arrow-right"></use>
@@ -653,8 +548,10 @@
                                             class="quote-icon text-primary"></iconify-icon>
                                     </div>
                                     <div class="col-md-10 mt-md-5 p-5 pt-0 pt-md-5">
-                                        <p class="testimonial-content fs-2">Cada perro que entra por esta puerta no solo se lleva un buen corte, se lleva un pedacito de amor. Porque aquí, la belleza empieza con el respeto y termina con una cola moviéndose feliz.</p>
-                                        <p class="text-black">by  Esther Herrera</p>
+                                        <p class="testimonial-content fs-2">Cada perro que entra por esta puerta no
+                                            solo se lleva un buen corte, se lleva un pedacito de amor. Porque aquí, la
+                                            belleza empieza con el respeto y termina con una cola moviéndose feliz.</p>
+                                        <p class="text-black">by Esther Herrera</p>
                                     </div>
                                 </div>
                             </div>
@@ -671,75 +568,70 @@
     </section>
 
     <section id="latest-blog" class="my-5">
-    <div class="container py-5 my-5">
-        <div class="row mt-5">
-            <div class="section-header d-md-flex justify-content-between align-items-center mb-3">
-                <h2 class="display-3 fw-normal">Últimas publicaciones del blog</h2>
-                <div>
-                    <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
-                        Ver todas
-                        <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
-                            <use xlink:href="#arrow-right"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Publicación 1 -->
-            <div class="col-md-4 my-4 my-md-0">
-                <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
-                    <h3 class="secondary-font text-primary m-0">20</h3>
-                    <p class="secondary-font fs-6 m-0">Feb</p>
-                </div>
-                <div class="card position-relative">
-                    <a href="{{ url('single-post') }}"><img
-                            src="{{ asset('user-template/images/blog1.jpg') }}" class="img-fluid rounded-4"
-                            alt="imagen"></a>
-                    <div class="card-body p-0">
-                        <a href="{{ url('single-post') }}">
-                            <h3 class="card-title pt-4 pb-3 m-0">10 razones para ayudar a los animales</h3>
+        <div class="container py-5 my-5">
+            <div class="row mt-5">
+                <div class="section-header d-md-flex justify-content-between align-items-center mb-3">
+                    <h2 class="display-3 fw-normal">Últimas publicaciones del blog</h2>
+                    <div>
+                        {{-- REEMPLAZO: Botón informativo del Blog --}}
+                        <a href="{{ url('/blog') }}" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                            Ver todas
+                            <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
+                                <use xlink:href="#arrow-right"></use>
+                            </svg>
                         </a>
                     </div>
                 </div>
             </div>
-            <!-- Publicación 2 -->
-            <div class="col-md-4 my-4 my-md-0">
-                <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
-                    <h3 class="secondary-font text-primary m-0">21</h3>
-                    <p class="secondary-font fs-6 m-0">Feb</p>
-                </div>
-                <div class="card position-relative">
-                    <a href="{{ url('single-post') }}"><img
-                            src="{{ asset('user-template/images/blog2.jpg') }}" class="img-fluid rounded-4"
-                            alt="imagen"></a>
-                    <div class="card-body p-0">
-                        <a href="{{ url('single-post') }}">
-                            <h3 class="card-title pt-4 pb-3 m-0">Cómo saber si tu mascota tiene hambre</h3>
-                        </a>
+            <div class="row">
+                <div class="col-md-4 my-4 my-md-0">
+                    <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
+                        <h3 class="secondary-font text-primary m-0">20</h3>
+                        <p class="secondary-font fs-6 m-0">Feb</p>
+                    </div>
+                    <div class="card position-relative">
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog1.jpg') }}"
+                                class="img-fluid rounded-4" alt="imagen"></a>
+                        <div class="card-body p-0">
+                            <a href="{{ url('single-post') }}">
+                                <h3 class="card-title pt-4 pb-3 m-0">10 razones para ayudar a los animales</h3>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Publicación 3 -->
-            <div class="col-md-4 my-4 my-md-0">
-                <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
-                    <h3 class="secondary-font text-primary m-0">22</h3>
-                    <p class="secondary-font fs-6 m-0">Feb</p>
+                <div class="col-md-4 my-4 my-md-0">
+                    <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
+                        <h3 class="secondary-font text-primary m-0">21</h3>
+                        <p class="secondary-font fs-6 m-0">Feb</p>
+                    </div>
+                    <div class="card position-relative">
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog2.jpg') }}"
+                                class="img-fluid rounded-4" alt="imagen"></a>
+                        <div class="card-body p-0">
+                            <a href="{{ url('single-post') }}">
+                                <h3 class="card-title pt-4 pb-3 m-0">Cómo saber si tu mascota tiene hambre</h3>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card position-relative">
-                    <a href="{{ url('single-post') }}"><img
-                            src="{{ asset('user-template/images/blog3.jpg') }}" class="img-fluid rounded-4"
-                            alt="imagen"></a>
-                    <div class="card-body p-0">
-                        <a href="{{ url('single-post') }}">
-                            <h3 class="card-title pt-4 pb-3 m-0">El mejor hogar para tus mascotas</h3>
-                        </a>
+                <div class="col-md-4 my-4 my-md-0">
+                    <div class="z-1 position-absolute rounded-3 m-2 px-3 pt-1 bg-light">
+                        <h3 class="secondary-font text-primary m-0">22</h3>
+                        <p class="secondary-font fs-6 m-0">Feb</p>
+                    </div>
+                    <div class="card position-relative">
+                        <a href="{{ url('single-post') }}"><img src="{{ asset('user-template/images/blog3.jpg') }}"
+                                class="img-fluid rounded-4" alt="imagen"></a>
+                        <div class="card-body p-0">
+                            <a href="{{ url('single-post') }}">
+                                <h3 class="card-title pt-4 pb-3 m-0">El mejor hogar para tus mascotas</h3>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <hr class="m-0">
 
@@ -753,13 +645,13 @@
                 <div class="col-md-3">
                     <div class="footer-menu">
                         <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo">
-                        <p class="blog-paragraph fs-6 mt-3">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
+                        <p class="blog-paragraph fs-6 mt-3">Suscríbete a nuestro boletín para recibir ofertas y novedades de **PUPPETS**.</p>
                         <div class="social-links">
                             <ul class="d-flex list-unstyled gap-2">
                                 <li class="social">
                                     <a href="https://www.instagram.com/puppets_sv/">
-                                        <iconify-icon href="https://www.instagram.com/puppets_sv/" class="social-icon" icon="ri:instagram-fill"></iconify-icon>
+                                        <iconify-icon href="https://www.instagram.com/puppets_sv/" class="social-icon"
+                                            icon="ri:instagram-fill"></iconify-icon>
                                     </a>
                                 </li>
 
@@ -767,17 +659,16 @@
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <div class="col-md-3">
                     <div>
-                        <h3>Our Newsletter</h3>
-                        <p class="blog-paragraph fs-6">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
+                        <h3>Nuestro Boletín</h3>
+                        <p class="blog-paragraph fs-6">Suscríbete a nuestro boletín para recibir ofertas y novedades de **PUPPETS**.</p>
                         <div class="search-bar border rounded-pill border-dark-subtle px-2">
                             <form class="text-center d-flex align-items-center" action="" method="">
                                 <input type="text" class="form-control border-0 bg-transparent"
-                                    placeholder="Enter your email here" />
+                                    placeholder="Ingresa tu correo aquí" />
                                 <iconify-icon class="send-icon" icon="tabler:location-filled"></iconify-icon>
                             </form>
                         </div>
@@ -797,6 +688,7 @@
     <script src="{{ asset('user-template/js/plugins.js') }}"></script>
     <script src="{{ asset('user-template/js/script.js') }}"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
 </body>
 
 </html>

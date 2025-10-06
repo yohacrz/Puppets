@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\Admin\PagoController; 
+use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Admin\CitaController as AdminCitaController;
 use App\Http\Controllers\Admin\PetController as AdminPetController;
@@ -32,17 +33,11 @@ use App\Models\Cita;
 |--------------------------------------------------------------------------
 */
 
-//--- RUTAS PÚBLICAS ---//
+/// La ruta principal ahora llama al método index del HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Modifica esta línea
-Route::get('/user', function () {
-    return view('user.index');
-})->name('user.index');
-
-Route::get('/', function () {
-    return view('user.index');
-})->name('home');
-
+// Opcional: Si mantienes la ruta /user, haz que use la misma lógica
+Route::get('/user', [HomeController::class, 'index'])->name('user.index'); 
 //Route::get('/admin/productos', function () {
   
   //   return view('admin.productos');

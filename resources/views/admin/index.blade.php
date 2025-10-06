@@ -141,10 +141,49 @@
             </div>
         </div>
     </div>
+    
+    {{-- 🚨 FILA 5: TABLA DE GANANCIAS (NUEVA SECCIÓN) --}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">💰 Últimas Transacciones de Ganancias (Top 10)</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>ID Producto</th>
+                                <th>Monto de Cobro</th>
+                                <th>Fecha</th>
+                                <th>ID Pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($ganancias as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->id_products }}</td>
+                                    <td>${{ number_format($item->cobro, 2) }}</td> 
+                                    <td>{{ $item->fecha }}</td>
+                                    <td>{{ $item->pago_id }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay registros de ganancias para mostrar.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
-{{-- 🚨 SCRIPTS Y LIBRERÍA DE GRÁFICOS (La solución a las áreas en blanco) --}}
+{{-- 🚨 SCRIPTS Y LIBRERÍA DE GRÁFICOS --}}
 @section('scripts')
 {{-- 1. Incluimos la librería Chart.js (CDN) --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
@@ -158,18 +197,22 @@
         }
 
         // =======================================================================
-        // GRÁFICO 1: INGRESOS MENSUALES (Línea)
+        // GRÁFICO 1: INGRESOS MENSUALES (Línea) - ¡CORREGIDO!
         // =======================================================================
         const ingresosCtx = document.getElementById('ingresosChart');
         const ingresosData = @json($ingresosPorMes);
         const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-        const meses = ingresosData.map(item => monthNames[item.month - 1] || 'N/A');
+        
+        // Creamos etiquetas Mes + Año para la tendencia
+        const mesesConAno = ingresosData.map(item => 
+             monthNames[item.month - 1] + ' ' + item.year
+        );
         const totales = ingresosData.map(item => item.total);
         
         new Chart(ingresosCtx, {
             type: 'line',
             data: {
-                labels: meses,
+                labels: mesesConAno, // Usamos las etiquetas Mes Año
                 datasets: [{
                     label: 'Ganancia ($)',
                     data: totales,
@@ -180,7 +223,19 @@
                     fill: true
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        // Desactivamos auto skip para que muestre la única etiqueta si solo hay una
+                        ticks: { autoSkip: false } 
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
 
         // =======================================================================

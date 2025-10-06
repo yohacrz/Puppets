@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <title>PUPPETS</title>
+    <title>PUPPETS - Contacto</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
+    <meta name="keywords" content="contacto, whatsapp, perros, PUPPETS, tienda para mascotas">
+    <meta name="description" content="Contacta a PUPPETS por teléfono, correo o directamente por WhatsApp.">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
@@ -103,18 +103,24 @@
     @php
         // Importante: Asume que CartController::getCartSummary() devuelve ['count', 'total', 'items']
         $cartSummary = \App\Http\Controllers\CartController::getCartSummary();
+        // Número de WhatsApp (ejemplo: +503 6000 5222, en formato internacional sin símbolos)
+        $whatsappNumber = '50360005222';
+        // Mensaje pre-escrito amable con estética canina
+        $whatsappMessage = urlencode("¡Hola PUPPETS! Tengo una consulta sobre mis productos o servicios para mi peludo. ¡Guau!");
+        // Enlace completo de WhatsApp
+        $whatsappLink = "https://wa.me/{$whatsappNumber}?text={$whatsappMessage}";
     @endphp
     {{-- 1. OFFCANVAS DEL CARRITO --}}
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
-        aria-labelledby="My Cart">
+        aria-labelledby="Mi Carrito">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
             <div class="order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your Cart</span>
+                    <span class="text-primary">Tu Carrito</span>
                     {{-- Contador de ítems dinámico --}}
                     <span class="badge bg-primary rounded-circle pt-2">{{ $cartSummary['count'] }}</span>
                 </h4>
@@ -139,9 +145,9 @@
 
                                     {{-- Cantidad y Talla --}}
                                     <small class="text-body-secondary">
-                                        Qty: {{ $item['quantity'] }}
+                                        Cant: {{ $item['quantity'] }}
                                         @if (isset($item['size']) && $item['size'] != 'N/A')
-                                            | Size: {{ $item['size'] }}
+                                            | Talla: {{ $item['size'] }}
                                         @endif
                                     </small>
                                 </div>
@@ -153,7 +159,7 @@
                         </li>
                     @empty
                         <li class="list-group-item d-flex justify-content-between">
-                            <span class="text-muted">No items in cart.</span>
+                            <span class="text-muted">No hay artículos en el carrito.</span>
                         </li>
                     @endforelse
 
@@ -169,28 +175,28 @@
                 <a href="{{ route('cart.index') }}"
                     class="w-100 btn btn-primary btn-lg {{ $cartSummary['count'] == 0 ? 'disabled' : '' }}"
                     type="button">
-                    Continue to checkout
+                    Ir a Pagar
                 </a>
             </div>
         </div>
     </div>
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
-        aria-labelledby="Search">
+        aria-labelledby="Buscar">
         <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
         <div class="offcanvas-body">
 
             <div class="order-md-last">
                 <h4 class="text-primary text-uppercase mb-3">
-                    Search
+                    Buscar
                 </h4>
                 <div class="search-bar border rounded-2 border-dark-subtle">
                     <form id="search-form" class="text-center d-flex align-items-center" action=""
                         method="">
                         <input type="text" class="form-control border-0 bg-transparent"
-                            placeholder="Search Here" />
+                            placeholder="Busca aquí (ej. 'juguete', 'collar')" />
                         <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
                     </form>
                 </div>
@@ -218,11 +224,11 @@
                 <div
                     class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block">
-                        <span class="fs-6 secondary-font text-muted">Phone</span>
+                        <span class="fs-6 secondary-font text-muted">Teléfono de Soporte</span>
                         <h5 class="mb-0">+503-6000-5222</h5>
                     </div>
                     <div class="support-box text-end d-none d-xl-block">
-                        <span class="fs-6 secondary-font text-muted">Email</span>
+                        <span class="fs-6 secondary-font text-muted">Correo Electrónico</span>
                         <h5 class="mb-0">puppets@gmail.com</h5>
                     </div>
 
@@ -249,7 +255,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header justify-content-center">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+                            aria-label="Cerrar"></button>
                     </div>
 
                     <div class="offcanvas-body justify-content-between">
@@ -257,16 +263,16 @@
 
                         <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                             <li class="nav-item">
-                                <a href="{{ url('/') }}" class="nav-link active">Home</a>
+                                <a href="{{ url('/') }}" class="nav-link active">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.articulos') }}" class="nav-link">Shop</a>
+                                <a href="{{ route('user.articulos') }}" class="nav-link">Tienda</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/blog') }}" class="nav-link">Blog</a>
+                                <a href="{{ url('/blog') }}" class="nav-link">Blog PUPPETS</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
+                                <a href="{{ url('/contact') }}" class="nav-link">Contacto</a>
                             </li>
                         </ul>
 
@@ -293,7 +299,7 @@
                                 @endauth
 
                                 {{-- Iconos de Wishlist y Carrito (siempre visibles) --}}
-                                
+
                                 <li class="">
                                     <a href="#" class="mx-3" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
@@ -333,12 +339,7 @@
     <section id="banner" class="py-3" style="background: #F9F3EC;">
         <div class="container">
             <div class="hero-content py-5 my-3">
-                <h2 class="display-1 mt-3 mb-0">Contact</h2>
-                <nav class="breadcrumb">
-                    <a class="breadcrumb-item nav-link" href="#">Home</a>
-                    <a class="breadcrumb-item nav-link" href="#">Pages</a>
-                    <span class="breadcrumb-item active" aria-current="page">Contact</span>
-                </nav>
+                <h2 class="display-1 mt-3 mb-0">Contacto Directo</h2>
             </div>
         </div>
     </section>
@@ -347,27 +348,29 @@
         <div class="container py-5 my-5">
             <div class="row">
                 <div class="contact-info col-lg-6 pb-3">
-                    <h2 class="text-dark">Contact Information</h2>
-                    <p>Tortor dignissim convallis aenean et tortor at risus viverra adipiscing.</p>
+                    <h2 class="text-dark">Información de PUPPETS 🐾</h2>
+                    <p>Siempre estamos listos para atender tus dudas, ayudarte con tu pedido o escuchar las historias de tu mejor amigo. ¡Contáctanos como prefieras!</p>
                     <div class="page-content d-flex flex-wrap mt-5">
                         <div class="col-lg-6 col-sm-12">
                             <div class="content-box text-dark pe-4 mb-5">
-                                <h4 class="card-title">Office</h4>
+                                <h4 class="card-title">Visítanos (Sede Central)</h4>
                                 <div class="contact-address pt-3">
-                                    <p>Urbanización jardines de la libertad, Av. jayaque y calle tepecoyo #52, Antiguo
-                                        Cuscatlán 1101</p>
+                                    <p>Urbanización Jardines de la Libertad, Av. Jayaque y Calle Tepecoyo #52, Antiguo
+                                        Cuscatlán 1101, El Salvador.</p>
                                 </div>
                                 <div class="contact-number">
+                                    <h4 class="card-title mt-4">Llámanos</h4>
                                     <p>
-                                        <a href="#">+503 6000 5222</a>
+                                        <a href="tel:+50360005222">+503 6000 5222</a>
                                     </p>
                                     <p>
-                                        <a href="#">+503 6000 6666</a>
+                                        <a href="tel:+50360006666">+503 6000 6666</a>
                                     </p>
                                 </div>
                                 <div class="email-address">
+                                    <h4 class="card-title mt-4">Escríbenos</h4>
                                     <p>
-                                        <a href="#">puppets@gmail.com</a>
+                                        <a href="mailto:puppets@gmail.com">puppets@gmail.com</a>
                                     </p>
                                 </div>
                             </div>
@@ -376,30 +379,18 @@
                     </div>
                 </div>
                 <div class="inquiry-item col-lg-6">
-                    <div class="rounded-5">
-                        <h2 class="text-dark">Get in Touch</h2>
-                        <p>Use the form below to get in touch with us.</p>
-                        <form id="form" class="form-group flex-wrap">
-                            <div class="form-input col-lg-12 d-flex mb-3">
-                                <input type="text" name="email" placeholder="Write Your Name Here"
-                                    class="form-control ps-3 me-3">
-                                <input type="text" name="email" placeholder="Write Your Email Here"
-                                    class="form-control ps-3">
-                            </div>
-                            <div class="col-lg-12 mb-3">
-                                <input type="text" name="email" placeholder="Phone Number"
-                                    class="form-control ps-3">
-                            </div>
-                            <div class="col-lg-12 mb-3">
-                                <input type="text" name="email" placeholder="Write Your Subject Here"
-                                    class="form-control ps-3">
-                            </div>
-                            <div class="col-lg-12 mb-3">
-                                <textarea placeholder="Write Your Message Here" class="form-control ps-3" style="height:150px;"></textarea>
-                            </div>
-                        </form>
-                        <div class="d-grid">
-                            <button class="btn btn-dark btn-lg rounded-1">Submit</button>
+                    <div class="rounded-5 p-4 p-md-5" style="background: #F9F3EC;">
+                        <h2 class="text-dark">¿Necesitas Ayuda Rápida?</h2>
+                        <p>Haz clic en el botón para iniciar una conversación por **WhatsApp** y te atenderemos en minutos. ¡Estamos listos para ladrar contigo!</p>
+                        
+                        {{-- BOTÓN DE WHATSAPP --}}
+                        <div class="d-grid mt-5">
+                            <a href="{{ $whatsappLink }}" target="_blank"
+                                class="btn btn-success btn-lg rounded-1 text-white fs-5 d-flex align-items-center justify-content-center"
+                                style="background-color: #25D366; border-color: #25D366;">
+                                <iconify-icon icon="logos:whatsapp-icon" class="me-3 fs-3"></iconify-icon>
+                                Enviar Mensaje por WhatsApp
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -416,8 +407,7 @@
                 <div class="col-md-3">
                     <div class="footer-menu">
                         <img src="{{ asset('user-template/images/puppets/logoo.png') }}" alt="logo">
-                        <p class="blog-paragraph fs-6 mt-3">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
+                        <p class="blog-paragraph fs-6 mt-3">Suscríbete a nuestro boletín para recibir ofertas y novedades de **PUPPETS**.</p>
                         <div class="social-links">
                             <ul class="d-flex list-unstyled gap-2">
                                 <li class="social">
@@ -450,65 +440,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Quick Links</h3>
-                        <ul class="menu-list list-unstyled">
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">About us</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Offer </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Services</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="nav-link">Conatct Us</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="footer-menu">
-                        <h3>Help Center</h5>
-                            <ul class="menu-list list-unstyled">
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">FAQs</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Payment</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Returns & Refunds</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Checkout</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="#" class="nav-link">Delivery Information</a>
-                                </li>
-                            </ul>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div>
-                        <h3>Our Newsletter</h3>
-                        <p class="blog-paragraph fs-6">Subscribe to our newsletter to get updates about our grand
-                            offers.</p>
-                        <div class="search-bar border rounded-pill border-dark-subtle px-2">
-                            <form class="text-center d-flex align-items-center" action="" method="">
-                                <input type="text" class="form-control border-0 bg-transparent"
-                                    placeholder="Enter your email here" />
-                                <iconify-icon class="send-icon" icon="tabler:location-filled"></iconify-icon>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
+                
             </div>
         </div>
     </footer>

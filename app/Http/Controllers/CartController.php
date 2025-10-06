@@ -11,6 +11,7 @@ use App\Models\Pago;
 
 class CartController extends Controller
 {
+    
     /**
      * Agrega un producto (con talla y cantidad) al carrito de la sesión.
      * Devuelve JSON para la actualización AJAX del Offcanvas.

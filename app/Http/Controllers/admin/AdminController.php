@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Pet;     
 use App\Models\Pago;    
 use App\Models\Ganancia; 
-use App\Models\Cita;     // 👈 NECESARIO: Para citas
+use App\Models\Cita;    
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -35,7 +35,7 @@ class AdminController extends Controller
         // ===============================================
 
         // A. Ganancias Totales (Total Ganado) y Stock Mínimo (Tabla)
-        $totalIngresos = Ganancia::sum('cobro'); // Usado en el título del gráfico, no en el data
+        $totalIngresos = Ganancia::sum('cobro');
         
         $stockData = Product::orderBy('stock', 'asc')
             ->select('name', 'stock')
@@ -59,25 +59,32 @@ class AdminController extends Controller
             ->get();
         
         // E. Tendencia de Ingresos Mensuales (para una gráfica de línea)
+        // Agrupa por AÑO y MES para una tendencia histórica correcta
         $ingresosPorMes = Ganancia::select(
+            DB::raw('YEAR(fecha) as year'), 
             DB::raw('MONTH(fecha) as month'), 
             DB::raw('SUM(cobro) as total')
         )
-        ->groupBy('month')
+        ->groupBy('year', 'month')
+        ->orderBy('year', 'asc')
         ->orderBy('month', 'asc')
         ->get();
+
+        // F. ÚLTIMAS GANANCIAS PARA LA TABLA (Tabla en el dashboard)
+        $ganancias = Ganancia::orderBy('fecha', 'desc')->limit(10)->get();
 
 
         return view('admin.index', compact(
             'totalClients',
             'mascotasRegistradas',
             'productosActivos',
-            'totalIngresos', // Total de ingresos para el título
-            'stockData',     // Tabla de Stock Bajo
+            'totalIngresos',
+            'stockData',
             'razasData',
             'pedidosEstadoData',
             'citasEstadoData',
-            'ingresosPorMes'
+            'ingresosPorMes',
+            'ganancias' // ¡Nueva variable!
         ));
     }
 }

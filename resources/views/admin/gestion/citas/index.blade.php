@@ -114,22 +114,6 @@
 
                                 <div style="margin-bottom: 5px;"></div>
 
-                                {{-- Botón para editar --}}
-                                <a href="{{ route('admin.gestion.citas.edit', $cita->id) }}"
-                                    class="btn btn-pastel-info btn-sm">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-
-                                {{-- Formulario para eliminar --}}
-                                <form action="{{ route('admin.gestion.citas.destroy', $cita->id) }}" method="POST"
-                                    style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-pastel-danger btn-sm"
-                                        onclick="return confirm('¿Seguro que deseas ELIMINAR/CANCELAR esta cita?');">
-                                        <i class="fas fa-times-circle"></i> Eliminar
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                     @endforeach
