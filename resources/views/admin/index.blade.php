@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <div class="panel widget">
                 <div class="widget-header bg-purple">
-                    <h3 class="widget-title">Clientes Registrados</h3>
+                    <h3 class="widget-title" style="color: white">Clientes Registrados</h3>
                 </div>
                 <div class="widget-body text-center">
                     <h1 class="text-purple">{{ $totalClients }}</h1>
@@ -22,7 +22,7 @@
         <div class="col-md-4">
             <div class="panel widget">
                 <div class="widget-header bg-danger">
-                    <h3 class="widget-title">Mascotas Registradas</h3>
+                    <h3 class="widget-title"  style="color: white">Mascotas Registradas</h3>
                 </div>
                 <div class="widget-body text-center">
                     <h1 class="text-danger">{{ $mascotasRegistradas }}</h1>
@@ -35,7 +35,7 @@
         <div class="col-md-4">
             <div class="panel widget">
                 <div class="widget-header bg-success">
-                    <h3 class="widget-title">Productos Activos</h3>
+                    <h3 class="widget-title" style="color: white">Productos Activos</h3>
                 </div>
                 <div class="widget-body text-center">
                     <h1 class="text-success">{{ $productosActivos }}</h1>

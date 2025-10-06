@@ -68,7 +68,7 @@ $(document).on('nifty.ready', function() {
             },
             shadowSize: 0 // Drawing is faster without shadows
         },
-        colors: ['#b5bfc5','#25476a'],
+        colors: ['#b5bfc5','#d40e7b'],
         legend: {
             show: true,
             position: 'nw',

@@ -21,16 +21,16 @@
     <style>
         /* Estilo para los botones en estado normal */
         .navbar-top-links .btn-default {
-            background-color: #25476a !important;
+            background-color: #d40e7b !important;
             color: #fff !important;
-            border-color: #25476a !important;
+            border-color: #d40e7b !important;
         }
 
         /* Estilo para los botones al pasar el cursor (hover) */
         .navbar-top-links .btn-default:hover,
         .navbar-top-links .btn-default:focus {
-            background-color: #25476a !important;
-            border-color: #25476a !important;
+            background-color: #d40e7b !important;
+            border-color: #d40e7b !important;
         }
     </style>
 </head>
@@ -42,10 +42,7 @@
             <div id="navbar-container" class="boxed">
                 <div class="navbar-header">
                     <a href="{{ url('admin') }}" class="navbar-brand">
-                        <img src="{{ asset('admin-template/img/logo.png') }}" alt="PUPETOS Logo" class="brand-icon">
-                        <div class="brand-title">
-                            <span class="brand-text">PUPETOS</span>
-                        </div>
+                        <img src="{{ asset('user-template/images/puppets/logo2.png') }}" alt="PUPETOS Logo" class="brand-icon">
                     </a>
                 </div>
 
