@@ -38,10 +38,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Opcional: Si mantienes la ruta /user, haz que use la misma lógica
 Route::get('/user', [HomeController::class, 'index'])->name('user.index'); 
-//Route::get('/admin/productos', function () {
-  
-  //   return view('admin.productos');
-//})->name('admin.productos');
+
 
 // Esta ruta es SOLO para el formulario.
 Route::get('/formulario-tienda', function () {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 03-10-2025 a las 12:26:58
+-- Tiempo de generación: 07-10-2025 a las 18:37:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,6 +29,7 @@ USE `u445672402_puppets`;
 -- Estructura de tabla para la tabla `cache`
 --
 
+DROP TABLE IF EXISTS `cache`;
 CREATE TABLE `cache` (
   `key` varchar(255) NOT NULL,
   `value` mediumtext NOT NULL,
@@ -41,6 +42,7 @@ CREATE TABLE `cache` (
 -- Estructura de tabla para la tabla `cache_locks`
 --
 
+DROP TABLE IF EXISTS `cache_locks`;
 CREATE TABLE `cache_locks` (
   `key` varchar(255) NOT NULL,
   `owner` varchar(255) NOT NULL,
@@ -53,6 +55,7 @@ CREATE TABLE `cache_locks` (
 -- Estructura de tabla para la tabla `citas`
 --
 
+DROP TABLE IF EXISTS `citas`;
 CREATE TABLE `citas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -81,6 +84,7 @@ INSERT INTO `citas` (`id`, `user_id`, `pet_id`, `fecha`, `hora`, `mensaje`, `cre
 -- Estructura de tabla para la tabla `ganancias`
 --
 
+DROP TABLE IF EXISTS `ganancias`;
 CREATE TABLE `ganancias` (
   `id` int(10) NOT NULL,
   `id_products` int(255) NOT NULL,
@@ -105,6 +109,7 @@ INSERT INTO `ganancias` (`id`, `id_products`, `cobro`, `fecha`, `pago_id`) VALUE
 -- Estructura de tabla para la tabla `jobs`
 --
 
+DROP TABLE IF EXISTS `jobs`;
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `queue` varchar(255) NOT NULL,
@@ -121,6 +126,7 @@ CREATE TABLE `jobs` (
 -- Estructura de tabla para la tabla `migrations`
 --
 
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
@@ -145,6 +151,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Estructura de tabla para la tabla `pagos`
 --
 
+DROP TABLE IF EXISTS `pagos`;
 CREATE TABLE `pagos` (
   `id` int(100) NOT NULL,
   `id_user` int(100) NOT NULL,
@@ -169,6 +176,7 @@ INSERT INTO `pagos` (`id`, `id_user`, `productos`, `total`, `fecha_hora`, `estad
 -- Estructura de tabla para la tabla `pets`
 --
 
+DROP TABLE IF EXISTS `pets`;
 CREATE TABLE `pets` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -199,6 +207,7 @@ INSERT INTO `pets` (`id`, `user_id`, `especie`, `raza`, `nombre`, `color`, `fech
 -- Estructura de tabla para la tabla `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -234,6 +243,7 @@ INSERT INTO `products` (`id`, `created_at`, `updated_at`, `categoria`, `name`, `
 -- Estructura de tabla para la tabla `sessions`
 --
 
+DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
   `id` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -249,6 +259,7 @@ CREATE TABLE `sessions` (
 -- Estructura de tabla para la tabla `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `email` varchar(255) NOT NULL,

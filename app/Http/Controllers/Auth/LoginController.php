@@ -18,18 +18,18 @@ class LoginController extends Controller
 
         // Intentar autenticar al usuario
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            // Regenerar la sesión por seguridad
             $request->session()->regenerate();
-
-            // Obtener el usuario autenticado
             $user = Auth::user();
 
-            // Lógica de redirección basada en el rol
             if ($user->role === 1) {
-                return redirect()->intended('/admin'); // Redirige a la vista de administrador
+                return redirect()->intended('/admin');
             }
 
-            return redirect()->intended('/user'); // Redirige a la vista de usuario normal
+            // CAMBIO CLAVE AQUÍ: 
+            // Redirige usando el nombre de la ruta. Esto fuerza a Laravel a 
+            // ejecutar completamente el controlador asociado a la ruta.
+            return redirect()->intended(route('home')); 
+            // O si prefieres la ruta /user: return redirect()->intended(route('user.index'));
         }
 
         // Si falla, regresar con error
